@@ -11,7 +11,7 @@
   <div class="app">
     <nav class="navbar navbar-inverse" v-if="$store.state.user">
       <div class="navbar-header">
-        <span class="link">Transporfficient</span>
+        <span class="link">TRANSPORFFICIENT</span>
       </div>
       <ul class="nav navbar-nav">
         <router-link class="link" to="/">Home</router-link>
