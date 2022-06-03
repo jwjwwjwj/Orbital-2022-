@@ -35,7 +35,6 @@
 import { onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { docType } from "firebase/firestore";
-import BDropdownHover from "./components/BDropdownHover";
 
 export default {
   setup() {
@@ -44,9 +43,6 @@ export default {
     onBeforeMount(() => {
       store.dispatch("fetchUser");
     });
-  },
-  components: {
-    BDropdownHover,
   },
   docType,
 };
