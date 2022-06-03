@@ -11,22 +11,21 @@
   <div class="app">
     <nav class="navbar navbar-inverse" v-if="$store.state.user">
       <div class="navbar-header">
-        <span class="link">TRANSPORFFICIENT</span>
+        <span class="logo">Transporfficient</span>
       </div>
       <ul class="nav navbar-nav">
         <router-link class="link" to="/">Home</router-link>
         <router-link class="link" to="/about">About</router-link>
+        <router-link class="link" to="/online-booking-form">Booking</router-link>
+        <router-link class="link" to="/read-fleet">Fleet Overview</router-link>
+        <router-link class="link" to="/update-fleet">Update Fleet</router-link>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <span class="link">Welcome, {{ db }}</span>
+        <span class="welcome-message">Welcome, {{ db }}</span>
         <router-link class="link" @click="$store.dispatch('logout')" to="/">
           <span class="glyphicon glyphicon-log-out"></span>Logout</router-link
         >
       </ul>
-      <!--button class="logout-button" @click="$store.dispatch('logout')">
-        <span class="glyphicon glyphicon-log-in"></span>
-        Logout
-      </button-->
     </nav>
     <router-view />
   </div>
@@ -36,6 +35,7 @@
 import { onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { docType } from "firebase/firestore";
+import BDropdownHover from "./components/BDropdownHover";
 
 export default {
   setup() {
@@ -44,6 +44,9 @@ export default {
     onBeforeMount(() => {
       store.dispatch("fetchUser");
     });
+  },
+  components: {
+    BDropdownHover,
   },
   docType,
 };
@@ -87,15 +90,6 @@ export default {
   padding: 0;
 }
 
-li {
-  display: inline-block;
-  margin: 0 px;
-}
-
-li:hover {
-  background-color: black;
-}
-
 /*.logout-button {
   color: white;
   background-color: #202020;
@@ -116,6 +110,28 @@ li:hover {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  padding: 0;
+  padding: 0px;
+}
+
+.navbar {
+  padding: 20px 10px 20px 0px;
+}
+
+.link,
+.welcome-message,
+.logo {
+  font-size: 20px;
+  /*margin: 10px;*/
+  color: white;
+  padding: 20px;
+}
+
+.link:hover {
+  background-color: black;
+  color: white;
+}
+
+.logout-button {
+  color: white;
 }
 </style>
