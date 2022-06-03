@@ -127,6 +127,11 @@ export default {
   color: white;
 }
 
+.router-link-active.router-link-exact-active.link {
+  color: white;
+  background-color: black;
+}
+
 .logout-button {
   color: white;
 }
