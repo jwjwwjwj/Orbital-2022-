@@ -1,7 +1,9 @@
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
+
   apiKey: "AIzaSyDW-Bk_Pg13jTMvaVij9lYtQ-5VyXRxdHY",
   authDomain: "transporfficient.firebaseapp.com",
   projectId: "transporfficient",
