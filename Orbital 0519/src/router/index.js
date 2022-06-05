@@ -1,49 +1,80 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import { auth } from '../firebase'
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../views/Home.vue";
+import About from "../views/About.vue";
+import Login from "../views/Login.vue";
+import Booking from "../views/Booking.vue";
+import ReadFleet from "../views/ReadFleet.vue";
+import UpdateFleet from "../views/UpdateFleet.vue";
+import { auth } from "../firebase";
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
+    path: "/about",
+    name: "About",
+    component: About,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     component: Login
+  },
+  {
+    path: "/online-booking-form",
+    name: "Booking",
+    component: Booking,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/read-fleet",
+    name: "ReadFleet",
+    component: ReadFleet,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/update-fleet",
+    name: "UpdateFleet",
+    component: UpdateFleet,
+    meta: {
+      requiresAuth: true
+    }
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login' && auth.currentUser) {
-    next('/')
+  if (to.path === "/login" && auth.currentUser) {
+    next("/");
     return;
   }
 
-  if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser) {
-    next('/login')
+  if (
+    to.matched.some((record) => record.meta.requiresAuth) &&
+    !auth.currentUser
+  ) {
+    next("/login");
     return;
   }
 
   next();
-})
+});
 
-export default router
+export default router;
