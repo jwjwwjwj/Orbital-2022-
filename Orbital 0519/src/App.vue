@@ -46,8 +46,8 @@ import { auth, db } from "./firebase/index.js";
 import { getDoc, doc } from "firebase/firestore";
 
 console.log(auth.currentUser);
-//const docRef = doc(db, "users", "CE0sMj9GYLbTpZfXj7SZbJjUoJX2");
-const docRef = doc(db, "users", auth.currentUser.uid);
+const docRef = doc(db, "users", "CE0sMj9GYLbTpZfXj7SZbJjUoJX2");
+//const docRef = doc(db, "users", auth.currentUser.uid);
 //var properties = null;
 const property = getDoc(docRef)
   .then((doc) => {
