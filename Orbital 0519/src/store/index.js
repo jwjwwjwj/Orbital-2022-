@@ -1,15 +1,20 @@
 import { createStore } from 'vuex'
 import router from '../router'
-import { auth } from '../firebase'
+import { auth, db } from "../firebase/index.js";
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut 
 } from 'firebase/auth'
+import { getDoc, doc } from "firebase/firestore";
+
+
 
 export default createStore({
   state: {
-    user: null
+    user: null,
+    isManager: true,
+    displayName: '',
   },
   mutations: {
 
@@ -19,6 +24,11 @@ export default createStore({
 
     CLEAR_USER (state) {
       state.user = null
+    },
+
+    SET_USER_INFO(state,  doc) {
+      state.isManager = doc.data().Manager
+      state.displayName = doc.data().displayName
     }
 
   },
@@ -44,6 +54,7 @@ export default createStore({
       }
 
       commit('SET_USER', auth.currentUser)
+      
 
       router.push('/')
     },
@@ -87,18 +98,10 @@ export default createStore({
       router.push('/login')
     },
 
-    fetchUser ({ commit }) {
-      auth.onAuthStateChanged(async user => {
-        if (user === null) {
-          commit('CLEAR_USER')
-        } else {
-          commit('SET_USER', user)
-
-          if (router.isReady() && router.currentRoute.value.path === '/login') {
-            router.push('/')
-          }
-        }
-      })
+    async fetchUser ({ commit }) {
+      const docRef = doc(db,'users',auth.currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      commit("SET_USER_INFO",docSnap)
     }
     
   }
