@@ -14,7 +14,7 @@
       </button>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <router-link class="link" to="/home">Home</router-link>
+          <router-link class="link" to="/">Home</router-link>
           <router-link class="link" to="/about">About</router-link>
           <router-link class="link" to="/online-booking-form"
             >Booking</router-link
