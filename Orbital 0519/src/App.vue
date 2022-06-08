@@ -34,6 +34,7 @@
           >
         </ul>
       </div>
+      <demo />
     </nav>
     <router-view />
   </div>
