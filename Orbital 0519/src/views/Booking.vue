@@ -15,8 +15,11 @@
 <h1> Booking Details </h1>
 </div>
 <div>
+  <a-space direction="inline" :size="12">
   <strong> Name Of Activity: </strong>
   <a-input v-model:value="activity" placeholder="Input Activity" />
+  <a-radio-group v-model:value="optionValue" :options="plainOptions" />
+  </a-space>
 </div>
 <div>
   <br>
@@ -60,6 +63,12 @@
   <a-input v-model:value="returnDes" placeholder="Input Destination" />
   </a-space>
 </div>
+<div>
+  <br>
+    <a-form-item v-bind="tailLayout">
+      <a-button html-type="submit" type="primary">Submit</a-button>
+    </a-form-item>
+</div>
 </template>
 
 <script>
@@ -75,15 +84,25 @@ export default defineComponent({
     const numOf20 = ref('0');
     const numOf19 = ref('0');
     const activity = ref('');
+    const plainOptions = ['1 - Way', '2 - Way'];
+    const options = [{
+  label: '1 - Way',
+  value: '1 - Way',
+}, {
+  label: '2 - Way',
+  value: '2 - Way',
+}];
+const optionValue = ref('Apple');
     const departureDate = ref();
-    const departureTime = ref(dayjs('00:00', 'HH:mm'));
+    const departureTime = ref(dayjs('11:00', 'HH:mm'));
     const returnDate = ref();
-    const returnTime = ref(dayjs('00:00', 'HH:mm'));
+    const returnTime = ref(dayjs('13:00', 'HH:mm'));
     const assemblyPlace = ref('');
     const assemblyDes = ref('');
     const returnPlace = ref('');
     const returnDes = ref('');
     return {
+      dayjs,
       staffName,
       staffNumber,
       CCA,
@@ -92,6 +111,9 @@ export default defineComponent({
       numOf20,
       numOf19,
       activity,
+      plainOptions,
+      options,
+      optionValue,
       departureDate,
       departureTime,
       returnDate,
