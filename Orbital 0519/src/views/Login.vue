@@ -3,6 +3,7 @@
 		<section class="forms">
 			<form class="login" @submit.prevent="login">
 				<h2>Login</h2>
+				<div class = "loginDetails">
 				<input 
 					type="email" 
 					placeholder="Email address"
@@ -11,9 +12,11 @@
 					type="password" 
 					placeholder="Password" 
 					v-model="login_form.password" />
+
 				<input 
 					type="submit" 
 					value="Login" />
+				</div>
 			</form>
 
 		</section>
@@ -70,16 +73,25 @@ input {
 	border: none;
 	outline: none;
 	background: none;
-
+	text-align: center;
 	display: block;
 	width: 100%;
-	max-width: 400px;
+	max-width: 900px;
 	margin: 0 auto;
 	font-size: 1.5rem;
 	margin-bottom: 2rem;
 	padding: 0.5rem 0rem;
 }
 
+.loginDetails {
+	text-align: center;
+	display: inline-block;
+	max-width: 900px;
+	margin: 0 auto;
+	font-size: 1.5rem;
+	margin-bottom: 2rem;
+	padding: 0.5rem 0rem;
+}
 input:not([type="submit"]) {
 	opacity: 0.8;
 	transition: 0.4s;

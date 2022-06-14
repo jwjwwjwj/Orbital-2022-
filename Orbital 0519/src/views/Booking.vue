@@ -43,7 +43,7 @@
   <h2> Departure Details </h2>
   <strong> Departure Details (Date): </strong>
   <a-space direction="inline" :size="12">
-    <a-date-picker v-model:value="departureDate" />
+    <a-date-picker v-model:value="departureDate" :disabled-date="disabledDate"/>
     <strong> Departure Time: </strong>
     <a-time-picker v-model:value="departureTime" format="HH:mm"/>
     <strong> Assembly Place: </strong>
@@ -52,12 +52,12 @@
   <a-input v-model:value="assemblyDes" placeholder="Input Destination" />
   </a-space>
 </div>
-<div v-if="options=== 2">
+<div v-if="options === 2">
   <br>
   <h2> Return Details </h2>
   <strong> Return Details (Date): </strong>
   <a-space direction="inline" :size="12">
-    <a-date-picker v-model:value="returnDate" />
+    <a-date-picker v-model:value="returnDate" :disabled-date="disabledDate"/>
         <strong> Return Time: </strong>
     <a-time-picker v-model:value="returnTime" format="HH:mm"/>
     <strong> Assembly Place: </strong>
@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import dayjs from 'dayjs';
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
@@ -89,10 +90,13 @@ export default defineComponent({
     const activity = ref('');
     const plainOptions = ['1 - Way', '2 - Way'];
     const options = ref(1);
-    const departureDate = ref();
-    const departureTime = ref(dayjs('11:00', 'HH:mm'));
-    const returnDate = ref();
-    const returnTime = ref(dayjs('13:00', 'HH:mm'));
+    const departureDate = ref(dayjs().add(3, 'day'));
+    const disabledDate = current => {
+    return current && current < moment().endOf('day').add(2, 'days');
+    };
+    const departureTime = ref(dayjs(dayjs().add(3, 'day'), 'HH:mm'));
+    const returnDate = ref(dayjs().add(3, 'days'));
+    const returnTime = ref(dayjs(dayjs().add(3, 'day').add(2, "hour"), 'HH:mm'));
     const assemblyPlace = ref('');
     const assemblyDes = ref('');
     const returnPlace = ref('');
@@ -110,6 +114,7 @@ export default defineComponent({
       plainOptions,
       options,
       departureDate,
+      disabledDate,
       departureTime,
       returnDate,
       returnTime,
