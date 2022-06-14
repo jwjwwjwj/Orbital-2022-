@@ -18,7 +18,10 @@
   <a-space direction="inline" :size="12">
   <strong> Name Of Activity: </strong>
   <a-input v-model:value="activity" placeholder="Input Activity" />
-  <a-radio-group v-model:value="optionValue" :options="plainOptions" />
+      <a-radio-group v-model:value="options">
+      <a-radio :value="1">1 - Way</a-radio>
+      <a-radio :value="2">2 - Way</a-radio>
+    </a-radio-group>
   </a-space>
 </div>
 <div>
@@ -49,7 +52,7 @@
   <a-input v-model:value="assemblyDes" placeholder="Input Destination" />
   </a-space>
 </div>
-<div>
+<div v-if="options=== 2">
   <br>
   <h2> Return Details </h2>
   <strong> Return Details (Date): </strong>
@@ -85,14 +88,7 @@ export default defineComponent({
     const numOf19 = ref('0');
     const activity = ref('');
     const plainOptions = ['1 - Way', '2 - Way'];
-    const options = [{
-  label: '1 - Way',
-  value: '1 - Way',
-}, {
-  label: '2 - Way',
-  value: '2 - Way',
-}];
-const optionValue = ref('Apple');
+    const options = ref(1);
     const departureDate = ref();
     const departureTime = ref(dayjs('11:00', 'HH:mm'));
     const returnDate = ref();
@@ -113,7 +109,6 @@ const optionValue = ref('Apple');
       activity,
       plainOptions,
       options,
-      optionValue,
       departureDate,
       departureTime,
       returnDate,
