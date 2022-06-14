@@ -51,10 +51,6 @@
 import { useStore } from "vuex";
 import { auth } from "./firebase/index.js";
 import { onAuthStateChanged } from "firebase/auth";
-<<<<<<< HEAD
-
-=======
->>>>>>> BOOKING-FORM-LOL
 export default {
   name: "app",
   data() {
@@ -70,10 +66,6 @@ export default {
       }
     });
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> BOOKING-FORM-LOL
   methods: {},
 };
 </script>
