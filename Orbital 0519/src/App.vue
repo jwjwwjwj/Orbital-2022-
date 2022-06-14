@@ -51,7 +51,10 @@
 import { useStore } from "vuex";
 import { auth } from "./firebase/index.js";
 import { onAuthStateChanged } from "firebase/auth";
+<<<<<<< HEAD
 
+=======
+>>>>>>> BOOKING-FORM-LOL
 export default {
   name: "app",
   data() {
@@ -67,7 +70,10 @@ export default {
       }
     });
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> BOOKING-FORM-LOL
   methods: {},
 };
 </script>
@@ -78,7 +84,6 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
 #nav a.router-link-exact-active {
   color: white;
 }
@@ -94,17 +99,14 @@ export default {
   color: #2c3e50;
   padding: 0px;
 }
-
 .nav.navbar-nav.navbar-left {
   font-size: 20px;
   color: white;
   padding: 0px 20px 0px 20px;
 }
-
 .navbar {
   padding: 15px 10px 15px 0px;
 }
-
 .link,
 .welcome-message {
   font-size: 20px;
@@ -112,19 +114,16 @@ export default {
   color: white;
   padding: 15px;
 }
-
 .link:hover {
   background-color: black;
   color: white;
   text-decoration: none;
 }
-
 .router-link-active.router-link-exact-active.link {
   color: white;
   background-color: black;
   text-decoration: none;
 }
-
 .logout-button {
   color: white;
 }
