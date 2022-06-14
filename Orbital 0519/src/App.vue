@@ -14,60 +14,59 @@
       </button>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <router-link class="link" to="/">Home</router-link>
+          <router-link class="link" to="/home">Home</router-link>
           <router-link class="link" to="/about">About</router-link>
           <router-link class="link" to="/online-booking-form"
             >Booking</router-link
           >
-          <router-link class="link" to="/read-fleet"
+          <router-link
+            class="link"
+            to="/read-fleet"
+            v-if="$store.state.isManager"
             >Fleet Overview</router-link
           >
-          <router-link class="link" to="/update-fleet"
+          <router-link
+            class="link"
+            to="/update-fleet"
+            v-if="$store.state.isManager"
             >Update Fleet</router-link
           >
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <span class="welcome-message">Welcome, {{ $store.state.displayName }} </span>
+          <span class="welcome-message"
+            >Welcome, {{ $store.state.displayName }}
+          </span>
           <router-link class="link" @click="$store.dispatch('logout')" to="/">
             <span class="glyphicon glyphicon-log-out"></span>
             Logout</router-link
           >
         </ul>
       </div>
-      <demo />
     </nav>
     <router-view />
   </div>
 </template>
 
 <script>
-//import { onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { auth } from "./firebase/index.js";
-
-import {onAuthStateChanged} from 'firebase/auth'
-
-
+import { onAuthStateChanged } from "firebase/auth";
 export default {
   name: "app",
   data() {
     return {
-      displayName: auth.currentUser !== null ? auth.currentUser.email : '',
-
+      displayName: auth.currentUser !== null ? auth.currentUser.email : "",
     };
   },
   setup() {
     const store = useStore();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-      store.dispatch('fetchUser')
+        store.dispatch("fetchUser");
       }
-    })
-    
+    });
   },
-
-  methods: {
-  }
+  methods: {},
 };
 </script>
 
@@ -77,7 +76,6 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
 #nav a.router-link-exact-active {
   color: white;
 }
@@ -93,17 +91,14 @@ export default {
   color: #2c3e50;
   padding: 0px;
 }
-
 .nav.navbar-nav.navbar-left {
   font-size: 20px;
   color: white;
   padding: 0px 20px 0px 20px;
 }
-
 .navbar {
   padding: 15px 10px 15px 0px;
 }
-
 .link,
 .welcome-message {
   font-size: 20px;
@@ -111,19 +106,16 @@ export default {
   color: white;
   padding: 15px;
 }
-
 .link:hover {
   background-color: black;
   color: white;
   text-decoration: none;
 }
-
 .router-link-active.router-link-exact-active.link {
   color: white;
   background-color: black;
   text-decoration: none;
 }
-
 .logout-button {
   color: white;
 }
