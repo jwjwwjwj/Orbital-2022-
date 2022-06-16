@@ -1,129 +1,190 @@
 <template>
-<div>
-<h1> Create Booking Form</h1>
-<a-space direction="inline" :size="12">
-<strong> Name of Staff: </strong>
-  <a-input v-model:value="staffName" placeholder="Input Full Name of Staff" />
-  <strong> Mobile Number:</strong>
-  <a-input v-model:value="staffNumber" placeholder="Input Mobile Number" />
-  <strong> CCA/Department:</strong>
-  <a-input v-model:value="CCA" placeholder="Input CCA/Department" />
-  </a-space>
-</div>
-<div>
-<br>
-<h1> Booking Details </h1>
-</div>
-<div>
-  <a-space direction="inline" :size="12">
-  <strong> Name Of Activity: </strong>
-  <a-input v-model:value="activity" placeholder="Input Activity" />
-      <a-radio-group v-model:value="options">
-      <a-radio :value="1">1 - Way</a-radio>
-      <a-radio :value="2">2 - Way</a-radio>
-    </a-radio-group>
-  </a-space>
-</div>
-<div>
-  <br>
-  <a-space>
-    <strong> Number of Buses: </strong>
-    45 Seater
-    <a-input-number v-model:value="numOf45" size="large" :min="0" :max="99" />
-    40 Seater
-    <a-input-number v-model:value="numOf40" size="large" :min="0" :max="99" />
-    20 Seater
-    <a-input-number v-model:value="numOf20" size="large" :min="0" :max="99" />
-    19 & Below
-    <a-input-number v-model:value="numOf19" size="large" :min="0" :max="99" />
-  </a-space>
-</div>
-<div>
-  <br>
-  <h2> Departure Details </h2>
-  <strong> Departure Details (Date): </strong>
-  <a-space direction="inline" :size="12">
-    <a-date-picker v-model:value="departureDate" :disabled-date="disabledDate"/>
-    <strong> Departure Time: </strong>
-    <a-time-picker v-model:value="departureTime" format="HH:mm"/>
-    <strong> Assembly Place: </strong>
-  <a-input v-model:value="assemblyPlace" placeholder="Input Assembly Place" />
-      <strong> Destination: </strong>
-  <a-input v-model:value="assemblyDes" placeholder="Input Destination" />
-  </a-space>
-</div>
-<div v-if="options === 2">
-  <br>
-  <h2> Return Details </h2>
-  <strong> Return Details (Date): </strong>
-  <a-space direction="inline" :size="12">
-    <a-date-picker v-model:value="returnDate" :disabled-date="disabledDate"/>
-        <strong> Return Time: </strong>
-    <a-time-picker v-model:value="returnTime" format="HH:mm"/>
-    <strong> Assembly Place: </strong>
-      <a-input v-model:value="returnPlace" placeholder="Input Assembly Place" />
-      <strong> Destination: </strong>
-  <a-input v-model:value="returnDes" placeholder="Input Destination" />
-  </a-space>
-</div>
-<div>
-  <br>
-    <a-form-item v-bind="tailLayout">
-      <a-button html-type="submit" type="primary">Submit</a-button>
-    </a-form-item>
-</div>
+  <div>
+    <h1>Create Booking Form</h1>
+    <hr />
+    <h3>Contact Details</h3>
+    <a-form :model="formState" name="booking" v-bind="layout">
+      <a-form-item
+        :name="['staff', 'name']"
+        label="Name"
+        :rules="[{ required: true }]"
+      >
+        <a-input v-model:value="formState.staff.name" 
+                placeholder="Input Name Here"/>
+      </a-form-item>
+      <a-form-item
+        :name="['staff', 'number']"
+        label="Staff Number"
+        :rules="[{ required: true }]"
+      >
+        <a-input v-model:value="formState.staff.number" 
+        placeholder="Input Number Here"/>
+      </a-form-item>
+      <a-form-item :name="['staff', 'cca']" label="CCA/Department">
+        <a-input v-model:value="formState.staff.cca" 
+        placeholder="Input CCA/Department Here"/>
+      </a-form-item>
+      <br />
+      <hr />
+      <h3>Booking Details</h3>
+      <a-form-item
+        :name="['booking', 'activity']"
+        label="Activity"
+        :rules="[{ required: true }]"
+      >
+        <a-input v-model:value="formState.staff.cca" />
+      </a-form-item>
+      <a-form-item :wrapper-col="{ span: 5, offset: 3 }" label="1-Way / 2-Way">
+        <a-radio-group v-model:value="options">
+          <a-radio :value="1">1 - Way</a-radio>
+          <a-radio :value="2">2 - Way</a-radio>
+        </a-radio-group>
+      </a-form-item>
+      <a-form-item name="['booking', 'numOf45']" label="45 Seater">
+        <a-input-number
+          v-model:value="formState.booking.numOf45"
+          :min="0"
+          :max="99"
+        />
+      </a-form-item>
+      <a-form-item name="['booking', 'numOf40']" label="40 Seater">
+        <a-input-number
+          v-model:value="formState.booking.numOf40"
+          :min="0"
+          :max="99"
+        />
+      </a-form-item>
+      <a-form-item name="['booking', 'numOf20']" label="20 Seater">
+        <a-input-number
+          v-model:value="formState.booking.numOf20"
+          :min="0"
+          :max="99"
+        />
+      </a-form-item>
+      <a-form-item name="['booking', 'numOf19']" label="19Seater">
+        <a-input-number
+          v-model:value="formState.booking.numOf19"
+          :min="0"
+          :max="99"
+        />
+      </a-form-item>
+      <br />
+      <hr />
+      <h3>Departure Details</h3>
+      <a-form-item name="['departure', 'date']" label="Departure Date">
+        <a-date-picker
+          v-model:value="formState.departure.date"
+          :disabled-date="disabledDate"
+        />
+      </a-form-item>
+      <a-form-item name="['departure', 'time']" label="Departure Time">
+        <a-time-picker
+          v-model:value="formState.departure.time"
+          format="HH:mm"
+        />
+      </a-form-item>
+      <a-form-item name="['departure', 'assembly']" label="Assembly Venue"
+      :rules="[{ required: true }]">
+        <a-input
+          v-model:value="formState.departure.assembly"
+          placeholder="Input Assembly Venue"
+        />
+      </a-form-item>
+      <a-form-item name="['departure', 'dest']" label="Input Destination"
+      :rules="[{ required: true }]">
+        <a-input
+          v-model:value="formState.departure.dest"
+          placeholder="Input Destination"
+        />
+      </a-form-item>
+      <div v-if="options === 2">
+        <br />
+        <hr />
+        <h3>Return Details</h3>
+        <a-form-item name="['departure', 'date']" label="Return Date">
+          <a-date-picker
+            v-model:value="formState.return.date"
+            :disabled-date="disabledDate"
+          />
+        </a-form-item>
+        <a-form-item name="['departure', 'time']" label="Return Time">
+          <a-time-picker v-model:value="formState.return.time" format="HH:mm" />
+        </a-form-item>
+        <a-form-item name="['return', 'assembly']" label="Assembly Venue">
+          <a-input
+            v-model:value="formState.return.assembly"
+            placeholder="Input Assembly Venue"
+          />
+        </a-form-item>
+        <a-form-item name="['return', 'dest']" label="Input Destination">
+          <a-input
+            v-model:value="formState.return.dest"
+            placeholder="Input Destination"
+          />
+        </a-form-item>
+      </div>
+      <a-form-item>
+        <a-button html-type="submit" type="primary">Submit</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
 </template>
 
 <script>
-import moment from 'moment';
-import dayjs from 'dayjs';
-import { defineComponent, ref } from 'vue';
+import moment from "moment";
+import dayjs from "dayjs";
+import { defineComponent, ref, reactive } from "vue";
 export default defineComponent({
   setup() {
-    const staffName = ref('');
-    const staffNumber = ref('');
-    const CCA = ref('');
-    const numOf45 = ref('0');
-    const numOf40 = ref('0');
-    const numOf20 = ref('0');
-    const numOf19 = ref('0');
-    const activity = ref('');
-    const plainOptions = ['1 - Way', '2 - Way'];
+    const plainOptions = ["1 - Way", "2 - Way"];
     const options = ref(1);
-    const departureDate = ref(dayjs().add(3, 'day'));
-    const disabledDate = current => {
-    return current && current < moment().endOf('day').add(2, 'days');
+    const disabledDate = (current) => {
+      return current && current < moment().endOf("day").add(2, "days");
     };
-    const departureTime = ref(dayjs(dayjs().add(3, 'day'), 'HH:mm'));
-    const returnDate = ref(dayjs().add(3, 'days'));
-    const returnTime = ref(dayjs(dayjs().add(3, 'day').add(2, "hour"), 'HH:mm'));
-    const assemblyPlace = ref('');
-    const assemblyDes = ref('');
-    const returnPlace = ref('');
-    const returnDes = ref('');
+
+    const layout = {
+      labelCol: {
+        span: 8,
+      },
+      wrapperCol: {
+        span: 16,
+      },
+    };
+    const formState = reactive({
+      staff: {
+        name: "",
+        number: "",
+        cca: "",
+      },
+      booking: {
+        numOf45: 0,
+        numOf40: 0,
+        numOf20: 0,
+        numOf19: 0,
+        activity: "",
+        options: 1,
+      },
+      departure: {
+        date: dayjs().add(3, "day"),
+        time: dayjs(dayjs().add(3, "day"), "HH:mm"),
+        assembly: "",
+        dest: "",
+      },
+      return: {
+        date: dayjs().add(3, "day"),
+        time: dayjs(dayjs().add(3, "day").add(2, "hour"), "HH:mm"),
+        assembly: "",
+        dest: "",
+      },
+    });
     return {
       dayjs,
-      staffName,
-      staffNumber,
-      CCA,
-      numOf45,
-      numOf40,
-      numOf20,
-      numOf19,
-      activity,
       plainOptions,
-      options,
-      departureDate,
       disabledDate,
-      departureTime,
-      returnDate,
-      returnTime,
-      assemblyPlace,
-      assemblyDes,
-      returnPlace,
-      returnDes,
+      options,
+      layout,
+      formState,
     };
   },
-
 });
 </script>
