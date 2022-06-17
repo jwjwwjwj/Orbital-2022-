@@ -95,7 +95,6 @@ export default {
     },
 
     vehicleInsuranceAlert: (date) => {
-      console.log(moment().diff(moment(date), "months"));
       return (
         moment().diff(moment(date), "months") <= 1 &&
         moment().diff(moment(date), "months") >= 0
