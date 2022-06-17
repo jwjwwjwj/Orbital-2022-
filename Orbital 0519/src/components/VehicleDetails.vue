@@ -55,10 +55,8 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
-import { auth, db } from "../firebase/index.js";
-import { onAuthStateChanged } from "firebase/auth";
-import { getDocs, doc, deleteDoc, collection } from "firebase/firestore";
+import { db } from "../firebase/index.js";
+import { getDocs, collection } from "firebase/firestore";
 import moment from "moment";
 
 export default {
