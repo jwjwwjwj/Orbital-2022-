@@ -75,7 +75,7 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
 
-      router.push("/");
+      router.push("/home");
     },
 
     async register({ commit }, details) {
@@ -123,10 +123,5 @@ export default createStore({
       commit("SET_USER_INFO", docSnap);
     },
     //"LugADQOIuUI9h3rsWMwL"
-    async fetchVehicle({ commit }) {
-      const docRef = doc(db, "vehicles", "LugADQOIuUI9h3rsWMwL");
-      const docSnap = await getDoc(docRef);
-      commit("SET_VEHICLE_INFO", docSnap);
-    }
   }
 });
