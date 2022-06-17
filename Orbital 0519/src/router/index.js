@@ -9,7 +9,7 @@ import { auth } from "../firebase";
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     component: Home,
     meta: {
@@ -62,7 +62,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.path === "/login" && auth.currentUser) {
-    next("/");
+    next("/home");
     return;
   }
 
