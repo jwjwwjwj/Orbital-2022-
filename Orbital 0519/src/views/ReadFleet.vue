@@ -10,15 +10,25 @@
         <span>This is for vehicle maintenance</span>
       </div>
     </div>
+    <div class="vehicle-details-container">
+      <span class="vehicle-details-title">
+        <p><strong>Current Fleet</strong></p>
+      </span>
+      <span>
+        <VehicleDetails />
+      </span>
+    </div>
   </main>
 </template>
 
 <script>
 import RoadTax from "../components/RoadTax.vue";
+import VehicleDetails from "../components/VehicleDetails.vue";
 
 export default {
   components: {
     RoadTax,
+    VehicleDetails,
   },
 };
 </script>
@@ -36,5 +46,18 @@ export default {
 
 .flex-child:first-child {
   margin-right: 20px;
+}
+
+.vehicle-details-container {
+  border: 2px solid grey;
+  margin: 10px;
+  padding: 10px 0px 30px 0px;
+}
+
+.vehicle-details-title {
+  margin: 10px 0px 0px 0px;
+  padding: 50px 0px 0px 0px;
+  font-size: 20px;
+  text-decoration: underline;
 }
 </style>
