@@ -78,7 +78,6 @@ export default {
         vehicleData.id = vehicle.id;
         vehicles.push(vehicleData);
       });
-      console.log(vehicles);
       this.vehicles = vehicles;
     },
 
