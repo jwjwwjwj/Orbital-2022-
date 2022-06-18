@@ -14,7 +14,7 @@
       </button>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <router-link class="link" to="/home">Home</router-link>
+          <router-link class="link" to="/">Home</router-link>
           <router-link class="link" to="/about">About</router-link>
           <router-link class="link" to="/online-booking-form"
             >Booking</router-link
@@ -36,7 +36,7 @@
           <span class="welcome-message"
             >Welcome, {{ $store.state.displayName }}
           </span>
-          <router-link class="link" @click="$store.dispatch('logout')" to="/">
+          <router-link class="link" @click="$store.dispatch('logout')" to="/login">
             <span class="glyphicon glyphicon-log-out"></span>
             Logout</router-link
           >

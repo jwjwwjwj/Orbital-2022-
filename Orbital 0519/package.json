@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@babel/core": "^7.18.2",
+    "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "ant-design-vue": "^2.2.8",
     "core-js": "^3.6.5",
