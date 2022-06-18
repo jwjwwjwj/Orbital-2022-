@@ -1,63 +1,73 @@
 <template>
-  <div class="container">
-    <p>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      Lorem Ipsum has been the industry's standard dummy text ever since the
-      1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but
-      also the leap into electronic typesetting, remaining essentially
-      unchanged. It was popularised in the 1960s with the release of Letraset
-      sheets containing Lorem Ipsum passages, and more recently with desktop
-      publishing software like Aldus PageMaker including versions of Lorem
-      Ipsum.
-    </p>
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Licence Plate</th>
-            <th>Capacity</th>
-            <th>Next Servicing Date</th>
-            <th>Insurance Renewal Date</th>
-            <th>Road Tax Due Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(vehicle, index) in vehicles" v-bind:key="vehicle.id">
-            <td>{{ index + 1 }})</td>
-            <td>{{ vehicle.licencePlate }}</td>
-            <td>{{ vehicle.capacity }}</td>
-            <td>
-              {{
-                moment(vehicle.nextServicingDate.toDate()).format(
-                  "DD MMMM YYYY"
-                )
-              }}
-            </td>
-            <td>
-              {{
-                moment(vehicle.nextInsuranceRenewalDate.toDate()).format(
-                  "DD MMMM YYYY"
-                )
-              }}
-            </td>
-            <td>
-              {{
-                moment(vehicle.roadTaxDueDate.toDate()).format("DD MMMM YYYY")
-              }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="q-pa-md">
+    <q-toggle v-model="loading" label="Loading state" class="q-mb-md" />
+    <q-table
+      :rows="vehicles"
+      :columns="columns"
+      color="primary"
+      row-key="name"
+      :loading="loading"
+    >
+      <template v-slot:loading>
+        <q-inner-loading showing color="primary" />
+      </template>
+    </q-table>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
 import { db } from "../firebase/index.js";
 import { getDocs, collection } from "firebase/firestore";
 import moment from "moment";
+
+const columns = [
+  {
+    name: "number",
+    required: true,
+    label: "Number",
+    align: "left",
+    field: (row) => row.name,
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
+    name: "licencePlate",
+    align: "center",
+    label: "Licence Plate",
+    field: "licencePlate",
+    sortable: true,
+  },
+  {
+    name: "capacity",
+    label: "Capacity",
+    field: "capacity",
+    sortable: true,
+  },
+  {
+    name: "nextServicingDate",
+    label: "Next Servicing Date",
+    field: "nextServicingDate",
+    format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
+    sortable: true,
+  },
+  {
+    name: "insuranceRenewalDate",
+    label: "Insurance Renewal Date",
+    field: "insuranceRenewalDate",
+    format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
+    sortable: true,
+  },
+  {
+    name: "roadTaxDueDate",
+    label: "Road Tax Due Date",
+    field: "roadTaxDueDate",
+    format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
+    sortable: true,
+  },
+];
+
+//const rows = [];
 
 export default {
   name: "VehicleDetails",
@@ -78,6 +88,7 @@ export default {
         vehicleData.id = vehicle.id;
         vehicles.push(vehicleData);
       });
+      console.log(vehicles);
       this.vehicles = vehicles;
     },
 
@@ -94,6 +105,7 @@ export default {
     },
 
     vehicleInsuranceAlert: (date) => {
+      console.log(moment().diff(moment(date), "months"));
       return (
         moment().diff(moment(date), "months") <= 1 &&
         moment().diff(moment(date), "months") >= 0
@@ -104,17 +116,13 @@ export default {
   created() {
     this.fetchVehicles();
   },
+
+  setup() {
+    return {
+      loading: ref(false),
+      columns,
+      //rows,
+    };
+  },
 };
 </script>
-
-<style scoped>
-th {
-  text-align: center;
-  font-size: 18px;
-}
-
-td {
-  height: 75px;
-  font-size: 15px;
-}
-</style>
