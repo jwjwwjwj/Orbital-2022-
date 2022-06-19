@@ -22,15 +22,6 @@ import moment from "moment";
 
 const columns = [
   {
-    name: "number",
-    required: true,
-    label: "Number",
-    align: "left",
-    field: "number",
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
     name: "licencePlate",
     align: "center",
     label: "Licence Plate",
@@ -53,7 +44,7 @@ const columns = [
   {
     name: "insuranceRenewalDate",
     label: "Insurance Renewal Date",
-    field: "insuranceRenewalDate",
+    field: "nextInsuranceRenewalDate",
     format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
   },
