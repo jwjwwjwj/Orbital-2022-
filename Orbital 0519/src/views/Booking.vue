@@ -3,11 +3,10 @@
     <h1>Create Booking Form</h1>
     <hr />
     <h3>Contact Details</h3>
-    <a-form :model="formState" name="booking" v-bind="layout">
+    <a-form :model="staff.name" name="booking" v-bind="layout">
       <a-form-item
         :name="['staff', 'name']"
         label="Name"
-        :rules="[{ required: true }]"
       >
         <a-input v-model:value="staff.name" 
                 placeholder="Input Name Here"/>
@@ -15,7 +14,6 @@
       <a-form-item
         :name="['staff', 'number']"
         label="Staff Number"
-        :rules="[{ required: true }]"
       >
         <a-input v-model:value="staff.number" 
         placeholder="Input Number Here"/>
@@ -30,7 +28,6 @@
       <a-form-item
         :name="['booking', 'activity']"
         label="Activity"
-        :rules="[{ required: true }]"
       >
         <a-input v-model:value="booking.activity" 
         placeholder="Input Activity Description Here"/>
@@ -84,15 +81,13 @@
           format="HH:mm"
         />
       </a-form-item>
-      <a-form-item name="['departure', 'assembly']" label="Assembly Venue"
-      :rules="[{ required: true }]">
+      <a-form-item name="['departure', 'assembly']" label="Assembly Venue">
         <a-input
           v-model:value="departure.assembly"
           placeholder="Input Assembly Venue"
         />
       </a-form-item>
-      <a-form-item name="['departure', 'dest']" label="Input Destination"
-      :rules="[{ required: true }]">
+      <a-form-item name="['departure', 'dest']" label="Input Destination">
         <a-input
           v-model:value="departure.dest"
           placeholder="Input Destination"
@@ -170,14 +165,20 @@ export default {
   methods: {
     async createBooking() {
       const bookingsRef = collection(db, "bookings");
-      console.log("Creating Document");
       this.departure.date = this.departure.date.format("dddd, MMMM Do YYYY");
       this.departure.time = this.departure.time.format("h:mm a");
-      this.returnFrom.date = this.returnFrom.date.format("dddd, MMMM Do YYYY");
-      this.returnFrom.time = this.returnFrom.time.format("h:mm a");
-      const addedDoc = await addDoc(bookingsRef, this.$data);
+      if (this.returnFrom.date == null) {
+        this.returnFrom.date = null;
+      } else {
+        this.returnFrom.date = this.returnFrom.date.format("dddd, MMMM Do YYYY");
+      }
+      if (this.returnFrom.time == null) {
+        this.returnFrom.time = null;
+      } else {
+        this.returnFrom.time = this.returnFrom.time.format("h:mm a");
+      }
+      await addDoc(bookingsRef, this.$data);
       alert("Document created successfully!");
-      console.log(addedDoc);
       this.$router.push("/");
     },
   },
@@ -197,8 +198,8 @@ export default {
         sm: { span: 16 },
       },
     };
-    const formState = reactive({
-      staff: {
+    const formStates = reactive({
+       staff: {
         name: "",
         number: "",
         cca: "",
@@ -230,7 +231,7 @@ export default {
       disabledDate,
       options,
       layout,
-      formState,
+      formStates,
     };
   } 
 }
