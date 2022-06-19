@@ -1,30 +1,87 @@
 <template>
   <div id="roadtax">
-    <span>{{ $store.state.roadTaxAmount }}</span>
+    <div class="title">
+      <span class="roadTax-placeholder"
+        >Total Amount of Road Tax Due For
+        <strong>{{ moment().format("MMM YYYY") }}</strong>
+      </span>
+    </div>
+    <div class="value">
+      <span class="roadTax">
+        {{ roadTaxAmount }}
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
-import { useStore } from "vuex";
-import { auth } from "../firebase/index.js";
-import { onAuthStateChanged } from "firebase/auth";
+import { db } from "../firebase/index.js";
+import { getDocs, collection, query, where } from "firebase/firestore";
+import moment from "moment";
+import dayjs from "dayjs";
 
 export default {
   name: "RoadTax",
+
   data() {
     return {
-      displayName: auth.currentUser !== null ? auth.currentUser.email : "",
+      vehicles: [],
+      roadTaxAmount: null,
+      selectedDoc: null,
     };
   },
-  setup() {
-    const store = useStore();
-    onAuthStateChanged(auth, (vehicle) => {
-      if (vehicle) {
-        store.dispatch("fetchVehicle");
-      }
-    });
+
+  methods: {
+    async fetchVehicles() {
+      const vehicleSnapshot = await getDocs(collection(db, "vehicles"));
+      const vehicles = [];
+      vehicleSnapshot.forEach((vehicle) => {
+        const vehicleData = vehicle.data();
+        vehicleData.id = vehicle.id;
+        vehicles.push(vehicleData);
+      });
+      this.vehicles = vehicles;
+    },
+
+    async totalRoadTaxThisMonth() {
+      const q = query(
+        collection(db, "vehicles"),
+        where("roadTaxDueDate", "<=", dayjs().endOf("month").$d)
+      );
+      const querySnap = await getDocs(q);
+      const amount = [];
+      querySnap.forEach((vehicle) => {
+        const roadTaxData = vehicle.data().roadTaxAmount;
+        amount.push(roadTaxData);
+      });
+      const totalAmount = amount.reduce((x, y) => x + y, 0);
+      const currency = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+      this.roadTaxAmount = currency.format(totalAmount);
+    },
+
+    moment: (date) => {
+      return moment(date);
+    },
   },
 
-  methods: {},
+  computed: {},
+
+  created() {
+    this.totalRoadTaxThisMonth();
+  },
 };
 </script>
+
+<style scoped>
+.roadTax-placeholder {
+  font-size: 30px;
+}
+.roadTax {
+  color: crimson;
+  text-decoration: bold;
+  font-size: 60px;
+}
+</style>
