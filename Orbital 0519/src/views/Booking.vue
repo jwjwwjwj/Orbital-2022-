@@ -3,7 +3,7 @@
     <h1>Create Booking Form</h1>
     <hr />
     <h3>Contact Details</h3>
-    <a-form :model="staff.name" name="booking" v-bind="layout">
+    <a-form name="booking" v-bind="layout">
       <a-form-item
         :name="['staff', 'name']"
         label="Name"
@@ -141,10 +141,10 @@ export default {
         cca: null,
       },
       booking: {
-        numOf45: null,
-        numOf40: null,
-        numOf20: null,
-        numOf19: null,
+        numOf45: 0,
+        numOf40: 0,
+        numOf20: 0,
+        numOf19: 0,
         activity: null,
         options: 1,
       },
