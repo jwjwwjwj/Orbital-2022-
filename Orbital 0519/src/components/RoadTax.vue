@@ -32,17 +32,6 @@ export default {
   },
 
   methods: {
-    async fetchVehicles() {
-      const vehicleSnapshot = await getDocs(collection(db, "vehicles"));
-      const vehicles = [];
-      vehicleSnapshot.forEach((vehicle) => {
-        const vehicleData = vehicle.data();
-        vehicleData.id = vehicle.id;
-        vehicles.push(vehicleData);
-      });
-      this.vehicles = vehicles;
-    },
-
     async totalRoadTaxThisMonth() {
       const q = query(
         collection(db, "vehicles"),
