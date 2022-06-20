@@ -10,7 +10,11 @@ import { Quasar } from "quasar";
 import iconSet from "quasar/icon-set/fontawesome-v6";
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 createApp(App).use(DatePicker).use(Antd).use(store).use(router).use(Quasar).use(iconSet).mount('#app')
 =======
 createApp(App).use(Vuelidate).use(DatePicker).use(Antd).use(store).use(router).mount('#app')
+>>>>>>> Stashed changes
+=======
+createApp(App).use(DatePicker).use(Antd).use(store).use(router).use(Quasar).use(iconSet).mount('#app')
 >>>>>>> Stashed changes
