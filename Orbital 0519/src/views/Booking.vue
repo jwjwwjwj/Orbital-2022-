@@ -3,7 +3,11 @@
     <h1>Create Booking Form</h1>
     <hr />
     <h3>Contact Details</h3>
+<<<<<<< Updated upstream
     <a-form :model="formState" name="booking" v-bind="layout">
+=======
+    <a-form name="booking" v-bind="layout">
+>>>>>>> Stashed changes
       <a-form-item
         :name="['staff', 'name']"
         label="Name"
@@ -133,8 +137,73 @@
 <script>
 import moment from "moment";
 import dayjs from "dayjs";
+<<<<<<< Updated upstream
 import { defineComponent, ref, reactive } from "vue";
 export default defineComponent({
+=======
+import { ref, reactive } from "vue";
+//import useValidate from "@vuelidate/core";
+//import { required } from "@vuelidate/validators";
+import { db } from "../firebase/index.js";
+import { addDoc, collection} from "firebase/firestore";
+
+export default {
+  data() {
+    return {
+      staff: {
+        name: null,
+        number: null,
+        cca: null,
+      },
+      booking: {
+        numOf45: 0,
+        numOf40: 0,
+        numOf20: 0,
+        numOf19: 0,
+        activity: null,
+        options: 1,
+      },
+      departure: {
+        date: null,
+        time: null, 
+        assembly: null,
+        dest: null,
+      },
+      returnFrom: {
+        date: null,
+        time: null,
+        assembly: null,
+        dest: null,
+      },
+      /*validations () {
+        return {
+          staff: {
+            name: { required },
+          }*/
+  
+    };
+  },
+  methods: {
+    async createBooking() {
+      const bookingsRef = collection(db, "bookings");
+      this.departure.date = this.departure.date.format("dddd, MMMM Do YYYY");
+      this.departure.time = this.departure.time.format("h:mm a");
+      if (this.returnFrom.date == null) {
+        this.returnFrom.date = null;
+      } else {
+        this.returnFrom.date = this.returnFrom.date.format("dddd, MMMM Do YYYY");
+      }
+      if (this.returnFrom.time == null) {
+        this.returnFrom.time = null;
+      } else {
+        this.returnFrom.time = this.returnFrom.time.format("h:mm a");
+      }
+      await addDoc(bookingsRef, this.$data);
+      alert("Document created successfully!");
+      this.$router.push("/");
+    },
+  },
+>>>>>>> Stashed changes
   setup() {
     const plainOptions = ["1 - Way", "2 - Way"];
     const options = ref(1);
@@ -183,7 +252,12 @@ export default defineComponent({
       disabledDate,
       options,
       layout,
+<<<<<<< Updated upstream
       formState,
+=======
+      formStates,
+      //v$: useValidate()
+>>>>>>> Stashed changes
     };
   },
 });
