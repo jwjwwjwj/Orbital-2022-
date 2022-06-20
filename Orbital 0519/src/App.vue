@@ -16,7 +16,7 @@
         <ul class="nav navbar-nav">
           <router-link class="link" to="/">Home</router-link>
           <router-link class="link" to="/about">About</router-link>
-          <router-link class="link" to="/online-booking-form" v-if"!$store.state.isManager"
+          <router-link class="link" to="/online-booking-form" v-if="!$store.state.isManager"
             >Booking</router-link
           >
           <Fleet
