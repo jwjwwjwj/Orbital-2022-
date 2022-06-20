@@ -1,63 +1,83 @@
 <template>
-  <div class="container">
-    <p>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      Lorem Ipsum has been the industry's standard dummy text ever since the
-      1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but
-      also the leap into electronic typesetting, remaining essentially
-      unchanged. It was popularised in the 1960s with the release of Letraset
-      sheets containing Lorem Ipsum passages, and more recently with desktop
-      publishing software like Aldus PageMaker including versions of Lorem
-      Ipsum.
-    </p>
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Licence Plate</th>
-            <th>Capacity</th>
-            <th>Next Servicing Date</th>
-            <th>Insurance Renewal Date</th>
-            <th>Road Tax Due Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(vehicle, index) in vehicles" v-bind:key="vehicle.id">
-            <td>{{ index + 1 }})</td>
-            <td>{{ vehicle.licencePlate }}</td>
-            <td>{{ vehicle.capacity }}</td>
-            <td>
-              {{
-                moment(vehicle.nextServicingDate.toDate()).format(
-                  "DD MMMM YYYY"
-                )
-              }}
-            </td>
-            <td>
-              {{
-                moment(vehicle.nextInsuranceRenewalDate.toDate()).format(
-                  "DD MMMM YYYY"
-                )
-              }}
-            </td>
-            <td>
-              {{
-                moment(vehicle.roadTaxDueDate.toDate()).format("DD MMMM YYYY")
-              }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="q-pa-md">
+    <q-table
+      :dense="$q.screen.lt.md"
+      :rows="vehicles"
+      :columns="columns"
+      color="primary"
+      row-key="name"
+      :loading="loading"
+      :table-header-style="{ backgroundColor: '#D3D3D3' }"
+      table-header-class="text-bold"
+    >
+      <template v-slot:loading>
+        <q-inner-loading showing color="primary" />
+      </template>
+    </q-table>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
 import { db } from "../firebase/index.js";
 import { getDocs, collection } from "firebase/firestore";
 import moment from "moment";
+
+const columns = [
+  {
+    name: "licencePlate",
+    align: "center",
+    label: "Licence Plate",
+    field: "licencePlate",
+    headerStyle: {
+      fontSize: "1.2em",
+    },
+    sortable: true,
+  },
+  {
+    name: "capacity",
+    align: "center",
+    label: "Capacity",
+    field: "capacity",
+    headerStyle: {
+      fontSize: "1.2em",
+    },
+    sortable: true,
+  },
+  {
+    name: "nextServicingDate",
+    align: "center",
+    label: "Next Servicing Date",
+    field: "nextServicingDate",
+    headerStyle: {
+      fontSize: "1.2em",
+    },
+    format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
+    sortable: true,
+  },
+  {
+    name: "insuranceRenewalDate",
+    align: "center",
+    label: "Insurance Renewal Date",
+    field: "nextInsuranceRenewalDate",
+    headerStyle: {
+      fontSize: "1.2em",
+    },
+    format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
+    sortable: true,
+  },
+  {
+    name: "roadTaxDueDate",
+    align: "center",
+    label: "Road Tax Due Date",
+    field: "roadTaxDueDate",
+    headerStyle: {
+      fontSize: "1.2em",
+    },
+    format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
+    sortable: true,
+  },
+];
 
 export default {
   name: "VehicleDetails",
@@ -88,7 +108,7 @@ export default {
     async makeInsuranePayment() {
       alert("SUCCESS");
     },
-*/
+    */
     moment: (date) => {
       return moment(date);
     },
@@ -104,17 +124,12 @@ export default {
   created() {
     this.fetchVehicles();
   },
+
+  setup() {
+    return {
+      loading: ref(false),
+      columns,
+    };
+  },
 };
 </script>
-
-<style scoped>
-th {
-  text-align: center;
-  font-size: 18px;
-}
-
-td {
-  height: 75px;
-  font-size: 15px;
-}
-</style>

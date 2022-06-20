@@ -16,21 +16,16 @@
         <ul class="nav navbar-nav">
           <router-link class="link" to="/">Home</router-link>
           <router-link class="link" to="/about">About</router-link>
-          <router-link class="link" to="/online-booking-form"
+          <router-link class="link" to="/online-booking-form" v-if"!$store.state.isManager"
             >Booking</router-link
           >
-          <router-link
-            class="link"
-            to="/read-fleet"
+          <Fleet
+            class="fleet"
+            title="Fleet"
             v-if="$store.state.isManager"
-            >Fleet Overview</router-link
-          >
-          <router-link
-            class="link"
-            to="/update-fleet"
-            v-if="$store.state.isManager"
-            >Update Fleet</router-link
-          >
+            v-on:mouseover="mouseover"
+            v-on:mouseleave="mouseleave"
+          />
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <span class="welcome-message"
@@ -51,11 +46,14 @@
 import { useStore } from "vuex";
 import { auth } from "./firebase/index.js";
 import { onAuthStateChanged } from "firebase/auth";
+import Fleet from "./components/Fleet.vue";
+
 export default {
   name: "app",
   data() {
     return {
       displayName: auth.currentUser !== null ? auth.currentUser.email : "",
+      isOpen: false,
     };
   },
   setup() {
@@ -66,7 +64,19 @@ export default {
       }
     });
   },
-  methods: {},
+  
+  components: {
+    Fleet,
+  },
+  
+  methods: {
+    mouseover: function () {
+      this.isOpen = true;
+    },
+    mouseleave: function () {
+      this.isOpen = false;
+    },
+  },
 };
 </script>
 
@@ -116,6 +126,18 @@ export default {
   background-color: black;
   text-decoration: none;
 }
+
+.router-link-active.router-link-exact-active.link.menu-item {
+  color: white;
+  background-color: black;
+  text-decoration: none;
+}
+
+.fleet {
+  font-size: 20px;
+  color: white;
+}
+
 .logout-button {
   color: white;
 }

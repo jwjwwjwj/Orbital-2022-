@@ -2,8 +2,11 @@
   <main class="read-fleet">
     <h1><strong>Fleet Overview</strong></h1>
     <div class="flex-container">
-      <div class="flex-child road-tax">
+      <div class="flex-child fleet-size">
         <!--span>This is for road-tax</span-->
+        <Fleetsize />
+      </div>
+      <div class="flex-child road-tax">
         <RoadTax />
       </div>
       <div class="flex-child vehicle-maintenance">
@@ -22,11 +25,13 @@
 </template>
 
 <script>
+import Fleetsize from "../components/FleetSize.vue";
 import RoadTax from "../components/RoadTax.vue";
 import VehicleDetails from "../components/VehicleDetails.vue";
 
 export default {
   components: {
+    Fleetsize,
     RoadTax,
     VehicleDetails,
   },
