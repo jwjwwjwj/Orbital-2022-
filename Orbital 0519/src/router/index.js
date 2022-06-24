@@ -47,6 +47,14 @@ const routes = [
     }
   },
   {
+    path: "/fleet/add-fleet",
+    name: "AddFleet",
+    component: AddFleet,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/fleet/read-fleet",
     name: "ReadFleet",
     component: ReadFleet,
