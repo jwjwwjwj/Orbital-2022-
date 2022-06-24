@@ -4,6 +4,7 @@ import About from "../views/About.vue";
 import Login from "../views/Login.vue";
 import Booking from "../views/Booking.vue";
 import Fleet from "../components/Fleet.vue";
+import AddFleet from "../views/AddFleet.vue";
 import ReadFleet from "../views/ReadFleet.vue";
 import UpdateFleet from "../views/UpdateFleet.vue";
 import { auth } from "../firebase";
