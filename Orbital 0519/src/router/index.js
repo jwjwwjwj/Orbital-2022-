@@ -6,6 +6,7 @@ import Booking from "../views/Booking.vue";
 import Fleet from "../components/Fleet.vue";
 import ReadFleet from "../views/ReadFleet.vue";
 import UpdateFleet from "../views/UpdateFleet.vue";
+import AddFleet from "../views/AddFleet.vue";
 import { auth } from "../firebase";
 
 const routes = [
@@ -44,6 +45,14 @@ const routes = [
     component: Fleet,
     meta: {
       requiresAuth: true
+    }
+  },
+  {
+    path: "/fleet/add-fleet",
+    name: "AddFleet",
+    component: AddFleet,
+    meta: {
+      requiresAuth: false
     }
   },
   {

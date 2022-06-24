@@ -1,100 +1,193 @@
 <template>
-  <main class="add-fleet">
     <h1><strong>Add Fleet</strong></h1>
-    <div class="add-fleet-form">
-      <div class="q-pa-md" style="width: 300px">
-        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-          <span class="header1"><strong>Licence Plate</strong></span>
-          <q-input
-            filled
-            dense
-            v-model="lPlate"
-            hint="For instance, SBS123X"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Please type something',
-            ]"
-          />
-          <span class="header2"><strong>Capacity</strong></span>
-          <q-input
-            filled
-            dense
-            type="number"
-            v-model="cap"
-            lazy-rules
-            :rules="[
-              (val) =>
-                (val !== null && val !== '') || 'Please type the capacity',
-              (val) =>
-                val == 19 ||
-                val == 20 ||
-                val == 40 ||
-                val == 45 ||
-                'Please type an appropriate capacity (19, 20, 40 or 45)',
-            ]"
-          />
-          <div class="buttons">
-            <q-btn
-              class="submitBtn"
-              label="Submit"
-              type="submit"
-              color="black"
-            />
-            <q-btn label="Reset" type="reset" color="black" class="q-ml-sm" />
-          </div>
-        </q-form>
-      </div>
+        <hr />
+    <h3>Vehicle Details</h3>
+    <div class="add-fleet-form" v-bind="layout">
+      <a-form name="vehicle" v-bind="layout">
+        <a-form-item
+        :name = "['licence', 'plate']"
+        label="*Licence Plate"
+        >
+        <a-input 
+        v-model:value= "licencePlate"
+        placeholder="Input Licence Plate Here. E.G. SBS123A"
+        />
+        </a-form-item>
+      <a-form-item 
+      label="Capacity"
+      >
+        <a-radio-group 
+        v-model:value="capacity">
+          <a-radio :value="45">45 Seater</a-radio>
+          <a-radio :value="40">40 Seater</a-radio>
+          <a-radio :value="20">20 Seater</a-radio>
+          <a-radio :value="19">19 & below</a-radio>
+        </a-radio-group>
+      </a-form-item>
+      <br />
+      <hr />
+      <h3>Insurance Details</h3>
+        <a-form-item 
+          :wrapper-col="{ span: 5, offset: 1 }"
+          name="['insurance', 'date']" 
+          label="Last Insurance Payment Date">
+        <a-date-picker
+          v-model:value="insuranceDate"
+          :disabled-date="disabledDate"
+        />
+      </a-form-item>
+        <a-form name="insuranceAmount" v-bind="layout">
+        <a-form-item
+        :name = "['insurance', 'amount']"
+        label="*Insurance Amount:"
+        >
+        <a-input
+         v-model:value= "insuranceAmount"
+         placeholder="Input Insurance Amount here."
+         />
+        </a-form-item>
+        </a-form>
+      <br />
+      <hr />
+      <h3>Servicing Details</h3>
+        <a-form-item 
+        :wrapper-col="{ span: 5, offset: 1 }"
+        name="['servicing', 'date']" 
+        label="*Last Servicing Date">
+            <a-date-picker
+          v-model:value="lastSentForServicing"
+          :disabled-date="disabledDate"
+        />
+        </a-form-item>
+        <a-form-item 
+        :wrapper-col="{ span: 5, offset: 1 }"
+        name="['next', 'servicing', 'date']" 
+        label="*Next Servicing Date">
+            <a-date-picker
+          v-model:value="nextServicingDate"
+          :disabled-date="disabledDateAfter"
+        />
+        </a-form-item>
+      <br />
+      <hr />
+      <h3>Road Tax Details</h3>
+        <a-form name="roadTaxAmount" v-bind="layout">
+        <a-form-item
+        :name = "['roadtax', 'amount']"
+        label="*Road Tax Amount:"
+        >
+        <a-input
+         v-model:value= "roadTaxAmount"
+         placeholder="Input Road Tax Amount here."
+         />
+        </a-form-item>
+        </a-form>
+        <a-form-item 
+        :wrapper-col="{ span: 5, offset: 1 }"
+        name="['roadtax', 'date']" 
+        label="*Last Road Tax Payment">
+            <a-date-picker
+          v-model:value="lastPaidRoadTaxDate"
+          :disabled-date="disabledDate"
+        />
+        </a-form-item>
+                <a-form-item 
+        :wrapper-col="{ span: 5, offset: 1 }"
+        name="['roadtax', 'date']" 
+        label="*Next Road Tax Payment">
+            <a-date-picker
+          v-model:value="roadTaxDueDate"
+          :disabled-date="disabledDateAfter"
+        />
+        </a-form-item>
+      </a-form>
+      <br/>
+    <a-button @click.prevent="addFleet()" html-type="submit" type="primary">Submit</a-button>
     </div>
-  </main>
 </template>
 
 <script>
-import { useQuasar } from "quasar";
+import useVuelidate from '@vuelidate/core'
+import { required, numeric } from '@vuelidate/validators'
 import { ref } from "vue";
 import { db } from "../firebase/index.js";
 import { addDoc, collection } from "firebase/firestore";
+import moment from "moment";
 
 export default {
   name: "AddFleet",
   data() {
     return {
       licencePlate: null,
-      capacity: null,
-      id: null,
+      capacity: 45,
+      insuranceDate: ref(),
       insuranceAmount: null,
-      insuranceRenewalDate: null,
-      lastPaidRoadTaxDueDate: null,
-      lastSentForServicing: null,
-      nextInsuranceRenewalDate: null,
-      nextServicingDate: null,
+      lastSentForServicing: ref(),
+      nextServicingDate: ref(),
       roadTaxAmount: null,
-      roadTaxDueDate: null,
+      lastPaidRoadTaxDate: ref(),
+      roadTaxDueDate: ref(),
     };
+  },
+  validations() {
+    return {
+      licencePlate: { required },
+      capacity: { numeric },
+      insuranceDate: { required },
+      insuranceAmount: { numeric },
+      lastSentForServicing: { required },
+      nextServicingDate: { required },
+      roadTaxAmount: { numeric },
+      lastPaidRoadTaxDate: { required },
+      roadTaxDueDate: { required },
+    }
   },
   methods: {
     async addFleet() {
+      this.v$.$validate()
+      if (!this.v$.$error){
       const vehicleRef = collection(db, "vehicles");
+      this.insuranceDate = this.insuranceDate.format("dddd, MMMM D YYYY");
+      this.lastSentForServicing = this.lastSentForServicing.format("dddd, MMMM D YYYY");
+      this.nextServicingDate = this.nextServicingDate.format("dddd, MMMM D YYYY");
+      this.lastPaidRoadTaxDate = this.lastPaidRoadTaxDate.format("dddd, MMMM D YYYY");
+      this.roadTaxDueDate = this.roadTaxDueDate.format("dddd, MMMM D YYYY");
       await addDoc(vehicleRef, this.$data);
-      //alert("Document created successfully!");
-      //this.$router.push("/");
-    },
+      alert("Document created successfully!");
+      this.$router.push("/");
+      } else {
+     alert('Form failed validation')
+    }
+  },
   },
   created() {
     this.addFleet();
   },
   setup() {
-    const $q = useQuasar();
-
-    const lPlate = ref(null);
-    const cap = ref(null);
-    const accept = ref(false);
+    const disabledDate = (current) => {
+      return current && current > moment().endOf("day");
+    };
+    const disabledDateAfter = (current) => {
+      return current && current < moment().endOf("day");
+    };
+    const layout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
 
     return {
-      lPlate,
-      cap,
-      accept,
-
+      layout,
+      disabledDate,
+      disabledDateAfter,
+      v$:useVuelidate(),
       onSubmit() {
+        /*
         if (accept.value !== true) {
           $q.notify({
             color: "red-5",
@@ -116,34 +209,9 @@ export default {
         lPlate.value = null;
         cap.value = null;
         accept.value = false;
+        */
       },
     };
   },
 };
 </script>
-
-<style scoped>
-.add-fleet-form {
-  display: inline-block;
-  margin-left: 50px;
-}
-.buttons {
-  margin: 15px;
-}
-.q-ml-sm {
-  left: 20px;
-  width: 75px;
-}
-.submitBtn {
-  right: 15px;
-  width: 75px;
-}
-.header1,
-.header2 {
-  margin-right: 25px;
-  font-size: 25px;
-}
-.header2 {
-  padding: 25px;
-}
-</style>
