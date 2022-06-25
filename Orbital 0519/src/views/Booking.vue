@@ -4,298 +4,402 @@
     <hr />
     <h3>Contact Details</h3>
     <a-form name="booking" v-bind="layout">
-      <a-form-item
-        :name="['staff', 'name']"
-        label="*Name"
-      >
-      <span v-if="v$.form.staff.name.$error">
-        <exclamation-circle-outlined v-if="v$.form.staff.name.$error"/>
-        Please Input Staff Name
+      <a-form-item :name="['staff', 'name']" label="*Name">
+        <span v-if="v$.staffName.$error">
+          <exclamation-circle-outlined v-if="v$.staffName.$error" />
+          Please Input Staff Name
         </span>
-        <a-input v-model:value="form.staff.name" 
-                placeholder="Input Name Here"
-                />
+        <a-input v-model:value="staffName" placeholder="Input Name Here" />
       </a-form-item>
-      <a-form-item
-        :name="['staff', 'number']"
-        label="*Staff Number"
-        >
-        <span v-if="v$.form.staff.number.$error">
-        <exclamation-circle-outlined v-if="v$.form.staff.number.$error"/>
-        Please Input Valid Phone Number
+      <a-form-item :name="['staff', 'number']" label="*Staff Number">
+        <span v-if="v$.staffNumber.$error">
+          <exclamation-circle-outlined v-if="v$.staffNumber.$error" />
+          Please Input Valid Phone Number
         </span>
-        <a-input v-model:value="form.staff.number" 
-        placeholder="Input Number Here"/>
+        <a-input v-model:value="staffNumber" placeholder="Input Number Here" />
       </a-form-item>
-      <a-form-item 
-      :name="['staff', 'cca']" 
-      label="*CCA/Department"
-      >
-        <span v-if="v$.form.staff.cca.$error">
-        <exclamation-circle-outlined v-if="v$.form.staff.cca.$error"/>
-        Please Input CCA
+      <a-form-item :name="['staff', 'cca']" label="*CCA/Department">
+        <span v-if="v$.staffCCA.$error">
+          <exclamation-circle-outlined v-if="v$.staffCCA.$error" />
+          Please Input CCA
         </span>
-        <a-input 
-        v-model:value="form.staff.cca" 
-        placeholder="Input CCA/Department Here"/>
+        <a-input
+          v-model:value="staffCCA"
+          placeholder="Input CCA/Department Here"
+        />
       </a-form-item>
       <br />
       <hr />
       <h3>Booking Details</h3>
-      <a-form-item
-        :name="['booking', 'activity']"
-        label="*Activity"
-      >
-        <span v-if="v$.form.booking.activity.$error">
-        <exclamation-circle-outlined v-if="v$.form.booking.activity.$error"/>
-        Please Input Activity Description
+      <a-form-item :name="['booking', 'activity']" label="*Activity">
+        <span v-if="v$.bookingActivity.$error">
+          <exclamation-circle-outlined v-if="v$.bookingActivity.$error" />
+          Please Input Activity Description
         </span>
-        <a-input 
-        v-model:value="form.booking.activity" 
-        placeholder="Input Activity Description Here"/>
+        <a-input
+          v-model:value="bookingActivity"
+          placeholder="Input Activity Description Here"
+        />
       </a-form-item>
-      <a-form-item 
-      :wrapper-col="{ span: 5, offset: 1 }" 
-      label="1-Way / 2-Way">
-        <a-radio-group 
-        v-model:value="form.booking.options">
+      <a-form-item :wrapper-col="{ span: 5, offset: 1 }" label="1-Way / 2-Way">
+        <a-radio-group v-model:value="bookingOptions">
           <a-radio :value="1">1 - Way</a-radio>
           <a-radio :value="2">2 - Way</a-radio>
         </a-radio-group>
       </a-form-item>
-      <a-form-item 
-      :wrapper-col="{ span: 4, offset: 1 }" 
-      name="['booking', 'numOf45']" 
-      label="45 Seater">
-        <a-input-number
-          v-model:value="form.booking.numOf45"
-          :min="0"
-          :max="99"
-        />
+      <a-form-item
+        :wrapper-col="{ span: 4, offset: 1 }"
+        name="['booking', 'numOf45']"
+        label="45 Seater"
+      >
+        <a-input-number v-model:value="bookingNumOf45" :min="0" :max="99" />
       </a-form-item>
-      <a-form-item 
-      :wrapper-col="{ span: 4, offset: 1 }" 
-      name="['booking', 'numOf40']" 
-      label="40 Seater">
-        <a-input-number
-          v-model:value="form.booking.numOf40"
-          :min="0"
-          :max="99"
-        />
+      <a-form-item
+        :wrapper-col="{ span: 4, offset: 1 }"
+        name="['booking', 'numOf40']"
+        label="40 Seater"
+      >
+        <a-input-number v-model:value="bookingNumOf40" :min="0" :max="99" />
       </a-form-item>
-      <a-form-item 
-      :wrapper-col="{ span: 4, offset: 1 }" 
-      name="['booking', 'numOf20']" 
-      label="20 Seater">
-        <a-input-number
-          v-model:value="form.booking.numOf20"
-          :min="0"
-          :max="99"
-        />
+      <a-form-item
+        :wrapper-col="{ span: 4, offset: 1 }"
+        name="['booking', 'numOf20']"
+        label="20 Seater"
+      >
+        <a-input-number v-model:value="bookingNumOf20" :min="0" :max="99" />
       </a-form-item>
-      <a-form-item 
-      :wrapper-col="{ span: 4, offset: 1 }" 
-      name="['booking', 'numOf19']" 
-      label="19Seater">
-        <a-input-number
-          v-model:value="form.booking.numOf19"
-          :min="0"
-          :max="99"
-        />
+      <a-form-item
+        :wrapper-col="{ span: 4, offset: 1 }"
+        name="['booking', 'numOf19']"
+        label="19Seater"
+      >
+        <a-input-number v-model:value="bookingNumOf19" :min="0" :max="99" />
       </a-form-item>
       <br />
       <hr />
       <h3>Departure Details</h3>
-      <a-form-item 
+      <div class="flex-container">
+        <div class="flex-child fleet-size">
+          <div class="departure-label">
+            <strong>*Departure Date & Time:</strong>
+          </div>
+        </div>
+        <div class="flex-child road-tax">
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <q-input filled v-model="departureDate">
+              <template v-slot:prepend>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="departureDate" mask="YYYY-MM-DD HH:mm">
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+
+              <template v-slot:append>
+                <q-icon name="access_time" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-time
+                      v-model="departureDate"
+                      mask="YYYY-MM-DD HH:mm"
+                      format24h
+                    >
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-time>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+      </div>
+
+      <!--a-form-item
       :wrapper-col="{ span: 5, offset: 1 }" 
       name="['departure', 'date']" 
       label="Departure Date">
         <a-date-picker
-          v-model:value="form.departure.date"
+          v-model:value="departureDate"
           :disabled-date="disabledDate"
         />
-      </a-form-item>
-      <a-form-item 
+      </!--a-form-item-->
+      <!--a-form-item-- 
       :wrapper-col="{ span: 7, offset:0 }" 
       name="['departure', 'time']" 
       label="Departure Time">
         <a-time-picker
-          v-model:value="form.departure.time"
+          v-model:value="departureTime"
           format="HH:mm"
         />
-      </a-form-item>
-      <a-form-item 
-      name="['departure', 'assembly']" 
-      label="*Assembly Venue"
-      >
-        <span v-if="v$.form.departure.assembly.$error">
-        <exclamation-circle-outlined v-if="v$.form.departure.assembly.$error"/>
-        Please Input Assembly Venue
+      </!--a-form-item-->
+      <a-form-item name="['departure', 'assembly']" label="*Assembly Venue">
+        <span v-if="v$.departureAssembly.$error">
+          <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
+          Please Input Assembly Venue
         </span>
         <a-input
-          v-model:value="form.departure.assembly"
+          v-model:value="departureAssembly"
           placeholder="Input Assembly Venue"
         />
       </a-form-item>
-      <a-form-item 
-      name="['departure', 'dest']" 
-      label="*Input Destination"
-      >
-        <span v-if="v$.form.departure.dest.$error">
-        <exclamation-circle-outlined v-if="v$.form.departure.dest.$error"/>
-        Please Input Destination
+      <a-form-item name="['departure', 'dest']" label="*Input Destination">
+        <span v-if="v$.departureDest.$error">
+          <exclamation-circle-outlined v-if="v$.departureDest.$error" />
+          Please Input Destination
         </span>
         <a-input
-          v-model:value="form.departure.dest"
+          v-model:value="departureDest"
           placeholder="Input Destination"
         />
       </a-form-item>
-      <div v-if="form.booking.options === 2">
+      <div v-if="bookingOptions === 2">
         <br />
         <hr />
         <h3>Return Details</h3>
-        <a-form-item :wrapper-col="{ span: 5, offset: 1 }" name="['departure', 'date']" label="Return Date">
+              <div class="flex-container">
+        <div class="flex-child fleet-size">
+          <div class="departure-label">
+            <strong>*Return Date & Time:</strong>
+          </div>
+        </div>
+        <div class="flex-child road-tax">
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <q-input filled v-model="returnFromDate">
+              <template v-slot:prepend>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="returnFromDate" mask="YYYY-MM-DD HH:mm">
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+
+              <template v-slot:append>
+                <q-icon name="access_time" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-time
+                      v-model="returnFromDate"
+                      mask="YYYY-MM-DD HH:mm"
+                      format24h
+                    >
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-time>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+      </div>
+        <!--a-form-item
+          :wrapper-col="{ span: 5, offset: 1 }"
+          name="['departure', 'date']"
+          label="Return Date"
+        >
           <a-date-picker
-            v-model:value="form.returnFrom.date"
+            v-model:value="returnFromDate"
             :disabled-date="disabledDate"
           />
-        </a-form-item>
+        </!--a-form-item>
         <a-form-item :wrapper-col="{ span: 7, offset:0 }" name="['departure', 'time']" label="Return Time">
-          <a-time-picker v-model:value="form.returnFrom.time" format="HH:mm" />
-        </a-form-item>
+          <a-time-picker v-model:value="returnFromTime" format="HH:mm" />
+        </-a-form-item---->
         <a-form-item name="['returnFrom', 'assembly']" label="*Assembly Venue">
           <a-input
-            v-model:value="form.returnFrom.assembly"
+            v-model:value="returnFromAssembly"
             placeholder="Input Assembly Venue"
           />
         </a-form-item>
         <a-form-item name="['returnFrom', 'dest']" label="*Input Destination">
           <a-input
-            v-model:value="form.returnFrom.dest"
+            v-model:value="returnFromDest"
             placeholder="Input Destination"
           />
         </a-form-item>
       </div>
     </a-form>
-    <br/>
-    <a-button @click.prevent="createBooking" html-type="submit" type="primary">Submit</a-button>
+    <br />
+    <a-button @click.prevent="createBooking" html-type="submit" type="primary"
+      >Submit</a-button
+    >
   </div>
 </template>
 
 <script>
-import useVuelidate from '@vuelidate/core'
-import { required, requiredIf, numeric, minLength, maxLength, /*minValue*/ } from '@vuelidate/validators'
+import useVuelidate from "@vuelidate/core";
+import {
+  required,
+  requiredIf,
+  numeric,
+  minLength,
+  maxLength /*minValue*/,
+} from "@vuelidate/validators";
 import moment from "moment";
 import dayjs from "dayjs";
 import { ref, reactive } from "vue";
 import { db } from "../firebase/index.js";
-import { addDoc, collection} from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
+import { useStore } from "vuex";
 
 export default {
   components: {
-    ExclamationCircleOutlined, 
+    ExclamationCircleOutlined,
   },
   data() {
     return {
-      v$:useVuelidate(),
-      form: {
-      staff: {
-        name: null,
-        number: null,
-        cca: null,
-      },
-      booking: {
-        numOf45: 0,
-        numOf40: 0,
-        numOf20: 0,
-        numOf19: 0,
-        activity: null,
-        options: 1,
-      },
-      departure: {
-        date: dayjs().add(3, "day"),
-        time: ref(), 
-        assembly: null,
-        dest: null,
-      },
-      returnFrom: {
-        date: null,
-        time: ref(),
-        assembly: null,
-        dest: null,
-      },
-    }
-    }
+      user: useStore().state.displayName,
+      id: useStore().state.displayName,
+      staffName: null,
+      staffNumber: null,
+      staffCCA: null,
+      bookingNumOf45: 0,
+      bookingNumOf40: 0,
+      bookingNumOf20: 0,
+      bookingNumOf19: 0,
+      bookingActivity: null,
+      bookingOptions: 1,
+      departureDate: ref(), //dayjs().add(3, "day"),//ref(),
+      departureTime: ref(),
+      departureAssembly: null,
+      departureDest: null,
+      returnFromDate: null,
+      returnFromTime: null,
+      returnFromAssembly: null,
+      returnFromDest: null,
+    };
   },
   computed: {
-      validNumOfBuses() {
-        return (this.form.booking.numOf45 + this.form.booking.numOf40 + this.form.booking.numOf20 + this.form.booking.numOf20) 
-      }
+    validNumOfBuses() {
+      return (
+        this.bookingNumOf45 +
+        this.bookingNumOf40 +
+        this.bookingNumOf20 +
+        this.bookingNumOf19
+      );
+    },
   },
   validations() {
     return {
-      form: {
-      staff: {
-        name: { required },
-        number: { required, numeric, minLength: minLength(8), maxLength: maxLength(8) },
-        cca: { required },
+      user: {},
+      id: {},
+      staffName: { required },
+      staffNumber: {
+        required,
+        numeric,
+        minLength: minLength(8),
+        maxLength: maxLength(8),
       },
-      booking: {
-        numOf45: { required },
-        numOf40: { required  },
-        numOf20: { required  },
-        numOf19: { required },
-        activity: { required },
-        options: { required },
-      },
-      departure: {
-        date: { required },
-        time: { required }, 
-        assembly: { required },
-        dest: { required },
-      },
-      returnFrom: {
+      staffCCA: { required },
+      bookingNumOf45: { required },
+      bookingNumOf40: { required },
+      bookingNumOf20: { required },
+      bookingNumOf19: { required },
+      bookingActivity: { required },
+      bookingOptions: { required },
+      departureDate: { required },
+      //departureTime: { required },
+      departureAssembly: { required },
+      departureDest: { required },
+      returnFromDate: {
+        date: {
+          required: requiredIf(function () {
+            return this.bookingOptions === 2;
+          }),
+        },
+      } /*
+      returnFromTime: {
         date: { required: requiredIf(function () {
-      return ( this.form.booking.options === 2 )
-    })},
-        time: {required: requiredIf(function () {
-      return ( this.form.booking.options === 2 )
-    })},
-        assembly: {required: requiredIf(function () {
-      return ( this.form.booking.options === 2 )
-    })},
-        dest: {required: requiredIf(function () {
-      return ( this.form.booking.options === 2 )
-    })},
-    }
-    }
-    }
+      return ( this.bookingOptions === 2 )
+    })}},*/,
+      returnFromAssembly: {
+        date: {
+          required: requiredIf(function () {
+            return this.bookingOptions === 2;
+          }),
+        },
+        returnFromDest: {
+          date: {
+            required: requiredIf(function () {
+              return this.bookingOptions === 2;
+            }),
+          },
+        },
+      },
+    };
   },
   methods: {
     async createBooking() {
       this.v$.$validate()
       if (!this.v$.$error){
+      console.log(this.departureDate);
       const bookingsRef = collection(db, "bookings");
-      this.form.departure.date = this.form.departure.date.format("dddd, MMMM D YYYY");
-      this.form.departure.time = this.form.departure.time.format("hh:mm a");
-      if (this.form.returnFrom.date == null) {
-        this.form.returnFrom.date = null;
+      this.departureDate = new Date(this.departureDate)
+      this.departureTime = new Date(this.departureDate).toTimeString().slice(0,5); //08/03/2022
+      //this.departureTime = this.departureTime.format("hh:mm a");
+      if (this.returnFromDate == null) {
+        this.returnFromDate = null;
+        this.returnFromTime = null;
       } else {
-        this.form.returnFrom.date = this.form.returnFrom.date.format("dddd, MMMM D YYYY");
+        this.returnFromDate = new Date(this.returnFromDate);
+        this.returnFromTime = new Date(this.returnFromDate).toTimeString().slice(0,5);
       }
-      if (this.form.returnFrom.time == null) {
-        this.form.returnFrom.time = null;
-      } else {
-        this.form.returnFrom.time = this.form.returnFrom.time.format("hh:mm a");
-      }
-      await addDoc(bookingsRef, this.$data.form);
-      this.$router.push({ path: '/' })
-      alert("Booking form submitted!");
+      console.log(this.departureDate);
+      await addDoc(bookingsRef, this.$data);
+      this.$router.push({ path: "/" });
+      alert(
+        "Booking form submitted!"
+      ); 
     } else {
      alert('Form failed validation')
     }
-  }
+    }
   },
   setup() {
     const plainOptions = ["1 - Way", "2 - Way"];
@@ -314,7 +418,7 @@ export default {
       },
     };
     const formStates = reactive({
-       staff: {
+      staff: {
         name: "",
         number: "",
         cca: "",
@@ -347,7 +451,31 @@ export default {
       options,
       layout,
       formStates,
+      v$: useVuelidate(),
     };
   },
-}
+};
 </script>
+
+<style scoped>
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 2;
+  margin: 10px;
+}
+
+.flex-child:first-child {
+  margin-right: 20px;
+  width: 180px;
+}
+#datePicker {
+  text-align: center;
+}
+.departure-label {
+  text-align: center;
+  margin-top: 30px;
+}
+</style>
