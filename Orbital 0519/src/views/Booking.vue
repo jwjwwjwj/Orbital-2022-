@@ -86,6 +86,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.departureDate.$error">
+          <exclamation-circle-outlined v-if="v$.departureDate.$error" />
+          Please Input Date & Time
+                      </span>
             <q-input filled v-model="departureDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -136,26 +140,10 @@
           </div>
         </div>
       </div>
-
-      <!--a-form-item
-      :wrapper-col="{ span: 5, offset: 1 }" 
-      name="['departure', 'date']" 
-      label="Departure Date">
-        <a-date-picker
-          v-model:value="departureDate"
-          :disabled-date="disabledDate"
-        />
-      </!--a-form-item-->
-      <!--a-form-item-- 
-      :wrapper-col="{ span: 7, offset:0 }" 
-      name="['departure', 'time']" 
-      label="Departure Time">
-        <a-time-picker
-          v-model:value="departureTime"
-          format="HH:mm"
-        />
-      </!--a-form-item-->
-      <a-form-item name="['departure', 'assembly']" label="*Assembly Venue">
+      <a-form-item 
+      name="['departure', 'assembly']" 
+      label="*Assembly Venue"
+      >
         <span v-if="v$.departureAssembly.$error">
           <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
           Please Input Assembly Venue
@@ -187,6 +175,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.returnFromDate.$error">
+          <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
+          Please Input Date & Time
+              </span>
             <q-input filled v-model="returnFromDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -250,13 +242,25 @@
         <a-form-item :wrapper-col="{ span: 7, offset:0 }" name="['departure', 'time']" label="Return Time">
           <a-time-picker v-model:value="returnFromTime" format="HH:mm" />
         </-a-form-item---->
-        <a-form-item name="['returnFrom', 'assembly']" label="*Assembly Venue">
+        <a-form-item 
+        name="['returnFrom', 'assembly']" 
+        label="*Assembly Venue">
+          <span v-if="v$.returnFromAssembly.$error">
+          <exclamation-circle-outlined v-if="v$.returnFromAssembly.$error" />
+          Please Input Assembly Venue
+        </span>
           <a-input
             v-model:value="returnFromAssembly"
             placeholder="Input Assembly Venue"
           />
         </a-form-item>
-        <a-form-item name="['returnFrom', 'dest']" label="*Input Destination">
+        <a-form-item 
+        name="['returnFrom', 'dest']" 
+        label="*Input Destination">
+                  <span v-if="v$.returnFromDest.$error">
+          <exclamation-circle-outlined v-if="v$.returnFromDest.$error" />
+          Please Input Destination
+        </span>
           <a-input
             v-model:value="returnFromDest"
             placeholder="Input Destination"
@@ -344,53 +348,40 @@ export default {
       bookingActivity: { required },
       bookingOptions: { required },
       departureDate: { required },
-      //departureTime: { required },
+      departureTime: {},
       departureAssembly: { required },
       departureDest: { required },
-      returnFromDate: {
-        date: {
-          required: requiredIf(function () {
+      returnFromDate: {required: requiredIf(function () {
             return this.bookingOptions === 2;
           }),
-        },
-      } /*
-      returnFromTime: {
-        date: { required: requiredIf(function () {
-      return ( this.bookingOptions === 2 )
-    })}},*/,
+        }, 
+      returnFromTime: {},
       returnFromAssembly: {
-        date: {
           required: requiredIf(function () {
             return this.bookingOptions === 2;
           }),
         },
         returnFromDest: {
-          date: {
             required: requiredIf(function () {
               return this.bookingOptions === 2;
             }),
           },
-        },
-      },
-    };
-  },
+      };
+    },
   methods: {
     async createBooking() {
       this.v$.$validate()
       if (!this.v$.$error){
-      console.log(this.departureDate);
       const bookingsRef = collection(db, "bookings");
       this.departureDate = new Date(this.departureDate)
       this.departureTime = new Date(this.departureDate).toTimeString().slice(0,5); //08/03/2022
-      //this.departureTime = this.departureTime.format("hh:mm a");
-      if (this.returnFromDate == null) {
+      if (this.bookingOptions == 1) {
         this.returnFromDate = null;
         this.returnFromTime = null;
       } else {
         this.returnFromDate = new Date(this.returnFromDate);
         this.returnFromTime = new Date(this.returnFromDate).toTimeString().slice(0,5);
       }
-      console.log(this.departureDate);
       await addDoc(bookingsRef, this.$data);
       this.$router.push({ path: "/" });
       alert(

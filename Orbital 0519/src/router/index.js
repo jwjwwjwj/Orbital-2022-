@@ -52,7 +52,7 @@ const routes = [
     name: "AddFleet",
     component: AddFleet,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {

@@ -12,6 +12,7 @@
         <a-input
           v-model:value="licencePlate"
           placeholder="Input Licence Plate Here. E.G. SBS123A"
+          pattern="\w{3}\d{3}\w{1}"
         />
       </a-form-item>
       <a-form-item label="Capacity">
@@ -33,6 +34,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+                        <span v-if="v$.insuranceDate.$error">
+          <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
+          Please Input Date
+                      </span>
             <q-input filled v-model="insuranceDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -66,6 +71,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+                        <span v-if="v$.nextInsuranceRenewalDate.$error">
+          <exclamation-circle-outlined v-if="v$.nextInsuranceRenewalDate.$error" />
+          Please Input Date
+                        </span>
             <q-input filled v-model="nextInsuranceRenewalDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -115,6 +124,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+                                    <span v-if="v$.lastSentForServicing.$error">
+          <exclamation-circle-outlined v-if="v$.lastSentForServicing.$error" />
+          Please Input Date
+                        </span>
             <q-input filled v-model="lastSentForServicing">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -148,6 +161,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+                                    <span v-if="v$.nextServicingDate.$error">
+          <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
+          Please Input Date
+                        </span>
             <q-input filled v-model="nextServicingDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -178,6 +195,10 @@
       <h3>Road Tax Details</h3>
       <a-form name="roadTaxAmount" v-bind="layout">
         <a-form-item :name="['roadtax', 'amount']" label="*Road Tax Amount:">
+                  <span v-if="v$.roadTaxAmount.$error">
+        <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error"/>
+        Please Input Road Tax Amount
+        </span>
           <a-input
             v-model:value="roadTaxAmount"
             placeholder="Input Road Tax Amount here."
@@ -193,6 +214,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+                                    <span v-if="v$.lastPaidRoadTaxDate.$error">
+          <exclamation-circle-outlined v-if="v$.lastPaidRoadTaxDate.$error" />
+          Please Input Date
+                        </span>
             <q-input filled v-model="lastPaidRoadTaxDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -226,6 +251,10 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+                                    <span v-if="v$.roadTaxDueDate.$error">
+          <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
+          Please Input Date
+                        </span>
             <q-input filled v-model="roadTaxDueDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -253,7 +282,7 @@
       </div>
     </a-form>
     <br />
-    <a-button @click.prevent="addFleet()" html-type="submit" type="primary"
+    <a-button @click.prevent="addFleet" html-type="submit" type="primary"
       >Submit</a-button
     >
   </div>
@@ -279,11 +308,11 @@ export default {
       id: null,
       capacity: 45,
       insuranceDate: null,
-      insuranceAmount: 0,
+      insuranceAmount: null,
       nextInsuranceRenewalDate: null,
       lastSentForServicing: null,
       nextServicingDate: null,
-      roadTaxAmount: 0,
+      roadTaxAmount: null,
       lastPaidRoadTaxDate: null,
       roadTaxDueDate: null,
     };
@@ -291,6 +320,7 @@ export default {
   validations() {
     return {
       licencePlate: { required },
+      id: {},
       insuranceDate: { required },
       capacity: { numeric, required },
       nextInsuranceRenewalDate: { required },
@@ -304,7 +334,7 @@ export default {
   },
   methods: {
     async addFleet() {
-      this.v$.$validate();
+      this.v$.$validate()
       if (!this.v$.$error) {
         const vehicleRef = collection(db, "vehicles");
         this.insuranceAmount= Number(this.insuranceAmount);
@@ -329,9 +359,6 @@ export default {
       }
     },
   },
-  created() {
-    this.addFleet();
-  },
   setup() {
     const disabledDate = (current) => {
       return current && current > moment().endOf("day");
@@ -349,41 +376,16 @@ export default {
         sm: { span: 16 },
       },
     };
-
     return {
       layout,
       disabledDate,
       disabledDateAfter,
       v$: useVuelidate(),
-      onSubmit() {
-        /*
-        if (accept.value !== true) {
-          $q.notify({
-            color: "red-5",
-            textColor: "white",
-            icon: "warning",
-            message: "You need to accept the license and terms first",
-          });
-        } else {
-          $q.notify({
-            color: "green-4",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Submitted",
-          });
-        }
-      },
-
-      onReset() {
-        lPlate.value = null;
-        cap.value = null;
-        accept.value = false;
-        */
-      },
     };
   },
 };
 </script>
+
 <style scoped>
 .flex-container {
   display: flex;
