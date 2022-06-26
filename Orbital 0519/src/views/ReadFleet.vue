@@ -1,4 +1,4 @@
-<template>
+ <template>
   <main class="read-fleet">
     <h1><strong>Fleet Overview</strong></h1>
     <div class="flex-container">
@@ -10,7 +10,7 @@
         <RoadTax />
       </div>
       <div class="flex-child vehicle-maintenance">
-        <span>This is for vehicle maintenance</span>
+        <VehicleMaintenance />
       </div>
     </div>
     <div class="vehicle-details-container">
