@@ -7,6 +7,7 @@ import Fleet from "../components/Fleet.vue";
 import AddFleet from "../views/AddFleet.vue";
 import ReadFleet from "../views/ReadFleet.vue";
 import UpdateFleet from "../views/UpdateFleet.vue";
+import AddFleet from "../views/AddFleet.vue";
 import { auth } from "../firebase";
 
 const routes = [

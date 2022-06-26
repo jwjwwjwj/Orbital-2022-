@@ -19,6 +19,9 @@
         <router-link class="sub" to="/fleet/read-fleet">Overview</router-link>
       </div>
       <div class="menu-item">
+        <router-link class="sub" to="/fleet/add-fleet">Add Fleet</router-link>
+      </div>
+      <div class="menu-item">
         <router-link class="sub" to="/fleet/update-fleet"
           >Update Fleet</router-link
         >
