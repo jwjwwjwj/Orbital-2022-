@@ -1,4 +1,4 @@
- <template>
+  <template>
   <main class="read-fleet">
     <h1><strong>Fleet Overview</strong></h1>
     <div class="flex-container">
@@ -28,12 +28,14 @@
 import Fleetsize from "../components/FleetSize.vue";
 import RoadTax from "../components/RoadTax.vue";
 import VehicleDetails from "../components/VehicleDetails.vue";
+import VehicleMaintenance from "../components/VehicleMaintenance.vue";
 
 export default {
   components: {
     Fleetsize,
     RoadTax,
     VehicleDetails,
+    VehicleMaintenance,
   },
 };
 </script>
