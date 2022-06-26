@@ -15,9 +15,20 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <router-link class="link" to="/">Home</router-link>
-          <!--router-link class="link" to="/about">About</router-link-->
-          <router-link class="link" to="/online-booking-form" v-if="!$store.state.isManager"
+          <router-link
+            class="link"
+            to="/online-booking-form"
+            v-if="!$store.state.isManager"
             >Booking</router-link
+          >
+          <router-link class="link" to="/history" v-if="!$store.state.isManager"
+            >History
+          </router-link>
+          <router-link
+            class="link"
+            to="/view-booking"
+            v-if="$store.state.isManager"
+            >View Bookings</router-link
           >
           <Fleet
             class="fleet"
@@ -31,7 +42,11 @@
           <span class="welcome-message"
             >Welcome, {{ $store.state.displayName }}
           </span>
-          <router-link class="link" @click="$store.dispatch('logout')" to="/login">
+          <router-link
+            class="link"
+            @click="$store.dispatch('logout')"
+            to="/login"
+          >
             <span class="glyphicon glyphicon-log-out"></span>
             Logout</router-link
           >
@@ -64,11 +79,11 @@ export default {
       }
     });
   },
-  
+
   components: {
     Fleet,
   },
-  
+
   methods: {
     mouseover: function () {
       this.isOpen = true;
@@ -86,6 +101,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+
 #nav a.router-link-exact-active {
   color: white;
 }
@@ -101,14 +117,17 @@ export default {
   color: #2c3e50;
   padding: 0px;
 }
+
 .nav.navbar-nav.navbar-left {
   font-size: 20px;
   color: white;
   padding: 0px 20px 0px 20px;
 }
+
 .navbar {
   padding: 15px 10px 15px 0px;
 }
+
 .link,
 .welcome-message {
   font-size: 20px;
@@ -116,11 +135,13 @@ export default {
   color: white;
   padding: 15px;
 }
+
 .link:hover {
   background-color: black;
   color: white;
   text-decoration: none;
 }
+
 .router-link-active.router-link-exact-active.link {
   color: white;
   background-color: black;
