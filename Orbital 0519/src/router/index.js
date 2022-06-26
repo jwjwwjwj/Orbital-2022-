@@ -4,9 +4,11 @@ import About from "../views/About.vue";
 import Login from "../views/Login.vue";
 import Booking from "../views/Booking.vue";
 import Fleet from "../components/Fleet.vue";
-import AddFleet from "../views/AddFleet.vue";
 import ReadFleet from "../views/ReadFleet.vue";
 import UpdateFleet from "../views/UpdateFleet.vue";
+import AddFleet from "../views/AddFleet.vue";
+import CustomerBooking from "../views/CustomerBooking.vue";
+import CustomerBookingHistory from "../views/CustomerBookingHistory.vue";
 import { auth } from "../firebase";
 
 const routes = [
@@ -40,17 +42,17 @@ const routes = [
     }
   },
   {
-    path: "/fleet",
-    name: "Fleet",
-    component: Fleet,
+    path: "/history",
+    name: "CustomerBookingHistory",
+    component: CustomerBookingHistory,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: "/fleet/add-fleet",
-    name: "AddFleet",
-    component: AddFleet,
+    path: "/fleet",
+    name: "Fleet",
+    component: Fleet,
     meta: {
       requiresAuth: true
     }
@@ -70,6 +72,22 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: "/fleet/add-fleet",
+    name: "AddFleet",
+    component: AddFleet,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/view-booking",
+    name: "CustomerBooking",
+    component: CustomerBooking,
+    meta: {
+      requiresAuth: true
+    }
   }
 ];
 
@@ -79,6 +97,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  console.log(auth.currentUser);
   if (to.path === "/login" && auth.currentUser) {
     next("/");
     return;
