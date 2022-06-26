@@ -78,7 +78,7 @@ const columns = [
     headerStyle: {
       fontSize: "1.2em",
     },
-    format: (val) => moment(new Date(val)).format("DD MMMM YYYY"),
+    format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
   },
 ];
