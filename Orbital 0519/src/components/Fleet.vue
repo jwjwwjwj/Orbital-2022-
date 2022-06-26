@@ -21,11 +21,11 @@
       <div class="menu-item">
         <router-link class="sub" to="/fleet/add-fleet">Add Fleet</router-link>
       </div>
-      <div class="menu-item">
+      <!--div class="menu-item">
         <router-link class="sub" to="/fleet/update-fleet"
           >Update Fleet</router-link
         >
-      </div>
+      </div-->
     </div>
   </transition>
 </template>
