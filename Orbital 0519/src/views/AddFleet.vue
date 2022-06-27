@@ -12,7 +12,6 @@
         <a-input
           v-model:value="licencePlate"
           placeholder="Input Licence Plate Here. E.G. SBS123A"
-          pattern="\w{3}\d{3}\w{1}"
         />
       </a-form-item>
       <a-form-item label="Capacity">
@@ -46,7 +45,8 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="insuranceDate" mask="YYYY-MM-DD">
+                    <q-date v-model="insuranceDate" mask="YYYY-MM-DD"
+                    :options="optionsFn2">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -83,7 +83,8 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="nextInsuranceRenewalDate" mask="YYYY-MM-DD">
+                    <q-date v-model="nextInsuranceRenewalDate" mask="YYYY-MM-DD"
+                    :options="optionsFn">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -136,7 +137,8 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="lastSentForServicing" mask="YYYY-MM-DD">
+                    <q-date v-model="lastSentForServicing" mask="YYYY-MM-DD"
+                    :options="optionsFn2">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -173,7 +175,8 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="nextServicingDate" mask="YYYY-MM-DD">
+                    <q-date v-model="nextServicingDate" mask="YYYY-MM-DD"
+                    :options="optionsFn">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -226,7 +229,8 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="lastPaidRoadTaxDate" mask="YYYY-MM-DD">
+                    <q-date v-model="lastPaidRoadTaxDate" mask="YYYY-MM-DD"
+                    :options="optionsFn2">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -263,7 +267,8 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="roadTaxDueDate" mask="YYYY-MM-DD">
+                    <q-date v-model="roadTaxDueDate" mask="YYYY-MM-DD"
+                    :options="optionsFn">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -296,6 +301,7 @@ import { db } from "../firebase/index.js";
 import { addDoc, collection } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
 import moment from "moment";
+import { date } from 'quasar'
 
 export default {
   name: "AddFleet",
@@ -381,6 +387,12 @@ export default {
       disabledDate,
       disabledDateAfter,
       v$: useVuelidate(),
+        optionsFn(d) {
+        return d >= date.formatDate(Date.now(), 'YYYY/MM/DD')
+        },
+        optionsFn2(d) {
+        return d <= date.formatDate(Date.now(), 'YYYY/MM/DD')
+        }
     };
   },
 };
