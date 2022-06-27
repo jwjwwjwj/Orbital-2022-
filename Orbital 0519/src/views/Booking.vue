@@ -98,7 +98,10 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="departureDate" mask="YYYY-MM-DD HH:mm">
+                    <q-date 
+                    v-model="departureDate" 
+                    mask="YYYY-MM-DD HH:mm"
+                    :options="optionsFn">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -187,7 +190,11 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="returnFromDate" mask="YYYY-MM-DD HH:mm">
+                    <q-date 
+                    v-model="returnFromDate" 
+                    mask="YYYY-MM-DD HH:mm"
+                    :options="optionsFn"
+                    >
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -291,6 +298,7 @@ import { db } from "../firebase/index.js";
 import { addDoc, collection } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
 import { useStore } from "vuex";
+import { date } from 'quasar'
 
 export default {
   components: {
@@ -395,9 +403,6 @@ export default {
   setup() {
     const plainOptions = ["1 - Way", "2 - Way"];
     const options = ref(1);
-    const disabledDate = (current) => {
-      return current && current < moment().endOf("day").add(2, "days");
-    };
     const layout = {
       labelCol: {
         xs: { span: 24 },
@@ -436,13 +441,18 @@ export default {
       },
     });
     return {
+      date: moment(),
+      dDate: moment().add(3,'days'),
       dayjs,
       plainOptions,
-      disabledDate,
       options,
       layout,
       formStates,
       v$: useVuelidate(),
+      optionsFn(d) {
+        let newDate = date.addToDate(new Date(), {days:3})
+        return d >= date.formatDate(newDate, 'YYYY/MM/DD')
+        }
     };
   },
 };
