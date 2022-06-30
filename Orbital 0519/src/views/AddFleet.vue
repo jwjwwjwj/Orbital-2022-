@@ -7,7 +7,7 @@
       <a-form-item :name="['licence', 'plate']" label="*Licence Plate">
         <span v-if="v$.licencePlate.$error">
         <exclamation-circle-outlined v-if="v$.licencePlate.$error"/>
-        Please Input Licence Plate
+        Please Input Valid Licence Plate
         </span>
         <a-input
           v-model:value="licencePlate"
@@ -105,7 +105,7 @@
         <a-form-item :name="['insurance', 'amount']" label="*Insurance Amount:">
           <span v-if="v$.insuranceAmount.$error">
         <exclamation-circle-outlined v-if="v$.insuranceAmount.$error"/>
-        Please Input Insurance Amount
+        Please Input Valid Insurance Amount
         </span>
           <a-input
             v-model:value="insuranceAmount"
@@ -200,7 +200,7 @@
         <a-form-item :name="['roadtax', 'amount']" label="*Road Tax Amount:">
                   <span v-if="v$.roadTaxAmount.$error">
         <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error"/>
-        Please Input Road Tax Amount
+        Please Input Valid Road Tax Amount
         </span>
           <a-input
             v-model:value="roadTaxAmount"
@@ -295,7 +295,13 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required, numeric } from "@vuelidate/validators";
+import {
+  required,
+  maxValue,
+  numeric,
+  minLength,
+  maxLength /*minValue*/,
+} from "@vuelidate/validators";
 //import { ref } from "vue";
 import { db } from "../firebase/index.js";
 import { addDoc, collection } from "firebase/firestore";
@@ -325,15 +331,15 @@ export default {
   },
   validations() {
     return {
-      licencePlate: { required },
+      licencePlate: { required, maxLength: maxLength(8), minLength: minLength(3) },
       id: {},
       insuranceDate: { required },
       capacity: { numeric, required },
       nextInsuranceRenewalDate: { required },
-      insuranceAmount: { numeric, required },
+      insuranceAmount: { numeric, required, maxValue: maxValue(2000) },
       lastSentForServicing: { required },
       nextServicingDate: { required },
-      roadTaxAmount: { numeric, required },
+      roadTaxAmount: { numeric, required, maxValue: maxValue(2000) },
       lastPaidRoadTaxDate: { required },
       roadTaxDueDate: { required },
     };
@@ -388,10 +394,11 @@ export default {
       disabledDateAfter,
       v$: useVuelidate(),
         optionsFn(d) {
-        return d >= date.formatDate(Date.now(), 'YYYY/MM/DD')
-        },
+          let newDate = date.formatDate(date.addToDate(Date.now(), {months:24}), 'YYYY/MM/DD')
+        return d >= date.formatDate(Date.now(), 'YYYY/MM/DD') && d <=newDate},
         optionsFn2(d) {
-        return d <= date.formatDate(Date.now(), 'YYYY/MM/DD')
+          let oldDate = date.formatDate(date.subtractFromDate(Date.now(), {months:24}), 'YYYY/MM/DD')
+        return d >= oldDate && d <= date.formatDate(Date.now(), 'YYYY/MM/DD')
         }
     };
   },
