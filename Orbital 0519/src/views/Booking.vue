@@ -236,19 +236,6 @@
           </div>
         </div>
       </div>
-        <!--a-form-item
-          :wrapper-col="{ span: 5, offset: 1 }"
-          name="['departure', 'date']"
-          label="Return Date"
-        >
-          <a-date-picker
-            v-model:value="returnFromDate"
-            :disabled-date="disabledDate"
-          />
-        </!--a-form-item>
-        <a-form-item :wrapper-col="{ span: 7, offset:0 }" name="['departure', 'time']" label="Return Time">
-          <a-time-picker v-model:value="returnFromTime" format="HH:mm" />
-        </-a-form-item---->
         <a-form-item 
         name="['returnFrom', 'assembly']" 
         label="*Assembly Venue">
@@ -450,8 +437,9 @@ export default {
       formStates,
       v$: useVuelidate(),
       optionsFn(d) {
-        let newDate = date.addToDate(new Date(), {days:3})
-        return d >= date.formatDate(newDate, 'YYYY/MM/DD')
+        let newDate = date.addToDate(new Date(), {days:3});
+        let maxDate = date.addToDate(new Date(), {months:3});
+        return d >= date.formatDate(newDate, 'YYYY/MM/DD') && d <= date.formatDate(maxDate, 'YYYY/MM/DD')
         }
     };
   },
