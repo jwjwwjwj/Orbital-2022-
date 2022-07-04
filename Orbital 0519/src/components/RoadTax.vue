@@ -35,7 +35,8 @@ export default {
     async totalRoadTaxThisMonth() {
       const q = query(
         collection(db, "vehicles"),
-        where("roadTaxDueDate", "<=", dayjs().endOf("month").$d)
+        where("roadTaxDueDate", "<=", dayjs().endOf("month").$d),
+        where("roadTaxDueDate", ">=", dayjs().startOf("month").$d)
       );
       const querySnap = await getDocs(q);
       const amount = [];
