@@ -35,7 +35,8 @@ export default {
     async totalVehiclesNeedingMaintenanceThisMonth() {
       const q = query(
         collection(db, "vehicles"),
-        where("nextServicingDate", "<=", dayjs().endOf("month").$d)
+        where("nextServicingDate", "<=", dayjs().endOf("month").$d),
+        where("nextServicingDate", ">=", dayjs().startOf("month").$d)
       );
       const querySnap = await getDocs(q);
       const num = [];
