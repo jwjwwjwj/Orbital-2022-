@@ -61,10 +61,10 @@ export default createStore({
       } catch (error) {
         switch (error.code) {
           case "auth/user-not-found":
-            alert("User not found");
+            alert("Wrong Account details");
             break;
           case "auth/wrong-password":
-            alert("Wrong password");
+            alert("Wrong Account details");
             break;
           default:
             alert("Something went wrong");
