@@ -105,7 +105,9 @@
       <h3>Departure Details</h3>
       <div class="flex-container">
         <div class="flex-child fleet-size">
-          <div class="departure-label">*Departure Date & Time:</div>
+          <div class="departure-label">
+            <strong>*Departure Date & Time:</strong>
+          </div>
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 300px">
@@ -199,7 +201,9 @@
         <h3>Return Details</h3>
         <div class="flex-container">
           <div class="flex-child fleet-size">
-            <div class="departure-label">*Return Date & Time:</div>
+            <div class="departure-label">
+              <strong>*Return Date & Time:</strong>
+            </div>
           </div>
           <div class="flex-child road-tax">
             <div id="datePicker" class="q-pa-md" style="max-width: 300px">
