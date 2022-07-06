@@ -1,58 +1,6 @@
 <template>
   <div class="app">
-    <nav class="navbar navbar-inverse" v-if="$store.state.user">
-      <span class="nav navbar-nav navbar-left">Transporfficient</span>
-      <button
-        type="button"
-        class="navbar-toggle"
-        data-toggle="collapse"
-        data-target="#myNavbar"
-      >
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <router-link class="link" to="/">Home</router-link>
-          <router-link
-            class="link"
-            to="/online-booking-form"
-            v-if="!$store.state.isManager"
-            >Booking</router-link
-          >
-          <router-link class="link" to="/history" v-if="!$store.state.isManager"
-            >History
-          </router-link>
-          <router-link
-            class="link"
-            to="/view-booking"
-            v-if="$store.state.isManager"
-            >View Bookings</router-link
-          >
-          <Fleet
-            class="fleet"
-            title="Fleet"
-            v-if="$store.state.isManager"
-            v-on:mouseover="mouseover"
-            v-on:mouseleave="mouseleave"
-          />
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <span class="welcome-message"
-            >Welcome, {{ $store.state.displayName }}
-          </span>
-          <router-link
-            class="link"
-            @click="$store.dispatch('logout')"
-            to="/login"
-          >
-            <span class="glyphicon glyphicon-log-out"></span>
-            Logout</router-link
-          >
-        </ul>
-      </div>
-    </nav>
+    <Navigation />
     <router-view />
   </div>
 </template>
@@ -61,7 +9,7 @@
 import { useStore } from "vuex";
 import { auth } from "./firebase/index.js";
 import { onAuthStateChanged } from "firebase/auth";
-import Fleet from "./components/Fleet.vue";
+import Navigation from "./components/Navigation.vue";
 
 export default {
   name: "app",
@@ -81,7 +29,8 @@ export default {
   },
 
   components: {
-    Fleet,
+    //Fleet,
+    Navigation,
   },
 
   methods: {
@@ -108,7 +57,7 @@ export default {
 </style>
 
 
-<style>
+<!--style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -116,6 +65,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   padding: 0px;
+  min-height: 100vh;
 }
 
 .nav.navbar-nav.navbar-left {
@@ -162,4 +112,4 @@ export default {
 .logout-button {
   color: white;
 }
-</style>
+</style-->
