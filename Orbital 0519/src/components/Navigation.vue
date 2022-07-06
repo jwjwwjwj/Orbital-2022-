@@ -24,12 +24,7 @@
           >
         </li>
         <li v-if="$store.state.isManager">
-          <Fleet
-            class="link"
-            title="Fleet"
-            v-on:mouseover="mouseover"
-            v-on:mouseleave="mouseleave"
-          />
+          <FleetPath />
         </li>
       </ul>
       <ul v-show="!mobile" class="navigation">
@@ -76,13 +71,8 @@
               >View Bookings</router-link
             >
           </li>
-          <li v-if="$store.state.isManager" class="link">
-            <Fleet
-              class="link"
-              title="Fleet"
-              v-on:mouseover="mouseover"
-              v-on:mouseleave="mouseleave"
-            />
+          <li v-if="$store.state.isManager">
+            <FleetPath />
           </li>
           <li>
             <span class="welcome-message"
@@ -107,10 +97,10 @@
 import { useStore } from "vuex";
 import { auth } from "../firebase/index.js";
 import { onAuthStateChanged } from "firebase/auth";
-import Fleet from "./Fleet.vue";
+import FleetPath from "./Fleet.vue";
 
 export default {
-  name: "navigation",
+  name: "navigationPath",
   data() {
     return {
       displayName: auth.currentUser !== null ? auth.currentUser.email : "",
@@ -133,7 +123,7 @@ export default {
     });
   },
   components: {
-    Fleet,
+    FleetPath,
   },
   methods: {
     mouseover: function () {
@@ -186,7 +176,7 @@ header {
     ul,
     .link {
       font-weight: 500;
-      color: white;
+      color: rgb(155, 153, 153);
       list-style: none;
       text-decoration: none;
     }
@@ -195,10 +185,11 @@ header {
       text-transform: uppercase;
       padding: 14px 14px 0px 0px;
       margin-left: 14px;
+      color: lightgrey;
 
       .router-link-active.router-link-exact-active.link {
         color: white;
-        background-color: black;
+        border-color: white;
         text-decoration: none;
       }
     }
@@ -220,6 +211,7 @@ header {
       align-items: center;
 
       .brand-name {
+        text-align: left;
         text-transform: none;
         font-size: 24px;
         flex: 1;
@@ -278,7 +270,7 @@ header {
         }
 
         .link {
-          color: white;
+          color: rgb(155, 153, 153);
           font-size: 14px;
           transition: 0.5s ease all;
           padding-bottom: 4px;
