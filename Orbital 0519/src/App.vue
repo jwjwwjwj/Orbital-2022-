@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Navigation />
+    <navigation-path />
     <router-view />
   </div>
 </template>
@@ -9,7 +9,7 @@
 import { useStore } from "vuex";
 import { auth } from "./firebase/index.js";
 import { onAuthStateChanged } from "firebase/auth";
-import Navigation from "./components/Navigation.vue";
+import navigationPath from "./components/Navigation.vue";
 
 export default {
   name: "app",
@@ -30,7 +30,7 @@ export default {
 
   components: {
     //Fleet,
-    Navigation,
+    navigationPath,
   },
 
   methods: {
