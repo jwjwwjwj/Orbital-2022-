@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
             <span v-if="v$.departureDate.$error">
               <exclamation-circle-outlined v-if="v$.departureDate.$error" />
               Please Input Date & Time
@@ -206,7 +206,7 @@
             </div>
           </div>
           <div class="flex-child road-tax">
-            <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <div id="datePicker" class="q-pa-md" style="max-width: 330px">
               <span v-if="v$.returnFromDate.$error">
                 <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
                 Please Input Date & Time

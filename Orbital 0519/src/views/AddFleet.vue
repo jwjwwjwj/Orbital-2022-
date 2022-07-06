@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
                         <span v-if="v$.insuranceDate.$error">
           <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
           Please Input Date
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
                         <span v-if="v$.nextInsuranceRenewalDate.$error">
           <exclamation-circle-outlined v-if="v$.nextInsuranceRenewalDate.$error" />
           Please Input Date
@@ -124,7 +124,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
                                     <span v-if="v$.lastSentForServicing.$error">
           <exclamation-circle-outlined v-if="v$.lastSentForServicing.$error" />
           Please Input Date
@@ -162,7 +162,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
                                     <span v-if="v$.nextServicingDate.$error">
           <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
           Please Input Date
@@ -216,7 +216,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
                                     <span v-if="v$.lastPaidRoadTaxDate.$error">
           <exclamation-circle-outlined v-if="v$.lastPaidRoadTaxDate.$error" />
           Please Input Date
@@ -254,7 +254,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
                                     <span v-if="v$.roadTaxDueDate.$error">
           <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
           Please Input Date

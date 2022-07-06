@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Login from "../views/Login.vue";
-import Booking from "../views/Booking.vue";
+import Booking from "../views/BookingForm.vue";
 import Fleet from "../components/Fleet.vue";
 import ReadFleet from "../views/ReadFleet.vue";
 import UpdateFleet from "../views/UpdateFleet.vue";
