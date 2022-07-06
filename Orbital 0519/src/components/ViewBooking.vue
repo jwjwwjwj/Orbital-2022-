@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <!--div class="q-pa-md">
     <q-table
       :dense="$q.screen.lt.md"
       :rows="bookings"
@@ -12,6 +12,135 @@
     >
       <template v-slot:loading>
         <q-inner-loading showing color="primary" />
+      </template>
+    </q-table>
+  </div-->
+
+  <div class="q-pa-md">
+    <q-table
+      :rows="bookings"
+      :columns="columns"
+      row-key="id"
+      :loading="loading"
+      table-header-class="text-bold"
+    >
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th auto-width />
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
+
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td auto-width>
+            <q-btn
+              size="sm"
+              color="black"
+              round
+              glossy
+              dense
+              @click="props.expand = !props.expand"
+              :icon="props.expand ? 'remove' : 'add'"
+            />
+          </q-td>
+          <!--{{ props }}-->
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">
+              <strong
+                ><u
+                  ><span style="font-size: 22px">Details of Booking</span></u
+                ></strong
+              >
+              <ul>
+                <br />
+                <ol>
+                  <strong>Booking Option:</strong>
+                  {{
+                    props.row.bookingOptions
+                  }}-way
+                </ol>
+                <br />
+                <hr />
+                <strong
+                  ><u
+                    ><span style="font-size: 18px">Departure Details</span></u
+                  ></strong
+                >
+                <ol>
+                  <strong>Deaprture Date:</strong>
+                  {{
+                    moment(props.row.departureDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+                <ol>
+                  <strong>Deaprture Time:</strong>
+                  {{
+                    props.row.departureTime
+                  }}
+                </ol>
+                <ol>
+                  <strong>From:</strong>
+                  {{
+                    props.row.departureAssembly
+                  }}
+                </ol>
+                <ol>
+                  <strong>To:</strong>
+                  {{
+                    props.row.departureDest
+                  }}
+                </ol>
+                <br />
+                <hr />
+                <strong
+                  ><u
+                    ><span
+                      v-if="props.row.returnFromDate"
+                      style="font-size: 18px"
+                      >Return Details</span
+                    ></u
+                  ></strong
+                >
+                <ol v-if="props.row.returnFromDate">
+                  <strong>Return Date:</strong>
+                  {{
+                    moment(props.row.returnFromDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+                <ol v-if="props.row.returnFromDate">
+                  <strong>Return Time:</strong>
+                  {{
+                    props.row.returnFromTime
+                  }}
+                </ol>
+                <ol v-if="props.row.returnFromDate">
+                  <strong>From:</strong>
+                  {{
+                    props.row.returnFromAssembly
+                  }}
+                </ol>
+                <ol v-if="props.row.returnFromDate">
+                  <strong>To:</strong>
+                  {{
+                    props.row.returnFromDest
+                  }}
+                </ol>
+              </ul>
+            </div>
+          </q-td>
+        </q-tr>
       </template>
     </q-table>
   </div>
@@ -87,6 +216,7 @@ const columns = [
     field: "departureDate",
     headerStyle: {
       fontSize: "1.2em",
+      //backgroundColor: "'#D3D3D3",
     },
     format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
