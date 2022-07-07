@@ -69,6 +69,10 @@
         name="['booking', 'numOf45']"
         label="45 Seater"
       >
+            <span v-if="v$.bookingNumOf45.$error">
+            <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
+            Total Buses has to be non zero and less than twenty
+          </span>
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf45" :min="0" :max="99" />
         </div>
@@ -209,7 +213,7 @@
             <div id="datePicker" class="q-pa-md" style="max-width: 330px">
               <span v-if="v$.returnFromDate.$error">
                 <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-                Please Input Date & Time
+                Please Input Valid Date & Time
               </span>
               <q-input filled v-model="returnFromDate">
                 <template v-slot:prepend>
@@ -371,7 +375,9 @@ export default {
         maxLength: maxLength(8),
       },
       staffCCA: { required },
-      bookingNumOf45: { required },
+      bookingNumOf45: { required,
+      minValue: value => +value + this.bookingNumOf40 + this.bookingNumOf20 + this.bookingNumOf19 > 0 && +value + this.bookingNumOf40 + this.bookingNumOf20 + this.bookingNumOf19 <20
+      },
       bookingNumOf40: { required },
       bookingNumOf20: { required },
       bookingNumOf19: { required },
@@ -385,6 +391,7 @@ export default {
         required: requiredIf(function () {
           return this.bookingOptions === 2;
         }),
+        minValue: function(value) {return (this.bookingOptions === 1 || value > this.departureDate);},
       },
       returnFromTime: {},
       returnFromAssembly: {
