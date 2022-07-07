@@ -1,17 +1,215 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" :key="componentKey">
     <q-table
-      :dense="$q.screen.lt.md"
       :rows="vehicles"
       :columns="columns"
-      color="primary"
-      row-key="name"
+      row-key="id"
       :loading="loading"
-      :table-header-style="{ backgroundColor: '#D3D3D3' }"
+      :filter="filter"
       table-header-class="text-bold"
     >
-      <template v-slot:loading>
-        <q-inner-loading showing color="primary" />
+      <template v-slot:top-right>
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th auto-width style="font-size: 17px">Expand</q-th>
+          <q-th auto-width style="font-size: 17px">Delete</q-th>
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
+
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td auto-width>
+            <q-btn
+              size="sm"
+              color="black"
+              round
+              glossy
+              dense
+              @click="props.expand = !props.expand"
+              :icon="props.expand ? 'remove' : 'add'"
+            />
+          </q-td>
+          <q-td auto-width>
+            <q-btn
+              dense
+              round
+              glossy
+              color="black"
+              icon="fa fa-trash-alt"
+              class="q-ml-md"
+              size="10px"
+              @click="toggleConfirmModal(props.row.id, props.row.licencePlate)"
+            >
+              <!--Popup modal to confim deletion-->
+              <q-dialog v-model="confirm" persistent>
+                <q-card>
+                  <div class="warning-header" style="text-align: center">
+                    <span style="font-size: 25px"
+                      ><strong>WARNING!</strong></span
+                    >
+                  </div>
+                  <q-card-section class="row items-center">
+                    <i class="far fa-exclamation-triangle"></i>
+                    <span class="q-ml-sm"
+                      >Are you sure you want to delete vehicle
+                      {{ selectedLicencePlate }}?</span
+                    >
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="black"
+                      @click="toggleConfirmModal"
+                    />
+                    <q-btn
+                      flat
+                      label="Confirm"
+                      color="red"
+                      @click="removeVehicle(selectedId)"
+                    />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+              <!--End of popup modal to confim deletion-->
+            </q-btn>
+          </q-td>
+          <!--{{ props }}-->
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">
+              <strong
+                ><u
+                  ><span style="font-size: 22px"
+                    >Details of {{ props.row.licencePlate }}</span
+                  ></u
+                ></strong
+              >
+              <ul>
+                <br />
+                <strong
+                  ><u
+                    ><span style="font-size: 18px">Insurance Details</span></u
+                  ></strong
+                >
+                <ol>
+                  <strong>Insurance Amount:</strong>
+                  {{
+                    new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(props.row.insuranceAmount)
+                  }}
+                </ol>
+                <ol v-if="props.row.insuranceDate">
+                  <strong>Last Paid Date:</strong>
+                  {{
+                    moment(props.row.insuranceDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+                <ol v-else>
+                  <strong>Last Paid Date:</strong>
+                  -
+                </ol>
+                <ol>
+                  <strong>Renewal Date:</strong>
+                  {{
+                    moment(props.row.nextInsuranceRenewalDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+                <br />
+                <hr />
+                <strong
+                  ><u
+                    ><span style="font-size: 18px">Road Tax Details</span></u
+                  ></strong
+                >
+                <ol>
+                  <strong>Road Tax Amount:</strong>
+                  {{
+                    new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(props.row.roadTaxAmount)
+                  }}
+                </ol>
+                <ol v-if="props.row.lastPaidRoadTaxDate">
+                  <strong>Last Paid Date:</strong>
+                  {{
+                    moment(props.row.lastPaidRoadTaxDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+                <ol v-else>
+                  <strong>Last Paid Date:</strong>
+                  -
+                </ol>
+                <ol>
+                  <strong>Payment Date:</strong>
+                  {{
+                    moment(props.row.roadTaxDueDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+                <br />
+                <hr />
+                <strong
+                  ><u
+                    ><span style="font-size: 18px"
+                      >Vehicle Maintenance Details</span
+                    ></u
+                  ></strong
+                >
+                <ol v-if="props.row.lastSentForServicingDate">
+                  <strong>Last Servicing Date:</strong>
+                  {{
+                    moment(props.row.lastSentForServicingDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+                <ol v-else>
+                  <strong>Last Servicing Date:</strong>
+                  -
+                </ol>
+                <ol>
+                  <strong>Next Servicing Date:</strong>
+                  {{
+                    moment(props.row.nextServicingDate.toDate()).format(
+                      "DD MMMM YYYY"
+                    )
+                  }}
+                </ol>
+              </ul>
+            </div>
+          </q-td>
+        </q-tr>
       </template>
     </q-table>
   </div>
@@ -20,8 +218,9 @@
 <script>
 import { ref } from "vue";
 import { db } from "../firebase/index.js";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import moment from "moment";
+import dayjs from "dayjs";
 
 const columns = [
   {
@@ -76,6 +275,11 @@ const columns = [
     },
     format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
+    classes: (row) =>
+      row.roadTaxDueDate <= dayjs().endOf("month").$d &&
+      row.roadTaxDueDate >= dayjs().startOf("month").$d
+        ? "bg-red text-white"
+        : "",
   },
 ];
 
@@ -86,6 +290,10 @@ export default {
     return {
       vehicles: [],
       selectedDoc: null,
+      componentKey: 0,
+      confirm: false,
+      selectedLicencePlate: null,
+      selectedId: null,
     };
   },
 
@@ -99,6 +307,29 @@ export default {
         vehicles.push(vehicleData);
       });
       this.vehicles = vehicles;
+    },
+
+    async removeVehicle(uniqueId) {
+      await deleteDoc(doc(db, "vehicles", uniqueId));
+      alert("Vehicle has been successfully deleted.");
+      this.componentKey += 1;
+      this.$router.push("/");
+    },
+
+    toggleConfirmModal(vehicleId, lPlate) {
+      this.confirm = !this.confirm;
+
+      if (this.selectedId) {
+        this.selectedId = null;
+      } else {
+        this.selectedId = vehicleId;
+      }
+
+      if (this.selectedLicencePlate) {
+        this.selectedLicencePlate = null;
+      } else {
+        this.selectedLicencePlate = lPlate;
+      }
     },
 
     makeInsurancePayment: () => {
@@ -127,6 +358,7 @@ export default {
 
   setup() {
     return {
+      filter: ref(""),
       loading: ref(false),
       columns,
     };
