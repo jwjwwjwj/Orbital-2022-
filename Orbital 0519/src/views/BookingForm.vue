@@ -6,38 +6,35 @@
     <a-form name="booking" v-bind="layout">
       <a-form-item :name="['staff', 'name']" label="*Name">
         <div class="form-input">
-          <a-input v-model:value="staffName" placeholder="Input Name Here" />
-          &nbsp;
           <span v-if="v$.staffName.$error">
             <exclamation-circle-outlined v-if="v$.staffName.$error" />
             Please Input Staff Name
           </span>
+          <a-input v-model:value="staffName" placeholder="Input Name Here" />
         </div>
       </a-form-item>
       <a-form-item :name="['staff', 'number']" label="*Staff Number">
         <div class="form-input">
-          <a-input
-            v-model:value="staffNumber"
-            placeholder="Input Number Here"
-          />
-          &nbsp;
           <span v-if="v$.staffNumber.$error">
             <exclamation-circle-outlined v-if="v$.staffNumber.$error" />
             Please Input Valid Phone Number
           </span>
+          <a-input
+            v-model:value="staffNumber"
+            placeholder="Input Number Here"
+          />
         </div>
       </a-form-item>
       <a-form-item :name="['staff', 'cca']" label="*CCA/Department">
         <div class="form-input">
-          <a-input
-            v-model:value="staffCCA"
-            placeholder="Input CCA/Department Here"
-          />
-          &nbsp;
           <span v-if="v$.staffCCA.$error">
             <exclamation-circle-outlined v-if="v$.staffCCA.$error" />
             Please Input CCA
           </span>
+          <a-input
+            v-model:value="staffCCA"
+            placeholder="Input CCA/Department Here"
+          />
         </div>
       </a-form-item>
       <br />
@@ -45,15 +42,14 @@
       <h3>Booking Details</h3>
       <a-form-item :name="['booking', 'activity']" label="*Activity">
         <div class="form-input">
-          <a-input
-            v-model:value="bookingActivity"
-            placeholder="Input Activity Description Here"
-          />
-          &nbsp;
           <span v-if="v$.bookingActivity.$error">
             <exclamation-circle-outlined v-if="v$.bookingActivity.$error" />
             Please Input Activity Description
           </span>
+          <a-input
+            v-model:value="bookingActivity"
+            placeholder="Input Activity Description Here"
+          />
         </div>
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 5, offset: 0 }" label="*1-Way / 2-Way">
@@ -69,10 +65,10 @@
         name="['booking', 'numOf45']"
         label="45 Seater"
       >
-            <span v-if="v$.bookingNumOf45.$error">
-            <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
-            Total Buses has to be non zero and less than twenty
-          </span>
+        <span v-if="v$.bookingNumOf45.$error">
+          <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
+          Total Buses has to be non zero and less than twenty
+        </span>
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf45" :min="0" :max="99" />
         </div>
@@ -175,28 +171,26 @@
       </div>
       <a-form-item name="['departure', 'assembly']" label="*Assembly Venue">
         <div class="form-input">
-          <a-input
-            v-model:value="departureAssembly"
-            placeholder="Input Assembly Venue"
-          />
-          &nbsp;
           <span v-if="v$.departureAssembly.$error">
             <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
             Please Input Assembly Venue
           </span>
+          <a-input
+            v-model:value="departureAssembly"
+            placeholder="Input Assembly Venue"
+          />
         </div>
       </a-form-item>
       <a-form-item name="['departure', 'dest']" label="*Input Destination">
         <div class="form-input">
-          <a-input
-            v-model:value="departureDest"
-            placeholder="Input Destination"
-          />
-          &nbsp;
           <span v-if="v$.departureDest.$error">
             <exclamation-circle-outlined v-if="v$.departureDest.$error" />
             Please Input Destination
           </span>
+          <a-input
+            v-model:value="departureDest"
+            placeholder="Input Destination"
+          />
         </div>
       </a-form-item>
       <div v-if="bookingOptions === 2">
@@ -213,7 +207,7 @@
             <div id="datePicker" class="q-pa-md" style="max-width: 330px">
               <span v-if="v$.returnFromDate.$error">
                 <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-                Please Input Valid Date & Time
+                Please Input Date & Time
               </span>
               <q-input filled v-model="returnFromDate">
                 <template v-slot:prepend>
@@ -271,30 +265,28 @@
         </div>
         <a-form-item name="['returnFrom', 'assembly']" label="*Assembly Venue">
           <div class="form-input">
-            <a-input
-              v-model:value="returnFromAssembly"
-              placeholder="Input Assembly Venue"
-            />
-            &nbsp;
             <span v-if="v$.returnFromAssembly.$error">
               <exclamation-circle-outlined
                 v-if="v$.returnFromAssembly.$error"
               />
               Please Input Assembly Venue
             </span>
+            <a-input
+              v-model:value="returnFromAssembly"
+              placeholder="Input Assembly Venue"
+            />
           </div>
         </a-form-item>
         <a-form-item name="['returnFrom', 'dest']" label="*Input Destination">
           <div class="form-input">
-            <a-input
-              v-model:value="returnFromDest"
-              placeholder="Input Destination"
-            />
-            &nbsp;
             <span v-if="v$.returnFromDest.$error">
               <exclamation-circle-outlined v-if="v$.returnFromDest.$error" />
               Please Input Destination
             </span>
+            <a-input
+              v-model:value="returnFromDest"
+              placeholder="Input Destination"
+            />
           </div>
         </a-form-item>
       </div>
@@ -375,8 +367,19 @@ export default {
         maxLength: maxLength(8),
       },
       staffCCA: { required },
-      bookingNumOf45: { required,
-      minValue: value => +value + this.bookingNumOf40 + this.bookingNumOf20 + this.bookingNumOf19 > 0 && +value + this.bookingNumOf40 + this.bookingNumOf20 + this.bookingNumOf19 <20
+      bookingNumOf45: {
+        required,
+        minValue: (value) =>
+          +value +
+            this.bookingNumOf40 +
+            this.bookingNumOf20 +
+            this.bookingNumOf19 >
+            0 &&
+          +value +
+            this.bookingNumOf40 +
+            this.bookingNumOf20 +
+            this.bookingNumOf19 <
+            20,
       },
       bookingNumOf40: { required },
       bookingNumOf20: { required },
@@ -391,7 +394,9 @@ export default {
         required: requiredIf(function () {
           return this.bookingOptions === 2;
         }),
-        minValue: function(value) {return (this.bookingOptions === 1 || value > this.departureDate);},
+        minValue: function (value) {
+          return this.bookingOptions === 1 || value > this.departureDate;
+        },
       },
       returnFromTime: {},
       returnFromAssembly: {
