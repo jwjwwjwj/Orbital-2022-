@@ -6,7 +6,21 @@
       row-key="id"
       :loading="loading"
       table-header-class="text-bold"
+      :filter="filter"
     >
+      <template v-slot:top-right>
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
       <template v-slot:header="props">
         <q-tr :props="props">
           <q-th auto-width style="font-size: 17px">Expand</q-th>
@@ -343,6 +357,7 @@ export default {
 
   setup() {
     return {
+      filter: ref(""),
       loading: ref(false),
       columns,
     };
