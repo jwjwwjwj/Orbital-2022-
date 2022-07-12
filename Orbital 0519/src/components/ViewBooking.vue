@@ -9,7 +9,7 @@
       table-header-class="text-bold"
     >
       <template v-slot:top-right>
-        <div style="padding-bottom: 20px">
+        <div style="margin-bottom: 20px">
           <q-input
             borderless
             dense
