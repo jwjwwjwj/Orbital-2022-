@@ -5,10 +5,18 @@
       :columns="columns"
       row-key="id"
       :loading="loading"
-      table-header-class="text-bold"
       :filter="filter"
+      table-header-class="text-bold"
     >
-      <template v-slot:top-right>
+      <template v-slot:top>
+        <q-btn
+          color="black"
+          glossy
+          :disable="loading"
+          label="Add Vehicle"
+          @click="addVehicle"
+        />
+        <q-space />
         <div style="margin-bottom: 20px">
           <q-input
             borderless
@@ -25,8 +33,9 @@
       </template>
       <template v-slot:header="props">
         <q-tr :props="props">
-          <q-th auto-width style="font-size: 17px">Expand</q-th>
+          <q-th auto-width style="font-size: 17px">Edit</q-th>
           <q-th auto-width style="font-size: 17px">Delete</q-th>
+          <q-th auto-width style="font-size: 17px">Expand</q-th>
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
           </q-th>
@@ -36,17 +45,84 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td auto-width>
+            <!--Edit button-->
             <q-btn
-              size="sm"
+              size="10px"
               color="black"
+              icon="fa fa-pen"
               round
               glossy
               dense
-              @click="props.expand = !props.expand"
-              :icon="props.expand ? 'remove' : 'add'"
-            />
+              class="q-ml-md"
+              @click="
+                toggleEditVehicleModal(
+                  props.row.id,
+                  props.row.licencePlate,
+                  props.row.capacity,
+                  props.row.insuranceAmount,
+                  props.row.insuranceDate,
+                  props.row.nextInsuranceRenewalDate,
+                  props.row.lastSentForServicing,
+                  props.row.nextServicingDate,
+                  props.row.roadTaxAmount,
+                  props.row.lastPaidRoadTaxDate,
+                  props.row.roadTaxDueDate
+                )
+              "
+            >
+              <!--Popup modal to edit-->
+              <q-dialog v-model="toggleEditVehicleConfirm" persistent>
+                <q-card>
+                  <div class="warning-header" style="text-align: center">
+                    <span style="font-size: 25px"
+                      ><strong>Editing {{ selectedLicencePlate }}</strong></span
+                    >
+                  </div>
+                  <q-card-section class="row items-center">
+                    <span class="q-ml-sm">
+                      <UpdateFleet
+                        :selectedLicencePlate="selectedLicencePlate"
+                        :selectedId="selectedId"
+                        :selectedCapacity="selectedCapacity"
+                        :selectedInsuranceAmount="selectedInsuranceAmount"
+                        :selectedInsuranceDate="selectedInsuranceDate"
+                        :selectedNextInsuranceRenewalDate="
+                          selectedNextInsuranceRenewalDate
+                        "
+                        :selectedLastSentForServicing="
+                          selectedLastSentForServicing
+                        "
+                        :selectedNextServicingDate="selectedNextServicingDate"
+                        :selectedRoadTaxAmount="selectedRoadTaxAmount"
+                        :selectedLastPaidRoadTaxDate="
+                          selectedLastPaidRoadTaxDate
+                        "
+                        :selectedRoadTaxDueDate="selectedRoadTaxDueDate"
+                      />
+                    </span>
+                  </q-card-section>
+
+                  <q-card-actions align="right" style="margin-right: 18px">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="black"
+                      @click="toggleEditVehicleModal"
+                    />
+                    <!--q-btn
+                      flat
+                      label="Confirm"
+                      color="red"
+                      @click="removeVehicle(selectedId)"
+                    /-->
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+              <!--End of popup modal to edit-->
+            </q-btn>
           </q-td>
           <q-td auto-width>
+            <!--Delete button-->
             <q-btn
               dense
               round
@@ -58,7 +134,7 @@
               @click="toggleConfirmModal(props.row.id, props.row.licencePlate)"
             >
               <!--Popup modal to confim deletion-->
-              <q-dialog v-model="confirm" persistent>
+              <q-dialog v-model="toggleDeleteVehicleConfirm" persistent>
                 <q-card>
                   <div class="warning-header" style="text-align: center">
                     <span style="font-size: 25px"
@@ -92,7 +168,19 @@
               <!--End of popup modal to confim deletion-->
             </q-btn>
           </q-td>
-          <!--{{ props }}-->
+          <q-td auto-width>
+            <!--Expand button-->
+            <q-btn
+              size="sm"
+              color="black"
+              round
+              glossy
+              dense
+              @click="props.expand = !props.expand"
+              :icon="props.expand ? 'remove' : 'add'"
+            />
+          </q-td>
+          <!--Details of selected vehicle (Expansion)-->
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.value }}
           </q-td>
@@ -188,10 +276,10 @@
                     ></u
                   ></strong
                 >
-                <ol v-if="props.row.lastSentForServicingDate">
+                <ol v-if="props.row.lastSentForServicing">
                   <strong>Last Servicing Date:</strong>
                   {{
-                    moment(props.row.lastSentForServicingDate.toDate()).format(
+                    moment(props.row.lastSentForServicing.toDate()).format(
                       "DD MMMM YYYY"
                     )
                   }}
@@ -220,9 +308,16 @@
 <script>
 import { ref } from "vue";
 import { db } from "../firebase/index.js";
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import moment from "moment";
 import dayjs from "dayjs";
+import UpdateFleet from "../components/UpdateFleet.vue";
 
 const columns = [
   {
@@ -278,7 +373,8 @@ const columns = [
     format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
     classes: (row) =>
-      ((row.roadTaxDueDate).toDate()) <= dayjs().endOf("month").$d //&&((row.roadTaxDueDate).toDate()) >= dayjs().startOf("month").$d
+      row.roadTaxDueDate <= dayjs().endOf("month").$d &&
+      row.roadTaxDueDate >= dayjs().startOf("month").$d
         ? "bg-red text-white"
         : "",
   },
@@ -290,12 +386,26 @@ export default {
   data() {
     return {
       vehicles: [],
-      selectedDoc: null,
+      selectedVehicle: null,
       componentKey: 0,
-      confirm: false,
+      toggleEditVehicleConfirm: false,
+      toggleDeleteVehicleConfirm: false,
       selectedLicencePlate: null,
       selectedId: null,
+      selectedCapacity: null,
+      selectedInsuranceAmount: null,
+      selectedInsuranceDate: null,
+      selectedNextInsuranceRenewalDate: null,
+      selectedLastSentForServicing: null,
+      selectedNextServicingDate: null,
+      selectedRoadTaxAmount: null,
+      selectedLastPaidRoadTaxDate: null,
+      selectedRoadTaxDueDate: null,
     };
+  },
+
+  components: {
+    UpdateFleet,
   },
 
   methods: {
@@ -310,6 +420,12 @@ export default {
       this.vehicles = vehicles;
     },
 
+    async fetchSelectedVehicle(uniqueId) {
+      const docRef = doc(db, "vehicles", uniqueId);
+      const selectedVehicle = await getDoc(docRef);
+      this.selectedVehicle = selectedVehicle;
+    },
+
     async removeVehicle(uniqueId) {
       await deleteDoc(doc(db, "vehicles", uniqueId));
       alert("Vehicle has been successfully deleted.");
@@ -317,8 +433,94 @@ export default {
       this.$router.push("/");
     },
 
+    addVehicle() {
+      this.$router.push("/fleet/add-fleet");
+    },
+
+    toggleEditVehicleModal(
+      vehicleId,
+      lPlate,
+      vehicleCapacity,
+      vehicleInsuranceAmount,
+      vehicleInsuranceDate,
+      vehicleNextInsuranceRenewalDate,
+      vehicleLastSentForServicing,
+      vehicleNextServicingDate,
+      vehicleRoadTaxAmount,
+      vehicleLastPaidRoadTaxDate,
+      vehicleRoadTaxDueDate
+    ) {
+      this.toggleEditVehicleConfirm = !this.toggleEditVehicleConfirm;
+
+      if (this.selectedId) {
+        this.selectedId = null;
+      } else {
+        this.selectedId = vehicleId;
+      }
+
+      if (this.selectedLicencePlate) {
+        this.selectedLicencePlate = null;
+      } else {
+        this.selectedLicencePlate = lPlate;
+      }
+
+      if (this.selectedCapacity) {
+        this.selectedCapacity = null;
+      } else {
+        this.selectedCapacity = vehicleCapacity;
+      }
+
+      if (this.selectedInsuranceAmount) {
+        this.selectedInsuranceAmount = null;
+      } else {
+        this.selectedInsuranceAmount = vehicleInsuranceAmount;
+      }
+
+      if (this.selectedInsuranceDate) {
+        this.selectedInsuranceDate = null;
+      } else {
+        this.selectedInsuranceDate = vehicleInsuranceDate;
+      }
+
+      if (this.selectedNextInsuranceRenewalDate) {
+        this.selectedNextInsuranceRenewalDate = null;
+      } else {
+        this.selectedNextInsuranceRenewalDate = vehicleNextInsuranceRenewalDate;
+      }
+
+      if (this.selectedLastSentForServicing) {
+        this.selectedLastSentForServicing = null;
+      } else {
+        this.selectedLastSentForServicing = vehicleLastSentForServicing;
+      }
+
+      if (this.selectedNextServicingDate) {
+        this.selectedNextServicingDate = null;
+      } else {
+        this.selectedNextServicingDate = vehicleNextServicingDate;
+      }
+
+      if (this.selectedRoadTaxAmount) {
+        this.selectedRoadTaxAmount = null;
+      } else {
+        this.selectedRoadTaxAmount = vehicleRoadTaxAmount;
+      }
+
+      if (this.selectedLastPaidRoadTaxDate) {
+        this.selectedLastPaidRoadTaxDate = null;
+      } else {
+        this.selectedLastPaidRoadTaxDate = vehicleLastPaidRoadTaxDate;
+      }
+
+      if (this.selectedRoadTaxDueDate) {
+        this.selectedRoadTaxDueDate = null;
+      } else {
+        this.selectedRoadTaxDueDate = vehicleRoadTaxDueDate;
+      }
+    },
+
     toggleConfirmModal(vehicleId, lPlate) {
-      this.confirm = !this.confirm;
+      this.toggleDeleteVehicleConfirm = !this.toggleDeleteVehicleConfirm;
 
       if (this.selectedId) {
         this.selectedId = null;

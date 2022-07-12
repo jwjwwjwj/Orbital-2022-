@@ -1,27 +1,29 @@
 <template>
-  <h1><strong>Add Vehicle</strong></h1>
+  <h1 style="text-align: center; font-size: 48px">
+    <strong>Update Fleet</strong>
+  </h1>
   <hr />
-  <h3>Vehicle Details</h3>
+  <h3 style="text-align: center">Vehicle Details</h3>
   <div class="add-fleet-form" v-bind="layout">
     <a-form name="vehicle" v-bind="layout">
-      <a-form-item :name="['licence', 'plate']" label="*Licence Plate">
-        <span v-if="v$.licencePlate.$error">
-          <exclamation-circle-outlined v-if="v$.licencePlate.$error" />
-          Please Input Valid/Unique Licence Plate
-        </span>
-        <a-input
-          v-model:value="licencePlate"
-          placeholder="Input Licence Plate Here. E.G. SBS123A"
-        />
-      </a-form-item>
-      <a-form-item label="Capacity">
-        <a-radio-group v-model:value="capacity">
-          <a-radio :value="45">45 Seater</a-radio>
-          <a-radio :value="40">40 Seater</a-radio>
-          <a-radio :value="20">20 Seater</a-radio>
-          <a-radio :value="19">19 & below</a-radio>
-        </a-radio-group>
-      </a-form-item>
+      <strong
+        ><a-form-item :name="['licence', 'plate']" label="Licence Plate">
+          <a-input
+            v-model:value="licencePlate"
+            disabled="true"
+            :bordered="false"
+            style="color: black"
+          /> </a-form-item
+      ></strong>
+      <strong
+        ><a-form-item :name="['capacity']" label="Vehicle Capacity">
+          <a-input
+            v-model:value="capacity"
+            disabled="true"
+            :bordered="false"
+            style="color: black"
+          /> </a-form-item
+      ></strong>
       <br />
       <hr />
       <h3>Insurance Details</h3>
@@ -110,18 +112,22 @@
         </div>
       </div>
       <a-form name="insuranceAmount" v-bind="layout">
-        <a-form-item :name="['insurance', 'amount']" label="*Insurance Amount:">
-          <span v-if="v$.insuranceAmount.$error">
-            <exclamation-circle-outlined v-if="v$.insuranceAmount.$error" />
-            Please Input Valid Insurance Amount
-          </span>
-          <a-input
-            v-model:value="insuranceAmount"
-            placeholder="Input Insurance Amount here."
-            type="number"
-            min="0"
-          />
-        </a-form-item>
+        <strong
+          ><a-form-item
+            :name="['insurance', 'amount']"
+            label="*Insurance Amount:"
+          >
+            <span v-if="v$.insuranceAmount.$error">
+              <exclamation-circle-outlined v-if="v$.insuranceAmount.$error" />
+              Please Input Valid Insurance Amount
+            </span>
+            <a-input
+              v-model:value="insuranceAmount"
+              placeholder="Input Insurance Amount here."
+              type="number"
+              min="0"
+            /> </a-form-item
+        ></strong>
       </a-form>
       <br />
       <hr />
@@ -214,18 +220,19 @@
       <hr />
       <h3>Road Tax Details</h3>
       <a-form name="roadTaxAmount" v-bind="layout">
-        <a-form-item :name="['roadtax', 'amount']" label="*Road Tax Amount:">
-          <span v-if="v$.roadTaxAmount.$error">
-            <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error" />
-            Please Input Valid Road Tax Amount
-          </span>
-          <a-input
-            v-model:value="roadTaxAmount"
-            placeholder="Input Road Tax Amount here."
-            type="number"
-            min="0"
-          />
-        </a-form-item>
+        <strong
+          ><a-form-item :name="['roadtax', 'amount']" label="*Road Tax Amount:">
+            <span v-if="v$.roadTaxAmount.$error">
+              <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error" />
+              Please Input Valid Road Tax Amount
+            </span>
+            <a-input
+              v-model:value="roadTaxAmount"
+              placeholder="Input Road Tax Amount here."
+              type="number"
+              min="0"
+            /> </a-form-item
+        ></strong>
       </a-form>
       <div class="flex-container">
         <div class="flex-child fleet-size">
@@ -313,11 +320,17 @@
       </div>
     </a-form>
     <br />
-    <a-button @click="toggleConfirmModal" html-type="submit" type="primary"
-      >Submit</a-button
-    >
-    <!--Popup modal to confim add-->
-    <q-dialog v-model="toggleAddVehicleConfirm" persistent>
+    <div style="text-align: right">
+      <a-button
+        @click="toggleConfirmModal"
+        html-type="submit"
+        type="text"
+        style="font-size: 16px; text-transform: uppercase; font-weight: bold"
+        >Submit</a-button
+      >
+    </div>
+    <!--Popup modal to confim edit-->
+    <q-dialog v-model="toggleEditVehicleConfirm" persistent>
       <q-card>
         <div class="warning-header" style="text-align: center">
           <span style="font-size: 25px"><strong>CONFIRMATION</strong></span>
@@ -325,7 +338,8 @@
         <q-card-section class="row items-center">
           <i class="far fa-exclamation-triangle"></i>
           <span class="q-ml-sm"
-            >Are you sure you want to add vehicle {{ licencePlate }}?</span
+            >Are you sure you want to edit vehicle
+            {{ selectedLicencePlate }}?</span
           >
         </q-card-section>
 
@@ -336,11 +350,16 @@
             color="black"
             @click="toggleConfirmModal"
           />
-          <q-btn flat label="Confirm" color="red" @click="addVehicle" />
+          <q-btn
+            flat
+            label="Confirm"
+            color="red"
+            @click="updateVehicle(selectedId)"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <!--End of popup modal to confim add-->
+    <!--End of popup modal to confim edit-->
   </div>
 </template>
 
@@ -351,43 +370,53 @@ import {
   maxValue,
   numeric,
   minLength,
-  maxLength /*minValue*/,
+  maxLength,
+  minValue,
 } from "@vuelidate/validators";
 //import { ref } from "vue";
 import { db } from "../firebase/index.js";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
 import moment from "moment";
 import { date } from "quasar";
 
 export default {
-  name: "AddFleet",
+  name: "UpdateFleet",
   components: {
     ExclamationCircleOutlined,
   },
   data() {
     return {
-      licencePlate: null,
-      id: null,
-      capacity: 45,
-      insuranceDate: null,
-      insuranceAmount: null,
-      nextInsuranceRenewalDate: null,
-      lastSentForServicing: null,
-      nextServicingDate: null,
-      roadTaxAmount: null,
-      lastPaidRoadTaxDate: null,
-      roadTaxDueDate: null,
-      toggleAddVehicleConfirm: false,
-      vehicles: [],
+      toggleEditVehicleConfirm: false,
+      licencePlate: this.selectedLicencePlate,
+      id: this.selectedLicencePlate,
+      capacity: this.selectedCapacity,
+      insuranceDate: moment(this.selectedInsuranceDate.toDate()).format(
+        "YYYY-MM-DD"
+      ),
+      insuranceAmount: this.selectedInsuranceAmount,
+      nextInsuranceRenewalDate: moment(
+        this.selectedNextInsuranceRenewalDate.toDate()
+      ).format("YYYY-MM-DD"),
+      lastSentForServicing: moment(
+        this.selectedLastSentForServicing.toDate()
+      ).format("YYYY-MM-DD"),
+      nextServicingDate: moment(this.selectedNextServicingDate.toDate()).format(
+        "YYYY-MM-DD"
+      ),
+      roadTaxAmount: this.selectedRoadTaxAmount,
+      lastPaidRoadTaxDate: moment(
+        this.selectedLastPaidRoadTaxDate.toDate()
+      ).format("YYYY-MM-DD"),
+      roadTaxDueDate: moment(this.selectedRoadTaxDueDate.toDate()).format(
+        "YYYY-MM-DD"
+      ),
     };
   },
   validations() {
-    const uniqueLicencePlate = (value) => !this.vehicles.includes(value);
     return {
       licencePlate: {
         required,
-        uniqueLicencePlate,
         maxLength: maxLength(8),
         minLength: minLength(3),
       },
@@ -395,19 +424,44 @@ export default {
       insuranceDate: { required },
       capacity: { numeric, required },
       nextInsuranceRenewalDate: { required },
-      insuranceAmount: { numeric, required, maxValue: maxValue(2000) },
+      insuranceAmount: {
+        numeric,
+        required,
+        maxValue: maxValue(2000),
+        minValue: minValue(0),
+      },
       lastSentForServicing: { required },
       nextServicingDate: { required },
-      roadTaxAmount: { numeric, required, maxValue: maxValue(2000) },
+      roadTaxAmount: {
+        numeric,
+        required,
+        maxValue: maxValue(2000),
+        minValue: minValue(0),
+      },
       lastPaidRoadTaxDate: { required },
       roadTaxDueDate: { required },
     };
   },
+
+  props: {
+    selectedLicencePlate: String,
+    selectedId: String,
+    selectedCapacity: Number,
+    selectedInsuranceAmount: Number,
+    selectedInsuranceDate: Timestamp,
+    selectedNextInsuranceRenewalDate: Timestamp,
+    selectedLastSentForServicing: Timestamp,
+    selectedNextServicingDate: Timestamp,
+    selectedRoadTaxAmount: Number,
+    selectedLastPaidRoadTaxDate: Timestamp,
+    selectedRoadTaxDueDate: Timestamp,
+  },
+
   methods: {
-    async addVehicle() {
+    async updateVehicle(uniqueId) {
       this.v$.$validate();
       if (!this.v$.$error) {
-        const vehicleRef = collection(db, "vehicles");
+        const docRef = doc(db, "vehicles", uniqueId);
         const docData = {
           id: this.licencePlate,
           licencePlate: this.licencePlate,
@@ -421,33 +475,26 @@ export default {
           lastPaidRoadTaxDate: new Date(this.lastPaidRoadTaxDate),
           roadTaxDueDate: new Date(this.roadTaxDueDate),
         };
-        await addDoc(vehicleRef, docData);
-        alert("Vehicle " + this.licencePlate + " has been successfully added!");
+        setDoc(docRef, docData);
         this.$router.push("/");
+        alert(
+          "Vehicle " + this.licencePlate + " has been successfully updated!"
+        );
       } else {
         alert("Form failed validation");
         this.toggleConfirmModal();
       }
     },
 
-    async fetchVehicles() {
-      const vehicleSnapshot = await getDocs(collection(db, "vehicles"));
-      const vehicles = [];
-      vehicleSnapshot.forEach((vehicle) => {
-        const vehicleData = vehicle.data();
-        vehicleData.id = vehicle.id;
-        vehicles.push(vehicleData.licencePlate);
-      });
-      this.vehicles = vehicles;
+    backToFleetOverview() {
+      this.$router.push("/fleet/read-fleet");
     },
 
     toggleConfirmModal() {
-      this.toggleAddVehicleConfirm = !this.toggleAddVehicleConfirm;
+      this.toggleEditVehicleConfirm = !this.toggleEditVehicleConfirm;
     },
   },
-  created() {
-    this.fetchVehicles();
-  },
+
   setup() {
     const disabledDate = (current) => {
       return current && current > moment().endOf("day");
