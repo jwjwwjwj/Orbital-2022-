@@ -5,7 +5,7 @@ import Login from "../views/Login.vue";
 import Booking from "../views/BookingForm.vue";
 import Fleet from "../components/Fleet.vue";
 import ReadFleet from "../views/ReadFleet.vue";
-import UpdateFleet from "../views/UpdateFleet.vue";
+import UpdateFleet from "../components/UpdateFleet.vue";
 import AddFleet from "../views/AddFleet.vue";
 import CustomerBooking from "../views/CustomerBooking.vue";
 import CustomerBookingHistory from "../views/CustomerBookingHistory.vue";
