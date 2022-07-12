@@ -1,13 +1,13 @@
 <template>
-  <h1><strong>Add Fleet</strong></h1>
+  <h1><strong>Add Vehicle</strong></h1>
   <hr />
   <h3>Vehicle Details</h3>
   <div class="add-fleet-form" v-bind="layout">
     <a-form name="vehicle" v-bind="layout">
       <a-form-item :name="['licence', 'plate']" label="*Licence Plate">
         <span v-if="v$.licencePlate.$error">
-        <exclamation-circle-outlined v-if="v$.licencePlate.$error"/>
-        Please Input Valid Licence Plate
+          <exclamation-circle-outlined v-if="v$.licencePlate.$error" />
+          Please Input Valid/Unique Licence Plate
         </span>
         <a-input
           v-model:value="licencePlate"
@@ -25,18 +25,18 @@
       <br />
       <hr />
       <h3>Insurance Details</h3>
-                    <div class="flex-container">
+      <div class="flex-container">
         <div class="flex-child fleet-size">
           <div class="departure-label">
             <strong>*Insurance Date:</strong>
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
-                        <span v-if="v$.insuranceDate.$error">
-          <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
-          Please Input Date
-                      </span>
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.insuranceDate.$error">
+              <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
+              Please Input Date
+            </span>
             <q-input filled v-model="insuranceDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -45,8 +45,11 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="insuranceDate" mask="YYYY-MM-DD"
-                    :options="optionsFn2">
+                    <q-date
+                      v-model="insuranceDate"
+                      mask="YYYY-MM-DD"
+                      :options="optionsFn2"
+                    >
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -70,11 +73,13 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
-                        <span v-if="v$.nextInsuranceRenewalDate.$error">
-          <exclamation-circle-outlined v-if="v$.nextInsuranceRenewalDate.$error" />
-          Please Input Date
-                        </span>
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.nextInsuranceRenewalDate.$error">
+              <exclamation-circle-outlined
+                v-if="v$.nextInsuranceRenewalDate.$error"
+              />
+              Please Input Date
+            </span>
             <q-input filled v-model="nextInsuranceRenewalDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -83,8 +88,11 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="nextInsuranceRenewalDate" mask="YYYY-MM-DD"
-                    :options="optionsFn">
+                    <q-date
+                      v-model="nextInsuranceRenewalDate"
+                      mask="YYYY-MM-DD"
+                      :options="optionsFn"
+                    >
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -104,31 +112,34 @@
       <a-form name="insuranceAmount" v-bind="layout">
         <a-form-item :name="['insurance', 'amount']" label="*Insurance Amount:">
           <span v-if="v$.insuranceAmount.$error">
-        <exclamation-circle-outlined v-if="v$.insuranceAmount.$error"/>
-        Please Input Valid Insurance Amount
-        </span>
+            <exclamation-circle-outlined v-if="v$.insuranceAmount.$error" />
+            Please Input Valid Insurance Amount
+          </span>
           <a-input
             v-model:value="insuranceAmount"
             placeholder="Input Insurance Amount here."
-            type = "number"
+            type="number"
+            min="0"
           />
         </a-form-item>
       </a-form>
       <br />
       <hr />
       <h3>Servicing Details</h3>
-            <div class="flex-container">
+      <div class="flex-container">
         <div class="flex-child fleet-size">
           <div class="departure-label">
             <strong>*Last Servicing Date:</strong>
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
-                                    <span v-if="v$.lastSentForServicing.$error">
-          <exclamation-circle-outlined v-if="v$.lastSentForServicing.$error" />
-          Please Input Date
-                        </span>
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.lastSentForServicing.$error">
+              <exclamation-circle-outlined
+                v-if="v$.lastSentForServicing.$error"
+              />
+              Please Input Date
+            </span>
             <q-input filled v-model="lastSentForServicing">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -137,8 +148,11 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="lastSentForServicing" mask="YYYY-MM-DD"
-                    :options="optionsFn2">
+                    <q-date
+                      v-model="lastSentForServicing"
+                      mask="YYYY-MM-DD"
+                      :options="optionsFn2"
+                    >
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -155,18 +169,18 @@
           </div>
         </div>
       </div>
-            <div class="flex-container">
+      <div class="flex-container">
         <div class="flex-child fleet-size">
           <div class="departure-label">
             <strong>*Next Servicing Date:</strong>
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
-                                    <span v-if="v$.nextServicingDate.$error">
-          <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
-          Please Input Date
-                        </span>
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.nextServicingDate.$error">
+              <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
+              Please Input Date
+            </span>
             <q-input filled v-model="nextServicingDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -175,8 +189,11 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="nextServicingDate" mask="YYYY-MM-DD"
-                    :options="optionsFn">
+                    <q-date
+                      v-model="nextServicingDate"
+                      mask="YYYY-MM-DD"
+                      :options="optionsFn"
+                    >
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -198,29 +215,32 @@
       <h3>Road Tax Details</h3>
       <a-form name="roadTaxAmount" v-bind="layout">
         <a-form-item :name="['roadtax', 'amount']" label="*Road Tax Amount:">
-                  <span v-if="v$.roadTaxAmount.$error">
-        <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error"/>
-        Please Input Valid Road Tax Amount
-        </span>
+          <span v-if="v$.roadTaxAmount.$error">
+            <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error" />
+            Please Input Valid Road Tax Amount
+          </span>
           <a-input
             v-model:value="roadTaxAmount"
             placeholder="Input Road Tax Amount here."
-            type = "number"
+            type="number"
+            min="0"
           />
         </a-form-item>
       </a-form>
-            <div class="flex-container">
+      <div class="flex-container">
         <div class="flex-child fleet-size">
           <div class="departure-label">
             <strong>*Last Road Tax Date:</strong>
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
-                                    <span v-if="v$.lastPaidRoadTaxDate.$error">
-          <exclamation-circle-outlined v-if="v$.lastPaidRoadTaxDate.$error" />
-          Please Input Date
-                        </span>
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.lastPaidRoadTaxDate.$error">
+              <exclamation-circle-outlined
+                v-if="v$.lastPaidRoadTaxDate.$error"
+              />
+              Please Input Date
+            </span>
             <q-input filled v-model="lastPaidRoadTaxDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -229,8 +249,11 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="lastPaidRoadTaxDate" mask="YYYY-MM-DD"
-                    :options="optionsFn2">
+                    <q-date
+                      v-model="lastPaidRoadTaxDate"
+                      mask="YYYY-MM-DD"
+                      :options="optionsFn2"
+                    >
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -247,18 +270,18 @@
           </div>
         </div>
       </div>
-            <div class="flex-container">
+      <div class="flex-container">
         <div class="flex-child fleet-size">
           <div class="departure-label">
             <strong>*Next Road Tax Payment:</strong>
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
-                                    <span v-if="v$.roadTaxDueDate.$error">
-          <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
-          Please Input Date
-                        </span>
+          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
+            <span v-if="v$.roadTaxDueDate.$error">
+              <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
+              Please Input Date
+            </span>
             <q-input filled v-model="roadTaxDueDate">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
@@ -267,8 +290,11 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="roadTaxDueDate" mask="YYYY-MM-DD"
-                    :options="optionsFn">
+                    <q-date
+                      v-model="roadTaxDueDate"
+                      mask="YYYY-MM-DD"
+                      :options="optionsFn"
+                    >
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
@@ -287,9 +313,34 @@
       </div>
     </a-form>
     <br />
-    <a-button @click.prevent="addFleet" html-type="submit" type="primary"
+    <a-button @click="toggleConfirmModal" html-type="submit" type="primary"
       >Submit</a-button
     >
+    <!--Popup modal to confim add-->
+    <q-dialog v-model="toggleAddVehicleConfirm" persistent>
+      <q-card>
+        <div class="warning-header" style="text-align: center">
+          <span style="font-size: 25px"><strong>CONFIRMATION</strong></span>
+        </div>
+        <q-card-section class="row items-center">
+          <i class="far fa-exclamation-triangle"></i>
+          <span class="q-ml-sm"
+            >Are you sure you want to add vehicle {{ licencePlate }}?</span
+          >
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            label="Cancel"
+            color="black"
+            @click="toggleConfirmModal"
+          />
+          <q-btn flat label="Confirm" color="red" @click="addVehicle" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <!--End of popup modal to confim add-->
   </div>
 </template>
 
@@ -304,15 +355,15 @@ import {
 } from "@vuelidate/validators";
 //import { ref } from "vue";
 import { db } from "../firebase/index.js";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
 import moment from "moment";
-import { date } from 'quasar'
+import { date } from "quasar";
 
 export default {
   name: "AddFleet",
-    components: {
-    ExclamationCircleOutlined, 
+  components: {
+    ExclamationCircleOutlined,
   },
   data() {
     return {
@@ -327,11 +378,19 @@ export default {
       roadTaxAmount: null,
       lastPaidRoadTaxDate: null,
       roadTaxDueDate: null,
+      toggleAddVehicleConfirm: false,
+      vehicles: [],
     };
   },
   validations() {
+    const uniqueLicencePlate = (value) => !this.vehicles.includes(value);
     return {
-      licencePlate: { required, maxLength: maxLength(8), minLength: minLength(3) },
+      licencePlate: {
+        required,
+        uniqueLicencePlate,
+        maxLength: maxLength(8),
+        minLength: minLength(3),
+      },
       id: {},
       insuranceDate: { required },
       capacity: { numeric, required },
@@ -345,31 +404,49 @@ export default {
     };
   },
   methods: {
-    async addFleet() {
-      this.v$.$validate()
+    async addVehicle() {
+      this.v$.$validate();
       if (!this.v$.$error) {
         const vehicleRef = collection(db, "vehicles");
-        this.insuranceAmount= Number(this.insuranceAmount);
-        this.roadTaxAmount = Number(this.roadTaxAmount);
-        this.insuranceDate = new Date(this.insuranceDate);
-        this.nextInsuranceRenewalDate = new Date(
-          this.nextInsuranceRenewalDate);
-        this.lastSentForServicing = new Date(
-          this.lastSentForServicing);
-        this.nextServicingDate = new Date(
-          this.nextServicingDate);
-        this.lastPaidRoadTaxDate = new Date(
-          this.lastPaidRoadTaxDate);
-        this.roadTaxDueDate = new Date(
-          this.roadTaxDueDate);
-        this.id = this.licencePlate;
-        await addDoc(vehicleRef, this.$data);
-        alert("Document created successfully!");
+        const docData = {
+          id: this.licencePlate,
+          licencePlate: this.licencePlate,
+          capacity: Number(this.capacity),
+          insuranceAmount: Number(this.insuranceAmount),
+          insuranceDate: new Date(this.insuranceDate),
+          nextInsuranceRenewalDate: new Date(this.nextInsuranceRenewalDate),
+          lastSentForServicing: new Date(this.lastSentForServicing),
+          nextServicingDate: new Date(this.nextServicingDate),
+          roadTaxAmount: Number(this.roadTaxAmount),
+          lastPaidRoadTaxDate: new Date(this.lastPaidRoadTaxDate),
+          roadTaxDueDate: new Date(this.roadTaxDueDate),
+        };
+        await addDoc(vehicleRef, docData);
+        alert("Vehicle " + this.licencePlate + " has been successfully added!");
         this.$router.push("/");
       } else {
         alert("Form failed validation");
+        this.toggleConfirmModal();
       }
     },
+
+    async fetchVehicles() {
+      const vehicleSnapshot = await getDocs(collection(db, "vehicles"));
+      const vehicles = [];
+      vehicleSnapshot.forEach((vehicle) => {
+        const vehicleData = vehicle.data();
+        vehicleData.id = vehicle.id;
+        vehicles.push(vehicleData.licencePlate);
+      });
+      this.vehicles = vehicles;
+    },
+
+    toggleConfirmModal() {
+      this.toggleAddVehicleConfirm = !this.toggleAddVehicleConfirm;
+    },
+  },
+  created() {
+    this.fetchVehicles();
   },
   setup() {
     const disabledDate = (current) => {
@@ -393,13 +470,20 @@ export default {
       disabledDate,
       disabledDateAfter,
       v$: useVuelidate(),
-        optionsFn(d) {
-          let newDate = date.formatDate(date.addToDate(Date.now(), {months:24}), 'YYYY/MM/DD')
-        return d >= date.formatDate(Date.now(), 'YYYY/MM/DD') && d <=newDate},
-        optionsFn2(d) {
-          let oldDate = date.formatDate(date.subtractFromDate(Date.now(), {months:24}), 'YYYY/MM/DD')
-        return d >= oldDate && d <= date.formatDate(Date.now(), 'YYYY/MM/DD')
-        }
+      optionsFn(d) {
+        let newDate = date.formatDate(
+          date.addToDate(Date.now(), { months: 24 }),
+          "YYYY/MM/DD"
+        );
+        return d >= date.formatDate(Date.now(), "YYYY/MM/DD") && d <= newDate;
+      },
+      optionsFn2(d) {
+        let oldDate = date.formatDate(
+          date.subtractFromDate(Date.now(), { months: 24 }),
+          "YYYY/MM/DD"
+        );
+        return d >= oldDate && d <= date.formatDate(Date.now(), "YYYY/MM/DD");
+      },
     };
   },
 };
