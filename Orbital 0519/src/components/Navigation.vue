@@ -24,7 +24,9 @@
           >
         </li>
         <li v-if="$store.state.isManager">
-          <FleetPath />
+          <router-link class="link" :to="{ name: 'ReadFleet' }"
+            >Fleet Overview</router-link
+          >
         </li>
       </ul>
       <ul v-show="!mobile" class="navigation">
@@ -72,8 +74,11 @@
             >
           </li>
           <li v-if="$store.state.isManager">
-            <FleetPath />
+            <router-link class="link" :to="{ name: 'ReadFleet' }"
+              >Fleet Overview</router-link
+            >
           </li>
+          &nbsp;&nbsp;&nbsp;
           <li>
             <span class="welcome-message"
               >Welcome, {{ $store.state.displayName }} &nbsp;</span
@@ -97,7 +102,6 @@
 import { useStore } from "vuex";
 import { auth } from "../firebase/index.js";
 import { onAuthStateChanged } from "firebase/auth";
-import FleetPath from "./Fleet.vue";
 
 export default {
   name: "navigationPath",
@@ -122,9 +126,7 @@ export default {
       }
     });
   },
-  components: {
-    FleetPath,
-  },
+  components: {},
   methods: {
     mouseover: function () {
       this.isOpen = true;
