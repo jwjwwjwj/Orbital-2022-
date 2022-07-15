@@ -7,6 +7,7 @@
       :loading="loading"
       :filter="filter"
       table-header-class="text-bold"
+      no-data-label="No upcoming bookings found."
     >
       <template v-slot:top-right>
         <div style="margin-bottom: 20px">
@@ -25,6 +26,7 @@
       </template>
       <template v-slot:header="props">
         <q-tr :props="props">
+          <q-th auto-width style="font-size: 17px">Edit</q-th>
           <q-th auto-width style="font-size: 17px">Expand</q-th>
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
@@ -34,6 +36,133 @@
 
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td auto-width>
+            <!--Edit button-->
+            <q-btn
+              v-if="editable(props.row.departureDate)"
+              size="10px"
+              color="black"
+              icon="fa fa-pen"
+              round
+              glossy
+              dense
+              class="q-ml-md"
+              @click="
+                toggleEditBookingModal(
+                  props.row.id,
+                  props.row.user,
+                  props.row.staffName,
+                  props.row.staffNumber,
+                  props.row.staffCCA,
+                  props.row.bookingActivity,
+                  props.row.bookingOptions,
+                  props.row.bookingNumOf19,
+                  props.row.bookingNumOf20,
+                  props.row.bookingNumOf40,
+                  props.row.bookingNumOf45,
+                  props.row.departureDate,
+                  props.row.departureAssembly,
+                  props.row.departureDest,
+                  props.row.returnFromDate,
+                  props.row.returnFromAssembly,
+                  props.row.returnFromDest
+                )
+              "
+            >
+              <!--Popup modal to edit-->
+              <q-dialog v-model="toggleEditBookingConfirm" persistent>
+                <q-card>
+                  <div class="warning-header" style="text-align: center">
+                    <span style="font-size: 25px"
+                      ><strong>Edit Booking</strong></span
+                    >
+                  </div>
+                  <q-card-section class="row items-center">
+                    <span class="q-ml-sm">
+                      <UpdateBooking
+                        :selectedId="selectedId"
+                        :selectedUser="selectedUser"
+                        :selectedStaffName="selectedStaffName"
+                        :selectedStaffNumber="selectedStaffNumber"
+                        :selectedStaffCCA="selectedStaffCCA"
+                        :selectedBookingActivity="selectedBookingActivity"
+                        :selectedBookingOptions="selectedBookingOptions"
+                        :selectedBookingNumOf19="selectedBookingNumOf19"
+                        :selectedBookingNumOf20="selectedBookingNumOf20"
+                        :selectedBookingNumOf40="selectedBookingNumOf40"
+                        :selectedBookingNumOf45="selectedBookingNumOf45"
+                        :selectedDepartureDate="selectedDepartureDate"
+                        :selectedDepartureAssembly="selectedDepartureAssembly"
+                        :selectedDepartureDest="selectedDepartureDest"
+                        :selectedReturnFromDate="selectedReturnFromDate"
+                        :selectedReturnFromAssembly="selectedReturnFromAssembly"
+                        :selectedReturnFromDest="selectedReturnFromDest"
+                      />
+                    </span>
+                  </q-card-section>
+
+                  <q-card-actions align="right" style="margin-right: 18px">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="black"
+                      @click="toggleEditBookingModal"
+                    />
+                    <!--q-btn
+                      flat
+                      label="Confirm"
+                      color="red"
+                      @click="removeVehicle(selectedId)"
+                    /-->
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+              <!--End of popup modal to edit-->
+            </q-btn>
+            <q-btn
+              v-else
+              size="10px"
+              color="black"
+              icon="fa fa-phone-rotary"
+              round
+              glossy
+              dense
+              class="q-ml-md"
+              @click="toggleWarningMessage"
+            >
+              <!--Popup modal for edit booking message-->
+              <q-dialog v-model="toggleWarning" persistent>
+                <q-card>
+                  <div class="warning-header" style="text-align: center">
+                    <span style="font-size: 25px"
+                      ><strong
+                        ><i class="far fa-exclamation-triangle"></i
+                        >&nbsp;WARNING!</strong
+                      ></span
+                    >
+                  </div>
+                  <q-card-section class="row items-center">
+                    <span class="q-ml-sm"
+                      >As this booking is due in less than 3 days, please
+                      contact us at <strong><u>+65 8888 8888</u></strong> for
+                      assistance.</span
+                    >
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="black"
+                      @click="toggleWarningMessage"
+                    />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+              <!--End of popup modal for edit booking message-->
+            </q-btn>
+          </q-td>
+
           <q-td auto-width>
             <q-btn
               size="sm"
@@ -151,6 +280,8 @@ import { ref } from "vue";
 import { db } from "../firebase/index.js";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import moment from "moment";
+import dayjs from "dayjs";
+import UpdateBooking from "../components/UpdateBooking.vue";
 
 const columns = [
   {
@@ -212,19 +343,42 @@ const columns = [
 ];
 
 export default {
-  name: "VehicleDetails",
+  name: "CustomerHistory",
 
   data() {
     return {
       bookings: [],
       selectedDoc: null,
+      selectedId: null,
+      selectedUser: null,
+      selectedStaffName: null,
+      selectedStaffNumber: null,
+      selectedStaffCCA: null,
+      selectedBookingActivity: null,
+      selectedBookingNumOf19: null,
+      selectedBookingNumOf20: null,
+      selectedBookingNumOf40: null,
+      selectedBookingNumOf45: null,
+      selectedBookingOptions: null,
+      selectedDepartureAssembly: null,
+      selectedDepartureDate: null,
+      selectedDepartureDest: null,
+      selectedReturnFromAssembly: null,
+      selectedReturnFromDate: null,
+      selectedReturnFromDest: null,
+      toggleEditBookingConfirm: null,
+      toggleWarning: null,
     };
   },
 
   methods: {
     async fetchBookings() {
       const user = useStore().state.displayName;
-      const q = query(collection(db, "bookings"), where("user", "==", user));
+      const q = query(
+        collection(db, "bookings"),
+        where("user", "==", user),
+        where("departureDate", ">=", dayjs().$d)
+      );
       const querySnap = await getDocs(q);
       const bookings = [];
       querySnap.forEach((booking) => {
@@ -235,8 +389,140 @@ export default {
       this.bookings = bookings;
     },
 
+    toggleWarningMessage() {
+      this.toggleWarning = !this.toggleWarning;
+    },
+
+    toggleEditBookingModal(
+      uniqueId,
+      user,
+      name,
+      contactNumber,
+      cca,
+      activity,
+      options,
+      num19,
+      num20,
+      num40,
+      num45,
+      departDate,
+      departAssembly,
+      departDest,
+      returnDate,
+      returnAssembly,
+      returnDest
+    ) {
+      this.toggleEditBookingConfirm = !this.toggleEditBookingConfirm;
+
+      if (this.selectedId) {
+        this.selectedId = null;
+      } else {
+        this.selectedId = uniqueId;
+      }
+
+      if (this.selectedUser) {
+        this.selectedUser = null;
+      } else {
+        this.selectedUser = user;
+      }
+
+      if (this.selectedStaffName) {
+        this.selectedStaffName = null;
+      } else {
+        this.selectedStaffName = name;
+      }
+
+      if (this.selectedStaffNumber) {
+        this.selectedStaffNumber = null;
+      } else {
+        this.selectedStaffNumber = contactNumber;
+      }
+
+      if (this.selectedStaffCCA) {
+        this.selectedStaffCCA = null;
+      } else {
+        this.selectedStaffCCA = cca;
+      }
+
+      if (this.selectedBookingActivity) {
+        this.selectedBookingActivity = null;
+      } else {
+        this.selectedBookingActivity = activity;
+      }
+
+      if (this.selectedBookingOptions) {
+        this.selectedBookingOptions = null;
+      } else {
+        this.selectedBookingOptions = options;
+      }
+
+      if (this.selectedBookingNumOf19) {
+        this.selectedBookingNumOf19 = null;
+      } else {
+        this.selectedBookingNumOf19 = num19;
+      }
+
+      if (this.selectedBookingNumOf20) {
+        this.selectedBookingNumOf20 = null;
+      } else {
+        this.selectedBookingNumOf20 = num20;
+      }
+
+      if (this.selectedBookingNumOf40) {
+        this.selectedBookingNumOf40 = null;
+      } else {
+        this.selectedBookingNumOf40 = num40;
+      }
+
+      if (this.selectedBookingNumOf45) {
+        this.selectedBookingNumOf45 = null;
+      } else {
+        this.selectedBookingNumOf45 = num45;
+      }
+
+      if (this.selectedDepartureDate) {
+        this.selectedDepartureDate = null;
+      } else {
+        this.selectedDepartureDate = departDate;
+      }
+
+      if (this.selectedDepartureAssembly) {
+        this.selectedDepartureAssembly = null;
+      } else {
+        this.selectedDepartureAssembly = departAssembly;
+      }
+
+      if (this.selectedDepartureDest) {
+        this.selectedDepartureDest = null;
+      } else {
+        this.selectedDepartureDest = departDest;
+      }
+
+      if (this.selectedReturnFromDate) {
+        this.selectedReturnFromDate = null;
+      } else {
+        this.selectedReturnFromDate = returnDate;
+      }
+
+      if (this.selectedReturnFromAssembly) {
+        this.selectedReturnFromAssembly = null;
+      } else {
+        this.selectedReturnFromAssembly = returnAssembly;
+      }
+
+      if (this.selectedReturnFromDest) {
+        this.selectedReturnFromDest = null;
+      } else {
+        this.selectedReturnFromDest = returnDest;
+      }
+    },
+
     moment: (date) => {
       return moment(date);
+    },
+
+    editable(date) {
+      return moment().diff(moment(date.toDate()), "days") <= -3;
     },
 
     vehicleInsuranceAlert: (date) => {
@@ -245,6 +531,10 @@ export default {
         moment().diff(moment(date), "months") >= 0
       );
     },
+  },
+
+  components: {
+    UpdateBooking,
   },
 
   created() {
