@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <h1>Create Booking Form</h1>
+  <h1 style="text-align: center; font-size: 48px">
+    <strong>Update Booking</strong>
+  </h1>
+  <hr />
+  <div class="add-fleet-form" v-bind="layout">
     <hr />
-    <h3>Contact Details</h3>
+    <h3 style="text-align: center">Contact Details</h3>
     <a-form name="booking" v-bind="layout">
       <a-form-item :name="['staff', 'name']" label="*Name">
         <div class="form-input">
@@ -292,37 +295,40 @@
       </div>
     </a-form>
     <br />
-    <div class="submit-button">
-      <a-button @click="toggleConfirmModal" html-type="submit" type="primary"
-        >Submit</a-button
-      >
-    </div>
-    <!--Popup modal to confim add-->
-    <q-dialog v-model="toggleAddBookingConfirm" persistent>
-      <q-card>
-        <div class="warning-header" style="text-align: center">
-          <span style="font-size: 25px"><strong>CONFIRMATION</strong></span>
-        </div>
-        <q-card-section class="row items-center">
-          <i class="far fa-exclamation-triangle"></i>
-          <span class="q-ml-sm"
-            >Are you sure you want to make this booking?</span
-          >
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn
-            flat
-            label="Cancel"
-            color="black"
-            @click="toggleConfirmModal"
-          />
-          <q-btn flat label="Confirm" color="green" @click="createBooking" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-    <!--End of popup modal to confim add-->
   </div>
+  <br />
+  <div style="text-align: right">
+    <a-button
+      @click="toggleConfirmModal"
+      html-type="submit"
+      type="text"
+      style="font-size: 16px; text-transform: uppercase; font-weight: bold"
+      >Submit</a-button
+    >
+  </div>
+  <!--Popup modal to confim edit-->
+  <q-dialog v-model="toggleEditVehicleConfirm" persistent>
+    <q-card>
+      <div class="warning-header" style="text-align: center">
+        <span style="font-size: 25px"><strong>CONFIRMATION</strong></span>
+      </div>
+      <q-card-section class="row items-center">
+        <i class="far fa-exclamation-triangle"></i>
+        <span class="q-ml-sm">Are you sure you want to edit this booking?</span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Cancel" color="black" @click="toggleConfirmModal" />
+        <q-btn
+          flat
+          label="Confirm"
+          color="green"
+          @click="updateBooking(selectedId)"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <!--End of popup modal to confim edit-->
 </template>
 
 <script>
@@ -332,55 +338,54 @@ import {
   requiredIf,
   numeric,
   minLength,
-  maxLength /*minValue*/,
+  maxLength,
 } from "@vuelidate/validators";
-import moment from "moment";
-import dayjs from "dayjs";
-import { ref, reactive } from "vue";
+//import { ref } from "vue";
 import { db } from "../firebase/index.js";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
-import { useStore } from "vuex";
+import moment from "moment";
 import { date } from "quasar";
 
 export default {
+  name: "UpdateFleet",
   components: {
     ExclamationCircleOutlined,
   },
   data() {
     return {
-      user: useStore().state.displayName,
-      id: useStore().state.displayName,
-      staffName: null,
-      staffNumber: null,
-      staffCCA: null,
-      bookingNumOf45: 0,
-      bookingNumOf40: 0,
-      bookingNumOf20: 0,
-      bookingNumOf19: 0,
-      bookingActivity: null,
-      bookingOptions: 1,
-      departureDate: ref(), //dayjs().add(3, "day"),//ref(),
-      departureTime: ref(),
-      departureAssembly: null,
-      departureDest: null,
-      returnFromDate: null,
-      returnFromTime: null,
-      returnFromAssembly: null,
-      returnFromDest: null,
-      toggleAddBookingConfirm: false,
+      toggleEditVehicleConfirm: false,
+      uniqueId: this.selectedId,
+      uniqueUser: this.selectedUser,
+      staffName: this.selectedStaffName,
+      staffNumber: this.selectedStaffNumber,
+      staffCCA: this.selectedStaffCCA,
+      bookingActivity: this.selectedBookingActivity,
+      bookingOptions: this.selectedBookingOptions,
+      bookingNumOf19: this.selectedBookingNumOf19,
+      bookingNumOf20: this.selectedBookingNumOf20,
+      bookingNumOf40: this.selectedBookingNumOf40,
+      bookingNumOf45: this.selectedBookingNumOf45,
+      departureDate: moment(this.selectedDepartureDate.toDate()).format(
+        "YYYY-MM-DD HH:mm"
+      ),
+      departureAssembly: this.selectedDepartureAssembly,
+      departureDest: this.selectedDepartureDest,
+      returnFromDate:
+        this.selectedBookingOptions === 1
+          ? null
+          : moment(this.selectedReturnFromDate.toDate()).format(
+              "YYYY-MM-DD HH:mm"
+            ),
+      returnFromAssembly:
+        this.selectedBookingOptions === 1
+          ? null
+          : this.selectedReturnFromAssembly,
+      returnFromDest:
+        this.selectedBookingOptions === 1 ? null : this.selectedReturnFromDest,
     };
   },
-  computed: {
-    validNumOfBuses() {
-      return (
-        this.bookingNumOf45 +
-        this.bookingNumOf40 +
-        this.bookingNumOf20 +
-        this.bookingNumOf19
-      );
-    },
-  },
+
   validations() {
     return {
       user: {},
@@ -437,92 +442,125 @@ export default {
       },
     };
   },
+
+  computed: {
+    validNumOfBuses() {
+      return (
+        this.bookingNumOf45 +
+        this.bookingNumOf40 +
+        this.bookingNumOf20 +
+        this.bookingNumOf19
+      );
+    },
+  },
+
+  props: {
+    selectedId: String,
+    selectedUser: String,
+    selectedStaffName: String,
+    selectedStaffNumber: String,
+    selectedStaffCCA: String,
+    selectedBookingActivity: String,
+    selectedBookingOptions: Number,
+    selectedBookingNumOf19: Number,
+    selectedBookingNumOf20: Number,
+    selectedBookingNumOf40: Number,
+    selectedBookingNumOf45: Number,
+    selectedDepartureDate: Timestamp,
+    selectedDepartureAssembly: String,
+    selectedDepartureDest: String,
+    selectedReturnFromDate: Timestamp,
+    selectedReturnFromAssembly: String,
+    selectedReturnFromDest: String,
+  },
+
   methods: {
-    async createBooking() {
+    async updateBooking(uniqueId) {
       this.v$.$validate();
       if (!this.v$.$error) {
-        const bookingsRef = collection(db, "bookings");
-        this.departureDate = new Date(this.departureDate);
-        this.departureTime = new Date(this.departureDate)
-          .toTimeString()
-          .slice(0, 5); //08/03/2022
-        if (this.bookingOptions === 1) {
-          this.returnFromDate = null;
-          this.returnFromTime = null;
-        } else {
-          this.returnFromDate = new Date(this.returnFromDate);
-          this.returnFromTime = new Date(this.returnFromDate)
+        const docRef = doc(db, "bookings", uniqueId);
+        const docData = {
+          id: this.uniqueUser,
+          user: this.uniqueUser,
+          staffName: this.staffName,
+          staffNumber: this.staffNumber,
+          staffCCA: this.staffCCA,
+          bookingActivity: this.bookingActivity,
+          bookingOptions: this.bookingOptions,
+          bookingNumOf19: Number(this.bookingNumOf19),
+          bookingNumOf20: Number(this.bookingNumOf20),
+          bookingNumOf40: Number(this.bookingNumOf40),
+          bookingNumOf45: Number(this.bookingNumOf45),
+          departureDate: new Date(this.departureDate),
+          departureTime: new Date(this.departureDate)
             .toTimeString()
-            .slice(0, 5);
-        }
-        await addDoc(bookingsRef, this.$data);
-        this.$router.push({ path: "/" });
-        alert("Booking form submitted!");
+            .slice(0, 5),
+          departureAssembly: this.departureAssembly,
+          departureDest: this.departureDest,
+          returnFromDate:
+            this.bookingOptions === 1 ? null : new Date(this.returnFromDate),
+          returnFromTime:
+            this.bookingOptions === 1
+              ? null
+              : new Date(this.returnFromDate).toTimeString().slice(0, 5),
+          returnFromAssembly:
+            this.bookingOptions === 1 ? null : this.returnFromAssembly,
+          returnFromDest:
+            this.bookingOptions === 1 ? null : this.returnFromDest,
+        };
+        setDoc(docRef, docData);
+        this.$router.push("/");
+        alert("Booking has been successfully updated!");
       } else {
         alert("Form failed validation");
+        this.toggleConfirmModal();
       }
     },
 
+    backToFleetOverview() {
+      this.$router.push("/fleet/read-fleet");
+    },
+
     toggleConfirmModal() {
-      this.toggleAddBookingConfirm = !this.toggleAddBookingConfirm;
+      this.toggleEditVehicleConfirm = !this.toggleEditVehicleConfirm;
     },
   },
+
   setup() {
-    const plainOptions = ["1 - Way", "2 - Way"];
-    const options = ref(1);
+    const disabledDate = (current) => {
+      return current && current > moment().endOf("day");
+    };
+    const disabledDateAfter = (current) => {
+      return current && current < moment().endOf("day");
+    };
     const layout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 10 },
+        sm: { span: 8 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 14 },
+        sm: { span: 16 },
       },
     };
-    const formStates = reactive({
-      staff: {
-        name: "",
-        number: "",
-        cca: "",
-      },
-      booking: {
-        numOf45: 0,
-        numOf40: 0,
-        numOf20: 0,
-        numOf19: 0,
-        activity: "",
-        options: 1,
-      },
-      departure: {
-        date: dayjs().add(3, "day"),
-        time: ref(dayjs(dayjs().add(3, "day"))),
-        assembly: "",
-        dest: "",
-      },
-      returnFrom: {
-        date: dayjs().add(3, "day"),
-        time: ref(dayjs(dayjs().add(3, "day").add(2, "hour"), "HH:mm")),
-        assembly: "",
-        dest: "",
-      },
-    });
     return {
-      date: moment(),
-      dDate: moment().add(3, "days"),
-      dayjs,
-      plainOptions,
-      options,
       layout,
-      formStates,
+      disabledDate,
+      disabledDateAfter,
       v$: useVuelidate(),
       optionsFn(d) {
-        let newDate = date.addToDate(new Date(), { days: 3 });
-        let maxDate = date.addToDate(new Date(), { months: 3 });
-        return (
-          d >= date.formatDate(newDate, "YYYY/MM/DD") &&
-          d <= date.formatDate(maxDate, "YYYY/MM/DD")
+        let newDate = date.formatDate(
+          date.addToDate(Date.now(), { months: 24 }),
+          "YYYY/MM/DD"
         );
+        return d >= date.formatDate(Date.now(), "YYYY/MM/DD") && d <= newDate;
+      },
+      optionsFn2(d) {
+        let oldDate = date.formatDate(
+          date.subtractFromDate(Date.now(), { months: 24 }),
+          "YYYY/MM/DD"
+        );
+        return d >= oldDate && d <= date.formatDate(Date.now(), "YYYY/MM/DD");
       },
     };
   },
@@ -530,52 +568,22 @@ export default {
 </script>
 
 <style scoped>
-h1,
-h3 {
-  text-align: center;
-}
-
-.submit-button {
-  text-align: center;
-  padding-bottom: 40px;
-}
-
-.form-input {
-  text-align: left;
-  padding-left: 50px;
-}
-
-/*.ant-col.ant-col-xs-24.ant-col-sm-8 ant-form-item-label {
-
-}*/
-
 .flex-container {
   display: flex;
 }
 
 .flex-child {
-  flex: 1;
+  flex: 2;
   margin: 10px;
 }
 
 .flex-child:first-child {
-  max-width: 40.7%;
-  width: 50px;
+  margin-right: 20px;
+  width: 180px;
 }
-
-/*.flex-child.fleet-size {
-  background-color: teal;
-}*/
-
-.flex-child.fleet-size .departure-label {
-  text-align: right;
-}
-
 #datePicker {
-  text-align: left;
-  margin-left: 20px;
+  text-align: center;
 }
-
 .departure-label {
   text-align: center;
   margin-top: 30px;
