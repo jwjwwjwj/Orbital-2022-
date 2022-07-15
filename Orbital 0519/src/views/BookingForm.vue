@@ -293,10 +293,35 @@
     </a-form>
     <br />
     <div class="submit-button">
-      <a-button @click.prevent="createBooking" html-type="submit" type="primary"
+      <a-button @click="toggleConfirmModal" html-type="submit" type="primary"
         >Submit</a-button
       >
     </div>
+    <!--Popup modal to confim add-->
+    <q-dialog v-model="toggleAddBookingConfirm" persistent>
+      <q-card>
+        <div class="warning-header" style="text-align: center">
+          <span style="font-size: 25px"><strong>CONFIRMATION</strong></span>
+        </div>
+        <q-card-section class="row items-center">
+          <i class="far fa-exclamation-triangle"></i>
+          <span class="q-ml-sm"
+            >Are you sure you want to make this booking?</span
+          >
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            label="Cancel"
+            color="black"
+            @click="toggleConfirmModal"
+          />
+          <q-btn flat label="Confirm" color="green" @click="createBooking" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <!--End of popup modal to confim add-->
   </div>
 </template>
 
@@ -343,6 +368,7 @@ export default {
       returnFromTime: null,
       returnFromAssembly: null,
       returnFromDest: null,
+      toggleAddBookingConfirm: false,
     };
   },
   computed: {
@@ -435,6 +461,10 @@ export default {
       } else {
         alert("Form failed validation");
       }
+    },
+
+    toggleConfirmModal() {
+      this.toggleAddBookingConfirm = !this.toggleAddBookingConfirm;
     },
   },
   setup() {
