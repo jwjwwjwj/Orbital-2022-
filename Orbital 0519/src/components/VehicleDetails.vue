@@ -350,6 +350,11 @@ const columns = [
     },
     format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
+    classes: (row) =>
+      row.nextServicingDate.toDate() <= dayjs().endOf("month").$d &&
+      row.nextServicingDate.toDate() >= dayjs().startOf("month").$d
+        ? "bg-orange text-white"
+        : "",
   },
   {
     name: "insuranceRenewalDate",
@@ -361,6 +366,11 @@ const columns = [
     },
     format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
+    classes: (row) =>
+      row.nextInsuranceRenewalDate.toDate() <= dayjs().endOf("month").$d &&
+      row.nextInsuranceRenewalDate.toDate() >= dayjs().startOf("month").$d
+        ? "bg-orange text-white"
+        : "",
   },
   {
     name: "roadTaxDueDate",
@@ -373,9 +383,9 @@ const columns = [
     format: (val) => moment(val.toDate()).format("DD MMMM YYYY"),
     sortable: true,
     classes: (row) =>
-      row.roadTaxDueDate <= dayjs().endOf("month").$d &&
-      row.roadTaxDueDate >= dayjs().startOf("month").$d
-        ? "bg-red text-white"
+      row.roadTaxDueDate.toDate() <= dayjs().endOf("month").$d &&
+      row.roadTaxDueDate.toDate() >= dayjs().startOf("month").$d
+        ? "bg-orange text-white"
         : "",
   },
 ];

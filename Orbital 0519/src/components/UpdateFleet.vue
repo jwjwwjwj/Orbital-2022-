@@ -353,7 +353,7 @@
           <q-btn
             flat
             label="Confirm"
-            color="red"
+            color="green"
             @click="updateVehicle(selectedId)"
           />
         </q-card-actions>
@@ -421,25 +421,59 @@ export default {
         minLength: minLength(3),
       },
       id: {},
-      insuranceDate: { required },
+      insuranceDate: {
+        required,
+        minValue(value) {
+          return new Date(value) < new Date();
+        },
+      },
       capacity: { numeric, required },
-      nextInsuranceRenewalDate: { required },
+      nextInsuranceRenewalDate: {
+        required,
+        minValue: function (value) {
+          return value > this.insuranceDate && new Date(value) >= new Date();
+        },
+      },
       insuranceAmount: {
         numeric,
         required,
         maxValue: maxValue(2000),
         minValue: minValue(0),
       },
-      lastSentForServicing: { required },
-      nextServicingDate: { required },
+      lastSentForServicing: {
+        required,
+        minValue(value) {
+          return new Date(value) < new Date();
+        },
+      },
+      nextServicingDate: {
+        required,
+        minValue: function (value) {
+          return (
+            value > this.lastSentForServicing && new Date(value) >= new Date()
+          );
+        },
+      },
       roadTaxAmount: {
         numeric,
         required,
         maxValue: maxValue(2000),
         minValue: minValue(0),
       },
-      lastPaidRoadTaxDate: { required },
-      roadTaxDueDate: { required },
+      lastPaidRoadTaxDate: {
+        required,
+        minValue(value) {
+          return new Date(value) < new Date();
+        },
+      },
+      roadTaxDueDate: {
+        required,
+        minValue: function (value) {
+          return (
+            value > this.lastPaidRoadTaxDate && new Date(value) >= new Date()
+          );
+        },
+      },
     };
   },
 
@@ -522,7 +556,7 @@ export default {
           date.addToDate(Date.now(), { months: 24 }),
           "YYYY/MM/DD"
         );
-        return d >= date.formatDate(Date.now(), "YYYY/MM/DD") && d <= newDate;
+        return d > date.formatDate(Date.now(), "YYYY/MM/DD") && d <= newDate;
       },
       optionsFn2(d) {
         let oldDate = date.formatDate(

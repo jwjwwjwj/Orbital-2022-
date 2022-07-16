@@ -293,7 +293,11 @@
     </a-form>
     <br />
     <div class="submit-button">
-      <a-button @click="toggleConfirmModal" html-type="submit" type="primary"
+      <a-button
+        @click="toggleConfirmModal"
+        html-type="submit"
+        type="primary"
+        style="background-color: black; border-color: black"
         >Submit</a-button
       >
     </div>
@@ -412,7 +416,14 @@ export default {
       bookingNumOf19: { required },
       bookingActivity: { required },
       bookingOptions: { required },
-      departureDate: { required },
+      departureDate: {
+        required,
+        minValue(value) {
+          const newDate = new Date();
+          newDate.setDate(newDate.getDate() + 2);
+          return new Date(value) >= newDate;
+        },
+      },
       departureTime: {},
       departureAssembly: { required },
       departureDest: { required },
@@ -460,6 +471,7 @@ export default {
         alert("Booking form submitted!");
       } else {
         alert("Form failed validation");
+        this.toggleAddBookingConfirm = !this.toggleAddBookingConfirm;
       }
     },
 

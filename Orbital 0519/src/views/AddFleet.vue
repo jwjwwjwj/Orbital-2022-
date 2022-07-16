@@ -11,7 +11,8 @@
         </span>
         <a-input
           v-model:value="licencePlate"
-          placeholder="Input Licence Plate Here. E.G. SBS123A"
+          placeholder="E.G. SBS123A"
+          style="text-transform: uppercase"
         />
       </a-form-item>
       <a-form-item label="Capacity">
@@ -313,9 +314,15 @@
       </div>
     </a-form>
     <br />
-    <a-button @click="toggleConfirmModal" html-type="submit" type="primary"
-      >Submit</a-button
-    >
+    <div class="submit-button">
+      <a-button
+        @click="toggleConfirmModal"
+        html-type="submit"
+        type="primary"
+        style="background-color: black; border-color: black"
+        >Submit</a-button
+      >
+    </div>
     <!--Popup modal to confim add-->
     <q-dialog v-model="toggleAddVehicleConfirm" persistent>
       <q-card>
@@ -325,7 +332,10 @@
         <q-card-section class="row items-center">
           <i class="far fa-exclamation-triangle"></i>
           <span class="q-ml-sm"
-            >Are you sure you want to add vehicle {{ licencePlate }}?</span
+            >Are you sure you want to add vehicle
+            {{
+              licencePlate ? licencePlate.toUpperCase() : licencePlate
+            }}?</span
           >
         </q-card-section>
 
@@ -336,7 +346,7 @@
             color="black"
             @click="toggleConfirmModal"
           />
-          <q-btn flat label="Confirm" color="red" @click="addVehicle" />
+          <q-btn flat label="Confirm" color="green" @click="addVehicle" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -351,7 +361,7 @@ import {
   maxValue,
   numeric,
   minLength,
-  maxLength /*minValue*/,
+  maxLength,
 } from "@vuelidate/validators";
 //import { ref } from "vue";
 import { db } from "../firebase/index.js";
@@ -383,7 +393,8 @@ export default {
     };
   },
   validations() {
-    const uniqueLicencePlate = (value) => !this.vehicles.includes(value);
+    const uniqueLicencePlate = (value) =>
+      value === null ? value : !this.vehicles.includes(value.toUpperCase());
     return {
       licencePlate: {
         required,
@@ -392,15 +403,49 @@ export default {
         minLength: minLength(3),
       },
       id: {},
-      insuranceDate: { required },
+      insuranceDate: {
+        required,
+        minValue(value) {
+          return new Date(value) < new Date();
+        },
+      },
       capacity: { numeric, required },
-      nextInsuranceRenewalDate: { required },
+      nextInsuranceRenewalDate: {
+        required,
+        minValue: function (value) {
+          return value > this.insuranceDate && new Date(value) >= new Date();
+        },
+      },
       insuranceAmount: { numeric, required, maxValue: maxValue(2000) },
-      lastSentForServicing: { required },
-      nextServicingDate: { required },
+      lastSentForServicing: {
+        required,
+        minValue(value) {
+          return new Date(value) < new Date();
+        },
+      },
+      nextServicingDate: {
+        required,
+        minValue: function (value) {
+          return (
+            value > this.lastSentForServicing && new Date(value) >= new Date()
+          );
+        },
+      },
       roadTaxAmount: { numeric, required, maxValue: maxValue(2000) },
-      lastPaidRoadTaxDate: { required },
-      roadTaxDueDate: { required },
+      lastPaidRoadTaxDate: {
+        required,
+        minValue(value) {
+          return new Date(value) < new Date();
+        },
+      },
+      roadTaxDueDate: {
+        required,
+        minValue: function (value) {
+          return (
+            value > this.lastPaidRoadTaxDate && new Date(value) >= new Date()
+          );
+        },
+      },
     };
   },
   methods: {
@@ -410,7 +455,7 @@ export default {
         const vehicleRef = collection(db, "vehicles");
         const docData = {
           id: this.licencePlate,
-          licencePlate: this.licencePlate,
+          licencePlate: this.licencePlate.toUpperCase(),
           capacity: Number(this.capacity),
           insuranceAmount: Number(this.insuranceAmount),
           insuranceDate: new Date(this.insuranceDate),
@@ -475,7 +520,7 @@ export default {
           date.addToDate(Date.now(), { months: 24 }),
           "YYYY/MM/DD"
         );
-        return d >= date.formatDate(Date.now(), "YYYY/MM/DD") && d <= newDate;
+        return d > date.formatDate(Date.now(), "YYYY/MM/DD") && d <= newDate;
       },
       optionsFn2(d) {
         let oldDate = date.formatDate(
@@ -490,6 +535,16 @@ export default {
 </script>
 
 <style scoped>
+h1,
+h3 {
+  text-align: center;
+}
+
+.submit-button {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
 .flex-container {
   display: flex;
 }
