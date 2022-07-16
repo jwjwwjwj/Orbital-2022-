@@ -27,6 +27,7 @@
       <template v-slot:header="props">
         <q-tr :props="props">
           <q-th auto-width style="font-size: 17px">Edit</q-th>
+          <q-th auto-width style="font-size: 17px">Cancel</q-th>
           <q-th auto-width style="font-size: 17px">Expand</q-th>
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
@@ -70,14 +71,13 @@
               "
             >
               <!--Popup modal to edit-->
-              <q-dialog v-model="toggleEditBookingConfirm" persistent>
+              <q-dialog
+                v-model="toggleEditBookingConfirm"
+                full-width
+                persistent
+              >
                 <q-card>
-                  <div class="warning-header" style="text-align: center">
-                    <span style="font-size: 25px"
-                      ><strong>Edit Booking</strong></span
-                    >
-                  </div>
-                  <q-card-section class="row items-center">
+                  <q-card-section>
                     <span class="q-ml-sm">
                       <UpdateBooking
                         :selectedId="selectedId"
@@ -160,6 +160,56 @@
                 </q-card>
               </q-dialog>
               <!--End of popup modal for edit booking message-->
+            </q-btn>
+          </q-td>
+
+          <q-td auto-width>
+            <!--Delete button-->
+            <q-btn
+              v-if="editable(props.row.departureDate)"
+              dense
+              round
+              glossy
+              color="black"
+              icon="fa fa-trash-alt"
+              class="q-ml-md"
+              size="10px"
+              @click="toggleConfirmModal(props.row.id)"
+            >
+              <!--Popup modal to confim deletion-->
+              <q-dialog v-model="toggleDeleteBookingConfirm" persistent>
+                <q-card>
+                  <div class="warning-header" style="text-align: center">
+                    <span style="font-size: 25px"
+                      ><strong
+                        ><i class="far fa-exclamation-triangle"></i
+                        >&nbsp;WARNING!</strong
+                      ></span
+                    >
+                  </div>
+                  <q-card-section class="row items-center">
+                    <span class="q-ml-sm"
+                      >Are you sure you want to delete this booking?</span
+                    >
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="black"
+                      @click="toggleConfirmModal"
+                    />
+                    <q-btn
+                      flat
+                      label="Confirm"
+                      color="red"
+                      @click="deleteBooking(deleteSelectedId)"
+                    />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+              <!--End of popup modal to confim deletion-->
             </q-btn>
           </q-td>
 
@@ -278,7 +328,14 @@
 import { useStore } from "vuex";
 import { ref } from "vue";
 import { db } from "../firebase/index.js";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import moment from "moment";
 import dayjs from "dayjs";
 import UpdateBooking from "../components/UpdateBooking.vue";
@@ -366,8 +423,10 @@ export default {
       selectedReturnFromAssembly: null,
       selectedReturnFromDate: null,
       selectedReturnFromDest: null,
+      toggleDeleteBookingConfirm: null,
       toggleEditBookingConfirm: null,
       toggleWarning: null,
+      deleteSelectedId: null,
     };
   },
 
@@ -387,6 +446,22 @@ export default {
         bookings.push(bookingData);
       });
       this.bookings = bookings;
+    },
+
+    async deleteBooking(uniqueId) {
+      await deleteDoc(doc(db, "bookings", uniqueId));
+      alert("Booking has been successfully cancelled.");
+      this.$router.push("/");
+    },
+
+    toggleConfirmModal(uniqueId) {
+      this.toggleDeleteBookingConfirm = !this.toggleDeleteBookingConfirm;
+
+      if (this.deleteSelectedId) {
+        this.deleteSelectedId = null;
+      } else {
+        this.deleteSelectedId = uniqueId;
+      }
     },
 
     toggleWarningMessage() {
