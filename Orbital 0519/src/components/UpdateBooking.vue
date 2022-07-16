@@ -138,8 +138,8 @@
           <exclamation-circle-outlined v-if="v$.departureDate.$error" />
           Please Input Date & Time
         </span>
-        <div style="margin-left: 12%">
-          <q-input filled v-model="departureDate" style="max-width: 270px; font-size: 10px;">
+        <div style="margin-left: 0%">
+          <q-input filled v-model="departureDate" style="max-width: 400px">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
@@ -226,8 +226,8 @@
             <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
             Please Input Date & Time
           </span>
-          <div style="margin-left: 12%">
-            <q-input filled v-model="returnFromDate" style="max-width: 270px; font-size: 10px;">
+          <div style="margin-left: 0%">
+            <q-input filled v-model="returnFromDate" style="max-width: 400px">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy
