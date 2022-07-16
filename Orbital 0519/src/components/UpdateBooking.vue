@@ -113,7 +113,7 @@
           </div>
         </div>
         <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 330px">
+          <div id="datePicker" class="q-pa-md" style="max-width: 432px">
             <span v-if="v$.departureDate.$error">
               <exclamation-circle-outlined v-if="v$.departureDate.$error" />
               Please Input Date & Time
@@ -202,12 +202,12 @@
         <h3>Return Details</h3>
         <div class="flex-container">
           <div class="flex-child fleet-size">
-            <div class="departure-label">
+            <div class="return-label">
               <strong>*Return Date & Time:</strong>
             </div>
           </div>
           <div class="flex-child road-tax">
-            <div id="datePicker" class="q-pa-md" style="max-width: 330px">
+            <div id="datePicker" class="q-pa-md" style="max-width: 432px">
               <span v-if="v$.returnFromDate.$error">
                 <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
                 Please Input Date & Time
@@ -302,7 +302,12 @@
       @click="toggleConfirmModal"
       html-type="submit"
       type="text"
-      style="font-size: 16px; text-transform: uppercase; font-weight: bold"
+      style="
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: black;
+      "
       >Submit</a-button
     >
   </div>
@@ -417,7 +422,14 @@ export default {
       bookingNumOf19: { required },
       bookingActivity: { required },
       bookingOptions: { required },
-      departureDate: { required },
+      departureDate: {
+        required,
+        minValue(value) {
+          const newDate = new Date();
+          newDate.setDate(newDate.getDate() + 2);
+          return new Date(value) >= newDate;
+        },
+      },
       departureTime: {},
       departureAssembly: { required },
       departureDest: { required },
@@ -549,18 +561,12 @@ export default {
       disabledDateAfter,
       v$: useVuelidate(),
       optionsFn(d) {
-        let newDate = date.formatDate(
-          date.addToDate(Date.now(), { months: 24 }),
-          "YYYY/MM/DD"
+        let newDate = date.addToDate(new Date(), { days: 3 });
+        let maxDate = date.addToDate(new Date(), { months: 3 });
+        return (
+          d >= date.formatDate(newDate, "YYYY/MM/DD") &&
+          d <= date.formatDate(maxDate, "YYYY/MM/DD")
         );
-        return d >= date.formatDate(Date.now(), "YYYY/MM/DD") && d <= newDate;
-      },
-      optionsFn2(d) {
-        let oldDate = date.formatDate(
-          date.subtractFromDate(Date.now(), { months: 24 }),
-          "YYYY/MM/DD"
-        );
-        return d >= oldDate && d <= date.formatDate(Date.now(), "YYYY/MM/DD");
       },
     };
   },
@@ -582,10 +588,17 @@ export default {
   width: 180px;
 }
 #datePicker {
+  margin-left: 70px;
   text-align: center;
 }
 .departure-label {
   text-align: center;
+  margin-left: 125px;
+  margin-top: 30px;
+}
+.return-label {
+  text-align: center;
+  margin-left: 150px;
   margin-top: 30px;
 }
 </style>
