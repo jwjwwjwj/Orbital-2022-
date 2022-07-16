@@ -41,8 +41,8 @@
           <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
           Please Input Date
         </span>
-        <div style="margin-left: 12%">
-          <q-input filled v-model="insuranceDate" style="max-width: 255px">
+        <div style="margin-left: 0%">
+          <q-input filled v-model="insuranceDate" style="max-width: 400px">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
@@ -75,11 +75,11 @@
           />
           Please Input Date
         </span>
-        <div style="margin-left: 12%">
+        <div style="margin-left: 0%">
           <q-input
             filled
             v-model="nextInsuranceRenewalDate"
-            style="max-width: 255px"
+            style="max-width: 400px"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -132,11 +132,11 @@
           <exclamation-circle-outlined v-if="v$.lastSentForServicing.$error" />
           Please Input Date
         </span>
-        <div style="margin-left: 12%">
+        <div style="margin-left: 0%">
           <q-input
             filled
             v-model="lastSentForServicing"
-            style="max-width: 255px"
+            style="max-width: 400px"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -168,8 +168,8 @@
           <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
           Please Input Date
         </span>
-        <div style="margin-left: 12%">
-          <q-input filled v-model="nextServicingDate" style="max-width: 255px">
+        <div style="margin-left: 0%">
+          <q-input filled v-model="nextServicingDate" style="max-width: 400px">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
@@ -221,11 +221,11 @@
           <exclamation-circle-outlined v-if="v$.lastPaidRoadTaxDate.$error" />
           Please Input Date
         </span>
-        <div style="margin-left: 12%">
+        <div style="margin-left: 0%">
           <q-input
             filled
             v-model="lastPaidRoadTaxDate"
-            style="max-width: 255px"
+            style="max-width: 400px"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -257,8 +257,8 @@
           <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
           Please Input Date
         </span>
-        <div style="margin-left: 12%">
-          <q-input filled v-model="roadTaxDueDate" style="max-width: 255px">
+        <div style="margin-left: 0%">
+          <q-input filled v-model="roadTaxDueDate" style="max-width: 400px">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
@@ -472,11 +472,11 @@ export default {
     const layout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 9 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 15 },
       },
     };
     return {
