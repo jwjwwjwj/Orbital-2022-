@@ -4,7 +4,11 @@
   <h3>Vehicle Details</h3>
   <div class="add-fleet-form" v-bind="layout">
     <a-form name="vehicle" v-bind="layout">
-      <a-form-item :name="['licence', 'plate']" label="*Licence Plate">
+      <a-form-item
+        :name="['licence', 'plate']"
+        label="*Licence Plate"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
         <span v-if="v$.licencePlate.$error">
           <exclamation-circle-outlined v-if="v$.licencePlate.$error" />
           Please Input Valid/Unique Licence Plate
@@ -15,7 +19,10 @@
           style="text-transform: uppercase"
         />
       </a-form-item>
-      <a-form-item label="Capacity">
+      <a-form-item
+        label="*Capacity"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
         <a-radio-group v-model:value="capacity">
           <a-radio :value="45">45 Seater</a-radio>
           <a-radio :value="40">40 Seater</a-radio>
@@ -26,92 +33,82 @@
       <br />
       <hr />
       <h3>Insurance Details</h3>
-      <div class="flex-container">
-        <div class="flex-child fleet-size">
-          <div class="departure-label">
-            <strong>*Insurance Date:</strong>
-          </div>
-        </div>
-        <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
-            <span v-if="v$.insuranceDate.$error">
-              <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
-              Please Input Date
-            </span>
-            <q-input filled v-model="insuranceDate">
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
+      <a-form-item
+        label="*Insurance Date"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
+        <span v-if="v$.insuranceDate.$error">
+          <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
+          Please Input Date
+        </span>
+        <div style="margin-left: 12%">
+          <q-input filled v-model="insuranceDate" style="max-width: 300px">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="insuranceDate"
+                    mask="YYYY-MM-DD"
+                    :options="optionsFn2"
                   >
-                    <q-date
-                      v-model="insuranceDate"
-                      mask="YYYY-MM-DD"
-                      :options="optionsFn2"
-                    >
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
-      </div>
-      <div class="flex-container">
-        <div class="flex-child fleet-size">
-          <div class="departure-label">
-            <strong>*Next Insurance Date:</strong>
-          </div>
-        </div>
-        <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
-            <span v-if="v$.nextInsuranceRenewalDate.$error">
-              <exclamation-circle-outlined
-                v-if="v$.nextInsuranceRenewalDate.$error"
-              />
-              Please Input Date
-            </span>
-            <q-input filled v-model="nextInsuranceRenewalDate">
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
+      </a-form-item>
+      <a-form-item
+        label="*Next Insurance Date"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
+        <span v-if="v$.nextInsuranceRenewalDate.$error">
+          <exclamation-circle-outlined
+            v-if="v$.nextInsuranceRenewalDate.$error"
+          />
+          Please Input Date
+        </span>
+        <div style="margin-left: 12%">
+          <q-input
+            filled
+            v-model="nextInsuranceRenewalDate"
+            style="max-width: 300px"
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="nextInsuranceRenewalDate"
+                    mask="YYYY-MM-DD"
+                    :options="optionsFn"
                   >
-                    <q-date
-                      v-model="nextInsuranceRenewalDate"
-                      mask="YYYY-MM-DD"
-                      :options="optionsFn"
-                    >
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
-      </div>
+      </a-form-item>
       <a-form name="insuranceAmount" v-bind="layout">
-        <a-form-item :name="['insurance', 'amount']" label="*Insurance Amount:">
+        <a-form-item
+          :name="['insurance', 'amount']"
+          label="*Insurance Amount:"
+          style="font-weight: bold; text-align: left; padding-left: 5%"
+        >
           <span v-if="v$.insuranceAmount.$error">
             <exclamation-circle-outlined v-if="v$.insuranceAmount.$error" />
             Please Input Valid Insurance Amount
@@ -127,95 +124,83 @@
       <br />
       <hr />
       <h3>Servicing Details</h3>
-      <div class="flex-container">
-        <div class="flex-child fleet-size">
-          <div class="departure-label">
-            <strong>*Last Servicing Date:</strong>
-          </div>
-        </div>
-        <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
-            <span v-if="v$.lastSentForServicing.$error">
-              <exclamation-circle-outlined
-                v-if="v$.lastSentForServicing.$error"
-              />
-              Please Input Date
-            </span>
-            <q-input filled v-model="lastSentForServicing">
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
+      <a-form-item
+        label="*Last Servicing Date"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
+        <span v-if="v$.lastSentForServicing.$error">
+          <exclamation-circle-outlined v-if="v$.lastSentForServicing.$error" />
+          Please Input Date
+        </span>
+        <div style="margin-left: 12%">
+          <q-input
+            filled
+            v-model="lastSentForServicing"
+            style="max-width: 300px"
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="lastSentForServicing"
+                    mask="YYYY-MM-DD"
+                    :options="optionsFn2"
                   >
-                    <q-date
-                      v-model="lastSentForServicing"
-                      mask="YYYY-MM-DD"
-                      :options="optionsFn2"
-                    >
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
-      </div>
-      <div class="flex-container">
-        <div class="flex-child fleet-size">
-          <div class="departure-label">
-            <strong>*Next Servicing Date:</strong>
-          </div>
-        </div>
-        <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
-            <span v-if="v$.nextServicingDate.$error">
-              <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
-              Please Input Date
-            </span>
-            <q-input filled v-model="nextServicingDate">
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
+      </a-form-item>
+      <a-form-item
+        label="*Next Servicing Date"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
+        <span v-if="v$.nextServicingDate.$error">
+          <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
+          Please Input Date
+        </span>
+        <div style="margin-left: 12%">
+          <q-input filled v-model="nextServicingDate" style="max-width: 300px">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="nextServicingDate"
+                    mask="YYYY-MM-DD"
+                    :options="optionsFn"
                   >
-                    <q-date
-                      v-model="nextServicingDate"
-                      mask="YYYY-MM-DD"
-                      :options="optionsFn"
-                    >
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
-      </div>
+      </a-form-item>
       <br />
       <hr />
       <h3>Road Tax Details</h3>
       <a-form name="roadTaxAmount" v-bind="layout">
-        <a-form-item :name="['roadtax', 'amount']" label="*Road Tax Amount:">
+        <a-form-item
+          :name="['roadtax', 'amount']"
+          label="*Road Tax Amount:"
+          style="font-weight: bold; text-align: left; padding-left: 5%"
+        >
           <span v-if="v$.roadTaxAmount.$error">
             <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error" />
             Please Input Valid Road Tax Amount
@@ -228,90 +213,74 @@
           />
         </a-form-item>
       </a-form>
-      <div class="flex-container">
-        <div class="flex-child fleet-size">
-          <div class="departure-label">
-            <strong>*Last Road Tax Date:</strong>
-          </div>
-        </div>
-        <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
-            <span v-if="v$.lastPaidRoadTaxDate.$error">
-              <exclamation-circle-outlined
-                v-if="v$.lastPaidRoadTaxDate.$error"
-              />
-              Please Input Date
-            </span>
-            <q-input filled v-model="lastPaidRoadTaxDate">
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
+      <a-form-item
+        label="*Last Road Tax Date"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
+        <span v-if="v$.lastPaidRoadTaxDate.$error">
+          <exclamation-circle-outlined v-if="v$.lastPaidRoadTaxDate.$error" />
+          Please Input Date
+        </span>
+        <div style="margin-left: 12%">
+          <q-input
+            filled
+            v-model="lastPaidRoadTaxDate"
+            style="max-width: 300px"
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="lastPaidRoadTaxDate"
+                    mask="YYYY-MM-DD"
+                    :options="optionsFn2"
                   >
-                    <q-date
-                      v-model="lastPaidRoadTaxDate"
-                      mask="YYYY-MM-DD"
-                      :options="optionsFn2"
-                    >
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
-      </div>
-      <div class="flex-container">
-        <div class="flex-child fleet-size">
-          <div class="departure-label">
-            <strong>*Next Road Tax Payment:</strong>
-          </div>
-        </div>
-        <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 300px">
-            <span v-if="v$.roadTaxDueDate.$error">
-              <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
-              Please Input Date
-            </span>
-            <q-input filled v-model="roadTaxDueDate">
-              <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
+      </a-form-item>
+      <a-form-item
+        label="*Next Road Tax Payment Date"
+        style="font-weight: bold; text-align: left; padding-left: 5%"
+      >
+        <span v-if="v$.roadTaxDueDate.$error">
+          <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
+          Please Input Date
+        </span>
+        <div style="margin-left: 12%">
+          <q-input filled v-model="roadTaxDueDate" style="max-width: 300px">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="roadTaxDueDate"
+                    mask="YYYY-MM-DD"
+                    :options="optionsFn"
                   >
-                    <q-date
-                      v-model="roadTaxDueDate"
-                      mask="YYYY-MM-DD"
-                      :options="optionsFn"
-                    >
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
-      </div>
+      </a-form-item>
     </a-form>
     <br />
     <div class="submit-button">
@@ -560,9 +529,12 @@ h3 {
 }
 #datePicker {
   text-align: center;
+  margin-left: 86px;
 }
 .departure-label {
   text-align: center;
   margin-top: 30px;
+  /*margin-left: 160px;*/
+  margin-left: 17%;
 }
 </style>
