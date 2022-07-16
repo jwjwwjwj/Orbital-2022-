@@ -42,7 +42,7 @@
           Please Input Date
         </span>
         <div style="margin-left: 12%">
-          <q-input filled v-model="insuranceDate" style="max-width: 300px">
+          <q-input filled v-model="insuranceDate" style="max-width: 255px">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
@@ -79,7 +79,7 @@
           <q-input
             filled
             v-model="nextInsuranceRenewalDate"
-            style="max-width: 300px"
+            style="max-width: 255px"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -136,7 +136,7 @@
           <q-input
             filled
             v-model="lastSentForServicing"
-            style="max-width: 300px"
+            style="max-width: 255px"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -169,7 +169,7 @@
           Please Input Date
         </span>
         <div style="margin-left: 12%">
-          <q-input filled v-model="nextServicingDate" style="max-width: 300px">
+          <q-input filled v-model="nextServicingDate" style="max-width: 255px">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
@@ -225,7 +225,7 @@
           <q-input
             filled
             v-model="lastPaidRoadTaxDate"
-            style="max-width: 300px"
+            style="max-width: 255px"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -258,7 +258,7 @@
           Please Input Date
         </span>
         <div style="margin-left: 12%">
-          <q-input filled v-model="roadTaxDueDate" style="max-width: 300px">
+          <q-input filled v-model="roadTaxDueDate" style="max-width: 255px">
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
