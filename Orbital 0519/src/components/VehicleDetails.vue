@@ -71,14 +71,18 @@
               "
             >
               <!--Popup modal to edit-->
-              <q-dialog v-model="toggleEditVehicleConfirm" persistent>
+              <q-dialog
+                v-model="toggleEditVehicleConfirm"
+                full-width
+                persistent
+              >
                 <q-card>
                   <div class="warning-header" style="text-align: center">
                     <span style="font-size: 25px"
                       ><strong>Editing {{ selectedLicencePlate }}</strong></span
                     >
                   </div>
-                  <q-card-section class="row items-center">
+                  <q-card-section>
                     <span class="q-ml-sm">
                       <UpdateFleet
                         :selectedLicencePlate="selectedLicencePlate"
