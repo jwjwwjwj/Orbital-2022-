@@ -7,7 +7,11 @@
     <hr />
     <h3 style="text-align: center">Contact Details</h3>
     <a-form name="booking" v-bind="layout">
-      <a-form-item :name="['staff', 'name']" label="*Name">
+      <a-form-item
+        :name="['staff', 'name']"
+        label="*Name"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
         <div class="form-input">
           <span v-if="v$.staffName.$error">
             <exclamation-circle-outlined v-if="v$.staffName.$error" />
@@ -16,7 +20,11 @@
           <a-input v-model:value="staffName" placeholder="Input Name Here" />
         </div>
       </a-form-item>
-      <a-form-item :name="['staff', 'number']" label="*Staff Number">
+      <a-form-item
+        :name="['staff', 'number']"
+        label="*Staff Number"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
         <div class="form-input">
           <span v-if="v$.staffNumber.$error">
             <exclamation-circle-outlined v-if="v$.staffNumber.$error" />
@@ -28,7 +36,11 @@
           />
         </div>
       </a-form-item>
-      <a-form-item :name="['staff', 'cca']" label="*CCA/Department">
+      <a-form-item
+        :name="['staff', 'cca']"
+        label="*CCA/Department"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
         <div class="form-input">
           <span v-if="v$.staffCCA.$error">
             <exclamation-circle-outlined v-if="v$.staffCCA.$error" />
@@ -43,7 +55,11 @@
       <br />
       <hr />
       <h3>Booking Details</h3>
-      <a-form-item :name="['booking', 'activity']" label="*Activity">
+      <a-form-item
+        :name="['booking', 'activity']"
+        label="*Activity"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
         <div class="form-input">
           <span v-if="v$.bookingActivity.$error">
             <exclamation-circle-outlined v-if="v$.bookingActivity.$error" />
@@ -55,7 +71,11 @@
           />
         </div>
       </a-form-item>
-      <a-form-item :wrapper-col="{ span: 5, offset: 0 }" label="*1-Way / 2-Way">
+      <a-form-item
+        :wrapper-col="{ span: 5, offset: 0 }"
+        label="*1-Way / 2-Way"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
         <div class="form-input">
           <a-radio-group v-model:value="bookingOptions">
             <a-radio :value="1">1 - Way</a-radio>
@@ -67,6 +87,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf45']"
         label="45 Seater"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <span v-if="v$.bookingNumOf45.$error">
           <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
@@ -80,6 +101,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf40']"
         label="40 Seater"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf40" :min="0" :max="99" />
@@ -89,6 +111,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf20']"
         label="20 Seater"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf20" :min="0" :max="99" />
@@ -98,6 +121,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf19']"
         label="19 Seater"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf19" :min="0" :max="99" />
@@ -106,19 +130,104 @@
       <br />
       <hr />
       <h3>Departure Details</h3>
-      <div class="flex-container">
-        <div class="flex-child fleet-size">
-          <div class="departure-label">
-            <strong>*Departure Date & Time:</strong>
-          </div>
+      <a-form-item
+        label="*Departure Date & Time"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
+        <span v-if="v$.departureDate.$error">
+          <exclamation-circle-outlined v-if="v$.departureDate.$error" />
+          Please Input Date & Time
+        </span>
+        <div style="margin-left: 12%">
+          <q-input filled v-model="departureDate" style="max-width: 270px">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="departureDate"
+                    mask="YYYY-MM-DD HH:mm"
+                    :options="optionsFn"
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    v-model="departureDate"
+                    mask="YYYY-MM-DD HH:mm"
+                    format24h
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
-        <div class="flex-child road-tax">
-          <div id="datePicker" class="q-pa-md" style="max-width: 432px">
-            <span v-if="v$.departureDate.$error">
-              <exclamation-circle-outlined v-if="v$.departureDate.$error" />
-              Please Input Date & Time
-            </span>
-            <q-input filled v-model="departureDate">
+      </a-form-item>
+      <a-form-item
+        name="['departure', 'assembly']"
+        label="*Assembly Venue"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
+        <div class="form-input">
+          <span v-if="v$.departureAssembly.$error">
+            <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
+            Please Input Assembly Venue
+          </span>
+          <a-input
+            v-model:value="departureAssembly"
+            placeholder="Input Assembly Venue"
+          />
+        </div>
+      </a-form-item>
+      <a-form-item
+        name="['departure', 'dest']"
+        label="*Input Destination"
+        style="font-weight: bold; text-align: left; padding-left: 10%"
+      >
+        <div class="form-input">
+          <span v-if="v$.departureDest.$error">
+            <exclamation-circle-outlined v-if="v$.departureDest.$error" />
+            Please Input Destination
+          </span>
+          <a-input
+            v-model:value="departureDest"
+            placeholder="Input Destination"
+          />
+        </div>
+      </a-form-item>
+      <div v-if="bookingOptions === 2">
+        <br />
+        <hr />
+        <h3>Return Details</h3>
+        <a-form-item
+          label="*Return Date & Time"
+          style="font-weight: bold; text-align: left; padding-left: 10%"
+        >
+          <span v-if="v$.returnFromDate.$error">
+            <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
+            Please Input Date & Time
+          </span>
+          <div style="margin-left: 12%">
+            <q-input filled v-model="returnFromDate" style="max-width: 270px">
               <template v-slot:prepend>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy
@@ -127,7 +236,7 @@
                     transition-hide="scale"
                   >
                     <q-date
-                      v-model="departureDate"
+                      v-model="returnFromDate"
                       mask="YYYY-MM-DD HH:mm"
                       :options="optionsFn"
                     >
@@ -170,103 +279,12 @@
               </template>
             </q-input>
           </div>
-        </div>
-      </div>
-      <a-form-item name="['departure', 'assembly']" label="*Assembly Venue">
-        <div class="form-input">
-          <span v-if="v$.departureAssembly.$error">
-            <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
-            Please Input Assembly Venue
-          </span>
-          <a-input
-            v-model:value="departureAssembly"
-            placeholder="Input Assembly Venue"
-          />
-        </div>
-      </a-form-item>
-      <a-form-item name="['departure', 'dest']" label="*Input Destination">
-        <div class="form-input">
-          <span v-if="v$.departureDest.$error">
-            <exclamation-circle-outlined v-if="v$.departureDest.$error" />
-            Please Input Destination
-          </span>
-          <a-input
-            v-model:value="departureDest"
-            placeholder="Input Destination"
-          />
-        </div>
-      </a-form-item>
-      <div v-if="bookingOptions === 2">
-        <br />
-        <hr />
-        <h3>Return Details</h3>
-        <div class="flex-container">
-          <div class="flex-child fleet-size">
-            <div class="return-label">
-              <strong>*Return Date & Time:</strong>
-            </div>
-          </div>
-          <div class="flex-child road-tax">
-            <div id="datePicker" class="q-pa-md" style="max-width: 432px">
-              <span v-if="v$.returnFromDate.$error">
-                <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-                Please Input Date & Time
-              </span>
-              <q-input filled v-model="returnFromDate">
-                <template v-slot:prepend>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-date
-                        v-model="returnFromDate"
-                        mask="YYYY-MM-DD HH:mm"
-                        :options="optionsFn"
-                      >
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-
-                <template v-slot:append>
-                  <q-icon name="access_time" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-time
-                        v-model="returnFromDate"
-                        mask="YYYY-MM-DD HH:mm"
-                        format24h
-                      >
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-time>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
-          </div>
-        </div>
-        <a-form-item name="['returnFrom', 'assembly']" label="*Assembly Venue">
+        </a-form-item>
+        <a-form-item
+          name="['returnFrom', 'assembly']"
+          label="*Assembly Venue"
+          style="font-weight: bold; text-align: left; padding-left: 10%"
+        >
           <div class="form-input">
             <span v-if="v$.returnFromAssembly.$error">
               <exclamation-circle-outlined
@@ -280,7 +298,11 @@
             />
           </div>
         </a-form-item>
-        <a-form-item name="['returnFrom', 'dest']" label="*Input Destination">
+        <a-form-item
+          name="['returnFrom', 'dest']"
+          label="*Input Destination"
+          style="font-weight: bold; text-align: left; padding-left: 10%"
+        >
           <div class="form-input">
             <span v-if="v$.returnFromDest.$error">
               <exclamation-circle-outlined v-if="v$.returnFromDest.$error" />
