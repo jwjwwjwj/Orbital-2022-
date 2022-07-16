@@ -4,16 +4,28 @@
     <hr />
     <h3>Contact Details</h3>
     <a-form name="booking" v-bind="layout">
-      <a-form-item :name="['staff', 'name']" label="*Name">
+      <a-form-item
+        :name="['staff', 'name']"
+        label="*Name"
+        style="font-weight: bold"
+      >
         <div class="form-input">
           <span v-if="v$.staffName.$error">
             <exclamation-circle-outlined v-if="v$.staffName.$error" />
             Please Input Staff Name
           </span>
-          <a-input v-model:value="staffName" placeholder="Input Name Here" />
+          <a-input
+            v-model:value="staffName"
+            placeholder="Input Name Here"
+            style="font-weight: bold"
+          />
         </div>
       </a-form-item>
-      <a-form-item :name="['staff', 'number']" label="*Staff Number">
+      <a-form-item
+        :name="['staff', 'number']"
+        label="*Staff Number"
+        style="font-weight: bold"
+      >
         <div class="form-input">
           <span v-if="v$.staffNumber.$error">
             <exclamation-circle-outlined v-if="v$.staffNumber.$error" />
@@ -25,7 +37,11 @@
           />
         </div>
       </a-form-item>
-      <a-form-item :name="['staff', 'cca']" label="*CCA/Department">
+      <a-form-item
+        :name="['staff', 'cca']"
+        label="*CCA/Department"
+        style="font-weight: bold"
+      >
         <div class="form-input">
           <span v-if="v$.staffCCA.$error">
             <exclamation-circle-outlined v-if="v$.staffCCA.$error" />
@@ -40,7 +56,11 @@
       <br />
       <hr />
       <h3>Booking Details</h3>
-      <a-form-item :name="['booking', 'activity']" label="*Activity">
+      <a-form-item
+        :name="['booking', 'activity']"
+        label="*Activity"
+        style="font-weight: bold"
+      >
         <div class="form-input">
           <span v-if="v$.bookingActivity.$error">
             <exclamation-circle-outlined v-if="v$.bookingActivity.$error" />
@@ -52,7 +72,11 @@
           />
         </div>
       </a-form-item>
-      <a-form-item :wrapper-col="{ span: 5, offset: 0 }" label="*1-Way / 2-Way">
+      <a-form-item
+        :wrapper-col="{ span: 5, offset: 0 }"
+        label="*1-Way / 2-Way"
+        style="font-weight: bold"
+      >
         <div class="form-input">
           <a-radio-group v-model:value="bookingOptions">
             <a-radio :value="1">1 - Way</a-radio>
@@ -64,6 +88,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf45']"
         label="45 Seater"
+        style="font-weight: bold"
       >
         <span v-if="v$.bookingNumOf45.$error">
           <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
@@ -77,6 +102,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf40']"
         label="40 Seater"
+        style="font-weight: bold"
       >
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf40" :min="0" :max="99" />
@@ -86,6 +112,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf20']"
         label="20 Seater"
+        style="font-weight: bold"
       >
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf20" :min="0" :max="99" />
@@ -95,6 +122,7 @@
         :wrapper-col="{ span: 4, offset: 0 }"
         name="['booking', 'numOf19']"
         label="19 Seater"
+        style="font-weight: bold"
       >
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf19" :min="0" :max="99" />
@@ -169,7 +197,11 @@
           </div>
         </div>
       </div>
-      <a-form-item name="['departure', 'assembly']" label="*Assembly Venue">
+      <a-form-item
+        name="['departure', 'assembly']"
+        label="*Assembly Venue"
+        style="font-weight: bold"
+      >
         <div class="form-input">
           <span v-if="v$.departureAssembly.$error">
             <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
@@ -181,7 +213,11 @@
           />
         </div>
       </a-form-item>
-      <a-form-item name="['departure', 'dest']" label="*Input Destination">
+      <a-form-item
+        name="['departure', 'dest']"
+        label="*Input Destination"
+        style="font-weight: bold"
+      >
         <div class="form-input">
           <span v-if="v$.departureDest.$error">
             <exclamation-circle-outlined v-if="v$.departureDest.$error" />
@@ -263,7 +299,11 @@
             </div>
           </div>
         </div>
-        <a-form-item name="['returnFrom', 'assembly']" label="*Assembly Venue">
+        <a-form-item
+          name="['returnFrom', 'assembly']"
+          label="*Assembly Venue"
+          style="font-weight: bold"
+        >
           <div class="form-input">
             <span v-if="v$.returnFromAssembly.$error">
               <exclamation-circle-outlined
@@ -277,7 +317,11 @@
             />
           </div>
         </a-form-item>
-        <a-form-item name="['returnFrom', 'dest']" label="*Input Destination">
+        <a-form-item
+          name="['returnFrom', 'dest']"
+          label="*Input Destination"
+          style="font-weight: bold"
+        >
           <div class="form-input">
             <span v-if="v$.returnFromDest.$error">
               <exclamation-circle-outlined v-if="v$.returnFromDest.$error" />
@@ -557,10 +601,6 @@ h3 {
   padding-left: 50px;
 }
 
-/*.ant-col.ant-col-xs-24.ant-col-sm-8 ant-form-item-label {
-
-}*/
-
 .flex-container {
   display: flex;
 }
@@ -574,10 +614,6 @@ h3 {
   max-width: 40.7%;
   width: 50px;
 }
-
-/*.flex-child.fleet-size {
-  background-color: teal;
-}*/
 
 .flex-child.fleet-size .departure-label {
   text-align: right;
