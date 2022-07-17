@@ -99,6 +99,7 @@ body {
 }
 #home.words {
   position: absolute;
+  text-align: center;
 }
 
 #weather {
