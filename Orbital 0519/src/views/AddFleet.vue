@@ -331,6 +331,7 @@ import {
   numeric,
   minLength,
   maxLength,
+  helpers,
 } from "@vuelidate/validators";
 //import { ref } from "vue";
 import { db } from "../firebase/index.js";
@@ -364,10 +365,12 @@ export default {
   validations() {
     const uniqueLicencePlate = (value) =>
       value === null ? value : !this.vehicles.includes(value.toUpperCase());
+    const licencePlateRegEx = helpers.regex(/([A-Z]{2,3}\d{1,4}[A-Z]{1}$)/i);
     return {
       licencePlate: {
         required,
         uniqueLicencePlate,
+        licencePlateRegEx,
         maxLength: maxLength(8),
         minLength: minLength(3),
       },
@@ -436,7 +439,11 @@ export default {
           roadTaxDueDate: new Date(this.roadTaxDueDate),
         };
         await addDoc(vehicleRef, docData);
-        alert("Vehicle " + this.licencePlate + " has been successfully added!");
+        alert(
+          "Vehicle " +
+            this.licencePlate.toUpperCase() +
+            " has been successfully added!"
+        );
         this.$router.push("/");
       } else {
         alert("Form failed validation");
