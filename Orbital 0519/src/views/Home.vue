@@ -1,6 +1,6 @@
 <template>
   <div id="home" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
-    <div class="words"style="text-align: center">
+    <div class="words" style="text-align: center">
     <h1><strong>Home</strong></h1>
     </div>
     <main class="weather">
