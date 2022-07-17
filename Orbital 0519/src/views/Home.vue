@@ -1,5 +1,8 @@
 <template>
   <div id="home" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
+    <div class = "words">
+    <h1><strong> Home </strong></h1>
+    </div>
     <main class="weather">
       <div class="search-box">
         <input 
@@ -33,7 +36,7 @@ export default {
     return {
       api_key: '56335ecb5a4bacf3b82faa7c96847d66',
       url_base: 'https://api.openweathermap.org/data/2.5/',
-      query: '',
+      query: 'Singapore',
       weather: {}
     }
   },
@@ -41,6 +44,14 @@ export default {
     fetchWeather (e) {
       if (e.key == "Enter") {
         fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
+          .then(res => {
+            return res.json();
+          }).then(this.setResults);
+      }
+    },
+    defaultWeather() {
+          if (this.query === "Singapore") {
+      fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
@@ -59,6 +70,9 @@ export default {
       let year = d.getFullYear();
       return `${day} ${date} ${month} ${year}`;
     }
+  },
+  created() {
+    this.defaultWeather();
   }
 }
 </script>
@@ -78,10 +92,15 @@ body {
   background-size: cover;
   background-position: bottom;
   transition: 0.4s;
+  position: relative;
 }
 #home.warm {
   background-image: url('/src/assets/sunny-weather.jpg');
 }
+#home.words {
+  position: absolute;
+}
+
 #weather {
   min-height: 100vh;
   padding: 25px;
@@ -91,6 +110,7 @@ body {
   width: 100%;
   margin-bottom: 30px;
   align-items: center;
+  padding-top: 50px;
 }
 .search-box .search-bar {
   display: block;
