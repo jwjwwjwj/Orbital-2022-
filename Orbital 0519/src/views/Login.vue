@@ -1,6 +1,6 @@
 <template>
   <main class="login">
-    <h1 style="margin-top: 40px; font-size: 4vw;">TRANSPORFFICIENT</h1>
+    <h1 style="margin-top: 40px; font-size: 7vw;">TRANSPORFFICIENT</h1>
     <section class="forms">
       <form class="login-form" @submit.prevent="login">
         <h2><strong>Login</strong></h2>
