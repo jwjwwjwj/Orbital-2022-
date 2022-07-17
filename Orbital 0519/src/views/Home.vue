@@ -2,7 +2,9 @@
   <div
     id="home"
     :class="
-      typeof weather.main != 'undefined' && weather.main.temp > 16 && weather.weather[0].main !== 'Rain'
+    typeof weather.main != 'undefined' && weather.weather[0].main !== 'Rain' && weather.name === 'Singapore' && this.night
+    ? 'night'
+    : typeof weather.main != 'undefined' && weather.main.temp > 16 && weather.weather[0].main !== 'Rain'
         ? 'warm'
         : typeof weather.main != 'undefined' &&
           weather.weather[0].main === 'Rain'
@@ -40,8 +42,9 @@
     </main>
   </div>
 </template>
-
 <script>
+import dayjs from "dayjs";
+
 export default {
   name: "app",
   data() {
@@ -53,6 +56,10 @@ export default {
     };
   },
   methods: {
+
+    night() {
+      return dayjs().format('H')>= '19' || (dayjs().format('H')<= '6')
+    },
     fetchWeather(e) {
       if (e.key === "Enter") {
         fetch(
@@ -137,6 +144,9 @@ body {
 }
 #home.rain {
   background-image: url("/src/assets/rain.gif");
+}
+#home.night {
+  background-image: url("/src/assets/night.jpg");
 }
 #home.words {
   text-align: center;
