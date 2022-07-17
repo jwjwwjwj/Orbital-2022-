@@ -3,7 +3,6 @@ import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Login from "../views/Login.vue";
 import Booking from "../views/BookingForm.vue";
-import Fleet from "../components/Fleet.vue";
 import ReadFleet from "../views/ReadFleet.vue";
 import UpdateFleet from "../components/UpdateFleet.vue";
 import AddFleet from "../views/AddFleet.vue";
@@ -50,14 +49,6 @@ const routes = [
     }
   },
   {
-    path: "/fleet",
-    name: "Fleet",
-    component: Fleet,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/fleet/read-fleet",
     name: "ReadFleet",
     component: ReadFleet,
@@ -97,7 +88,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(auth.currentUser);
   if (to.path === "/login" && auth.currentUser) {
     next("/");
     return;
