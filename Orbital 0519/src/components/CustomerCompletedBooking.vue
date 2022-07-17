@@ -66,6 +66,39 @@
                     props.row.bookingOptions
                   }}-way
                 </ol>
+                <ol>
+                  <strong>Total Number of Bus(es):</strong>
+                  {{
+                    props.row.bookingNumOf45 +
+                    props.row.bookingNumOf40 +
+                    props.row.bookingNumOf20 +
+                    props.row.bookingNumOf19
+                  }}
+                  <ul v-if="props.row.bookingNumOf19">
+                    <li style="margin-left: 40px">
+                      <strong>Number of 19-seater bus:</strong>
+                      {{ props.row.bookingNumOf19 }}
+                    </li>
+                  </ul>
+                  <ul v-if="props.row.bookingNumOf20">
+                    <li style="margin-left: 40px">
+                      <strong>Number of 20-seater bus:</strong>
+                      {{ props.row.bookingNumOf20 }}
+                    </li>
+                  </ul>
+                  <ul v-if="props.row.bookingNumOf40">
+                    <li style="margin-left: 40px">
+                      <strong>Number of 40-seater bus:</strong>
+                      {{ props.row.bookingNumOf40 }}
+                    </li>
+                  </ul>
+                  <ul v-if="props.row.bookingNumOf45">
+                    <li style="margin-left: 40px">
+                      <strong>Number of 45-seater bus:</strong>
+                      {{ props.row.bookingNumOf45 }}
+                    </li>
+                  </ul>
+                </ol>
                 <br />
                 <hr />
                 <strong
