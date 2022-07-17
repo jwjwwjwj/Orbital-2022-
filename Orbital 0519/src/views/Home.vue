@@ -1,6 +1,6 @@
 <template>
   <div id="home" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
-    <div class = "words">
+    <div class="words">
     <h1><strong> Home </strong></h1>
     </div>
     <main class="weather">
@@ -92,13 +92,11 @@ body {
   background-size: cover;
   background-position: bottom;
   transition: 0.4s;
-  position: relative;
 }
 #home.warm {
   background-image: url('/src/assets/sunny-weather.jpg');
 }
 #home.words {
-  position: absolute;
   text-align: center;
 }
 
