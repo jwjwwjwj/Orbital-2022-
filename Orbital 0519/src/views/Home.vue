@@ -2,7 +2,7 @@
   <div
     id="home"
     :class="
-      typeof weather.main != 'undefined' && weather.main.temp > 16
+      typeof weather.main != 'undefined' && weather.main.temp && weather.weather[0].main !== 'Rain' > 16
         ? 'warm'
         : typeof weather.main != 'undefined' &&
           weather.weather[0].main === 'Rain'
