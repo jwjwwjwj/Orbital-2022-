@@ -141,7 +141,7 @@
           <div id="datePicker" class="q-pa-md" style="max-width: 433px">
             <span v-if="v$.departureDate.$error">
               <exclamation-circle-outlined v-if="v$.departureDate.$error" />
-              Please Input Date & Time
+              <strong> Please Input Valid Date & Time </strong>
             </span>
             <q-input filled v-model="departureDate">
               <template v-slot:prepend>
@@ -243,7 +243,7 @@
             <div id="datePicker" class="q-pa-md" style="max-width: 433px">
               <span v-if="v$.returnFromDate.$error">
                 <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-                Please Input Date & Time
+                <strong> Please Input Valid Date & Time </strong>
               </span>
               <q-input filled v-model="returnFromDate">
                 <template v-slot:prepend>
