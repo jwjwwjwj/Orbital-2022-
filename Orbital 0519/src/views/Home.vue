@@ -2,14 +2,13 @@
   <div
     id="home"
     :class="
-    typeof weather.main != 'undefined' && weather.weather[0].main !== 'Rain' && weather.name === 'Singapore' && this.night
+    typeof weather.main != 'undefined' && weather.weather[0].main !== 'Rain' && weather.name === 'Singapore' && night
     ? 'night'
     : typeof weather.main != 'undefined' && weather.main.temp > 16 && weather.weather[0].main !== 'Rain'
-        ? 'warm'
-        : typeof weather.main != 'undefined' &&
-          weather.weather[0].main === 'Rain'
-        ? 'rain'
-        : ''
+    ? 'warm'
+    : typeof weather.main != 'undefined' && weather.weather[0].main === 'Rain'
+    ? 'rain'
+    : ''
     "
   >
     <div class="words" style="text-align: center">
@@ -49,6 +48,7 @@ export default {
   name: "app",
   data() {
     return {
+      night: false,
       api_key: "56335ecb5a4bacf3b82faa7c96847d66",
       url_base: "https://api.openweathermap.org/data/2.5/",
       query: "Singapore",
@@ -56,8 +56,8 @@ export default {
     };
   },
   methods: {
-    night() {
-      return dayjs().format('H') >= 19 || dayjs().format('H') <= 6;
+    night1() {
+      this.night = (dayjs().format('H') >= 19 || dayjs().format('H') <= 6);
     },
     fetchWeather(e) {
       if (e.key === "Enter") {
@@ -118,6 +118,7 @@ export default {
   },
   created() {
     this.defaultWeather();
+    this.night1();
   },
 };
 </script>
