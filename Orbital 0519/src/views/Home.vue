@@ -56,9 +56,8 @@ export default {
     };
   },
   methods: {
-
     night() {
-      return dayjs().format('H')>= '19' || (dayjs().format('H')<= '6')
+      return dayjs().format('H') >= 19 || (dayjs().format('H') <= 6)
     },
     fetchWeather(e) {
       if (e.key === "Enter") {
