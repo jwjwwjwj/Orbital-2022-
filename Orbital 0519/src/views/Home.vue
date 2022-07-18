@@ -56,7 +56,7 @@ export default {
     };
   },
   methods: {
-    night1() {
+    toggleNightBackground() {
       this.night = (dayjs().format('H') >= 19 || dayjs().format('H') <= 6);
     },
     fetchWeather(e) {
@@ -118,7 +118,7 @@ export default {
   },
   created() {
     this.defaultWeather();
-    this.night1();
+    this.toggleNightBackground();
   },
 };
 </script>
