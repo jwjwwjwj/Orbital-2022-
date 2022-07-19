@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Login from "../views/Login.vue";
-import Booking from "../views/BookingForm.vue";
+import Booking from "../views/Booking.vue";
 import ReadFleet from "../views/ReadFleet.vue";
 import UpdateFleet from "../components/UpdateFleet.vue";
 import AddFleet from "../views/AddFleet.vue";
 import CustomerBooking from "../views/CustomerBooking.vue";
 import CustomerBookingHistory from "../views/CustomerBookingHistory.vue";
+import Scheduling from "../views/Scheduling.vue";
 import { auth } from "../firebase";
 
 const routes = [
@@ -76,6 +77,14 @@ const routes = [
     path: "/view-booking",
     name: "CustomerBooking",
     component: CustomerBooking,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/scheduling",
+    name: "Scheduling",
+    component: Scheduling,
     meta: {
       requiresAuth: true
     }
