@@ -28,6 +28,11 @@
             >Fleet Overview</router-link
           >
         </li>
+        <li v-if="$store.state.isManager">
+          <router-link class="link" :to="{ name: 'Scheduling' }"
+            >Scheduling</router-link
+          >
+        </li>
       </ul>
       <ul v-show="!mobile" class="navigation">
         <li>
@@ -76,6 +81,11 @@
           <li v-if="$store.state.isManager">
             <router-link class="link" :to="{ name: 'ReadFleet' }"
               >Fleet Overview</router-link
+            >
+          </li>
+          <li v-if="$store.state.isManager">
+            <router-link class="link" :to="{ name: 'Scheduling' }"
+              >Scheduling</router-link
             >
           </li>
           &nbsp;&nbsp;&nbsp;
@@ -168,7 +178,7 @@ header {
     width: 96%;
     margin: 0 auto;
     @media (min-width: 1140px) {
-      max-width: 1140px;
+      max-width: 1340px;
     }
 
     ul.navigation {
@@ -181,6 +191,20 @@ header {
       color: rgb(155, 153, 153);
       list-style: none;
       text-decoration: none;
+    }
+
+    ul.navigation li {
+      text-align: center;
+      text-transform: uppercase;
+      padding: 14px 14px 0px 0px;
+      margin-left: 14px;
+      color: lightgrey;
+
+      .router-link-active.router-link-exact-active.link {
+        color: white;
+        border-color: white;
+        text-decoration: none;
+      }
     }
 
     li {
