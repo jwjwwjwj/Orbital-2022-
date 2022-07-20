@@ -13,7 +13,7 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <span v-if="v$.staffName.$error">
+          <span v-if="v$.staffName.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.staffName.$error" />
             Please Input Staff Name
           </span>
@@ -26,7 +26,7 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <span v-if="v$.staffNumber.$error">
+          <span v-if="v$.staffNumber.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.staffNumber.$error" />
             Please Input Valid Phone Number
           </span>
@@ -42,7 +42,7 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <span v-if="v$.staffCCA.$error">
+          <span v-if="v$.staffCCA.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.staffCCA.$error" />
             Please Input CCA
           </span>
@@ -61,7 +61,7 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <span v-if="v$.bookingActivity.$error">
+          <span v-if="v$.bookingActivity.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.bookingActivity.$error" />
             Please Input Activity Description
           </span>
@@ -89,12 +89,12 @@
         label="45 Seater"
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
-        <span v-if="v$.bookingNumOf45.$error">
+        <span v-if="v$.bookingNumOf45.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
           Total Buses has to be non zero and less than twenty
         </span>
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf45" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf45" :min="0" :max="20" />
         </div>
       </a-form-item>
       <a-form-item
@@ -104,7 +104,7 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf40" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf40" :min="0" :max="20" />
         </div>
       </a-form-item>
       <a-form-item
@@ -114,7 +114,7 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf20" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf20" :min="0" :max="20" />
         </div>
       </a-form-item>
       <a-form-item
@@ -124,7 +124,7 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf19" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf19" :min="0" :max="20" />
         </div>
       </a-form-item>
       <br />
@@ -134,9 +134,9 @@
         label="*Departure Date & Time"
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
-        <span v-if="v$.departureDate.$error">
+        <span v-if="v$.departureDate.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.departureDate.$error" />
-           Please Input Valid Date & Time 
+          Please Input Valid Date & Time
         </span>
         <div style="margin-left: 0%">
           <q-input filled v-model="departureDate" style="max-width: 400px">
@@ -188,13 +188,13 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <span v-if="v$.departureAssembly.$error">
+          <span v-if="v$.departureAssembly.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
-            Please Input Assembly Venue
+            Please Input Pick-up Point
           </span>
           <a-input
             v-model:value="departureAssembly"
-            placeholder="Input Assembly Venue"
+            placeholder="Input Pick-up Point"
           />
         </div>
       </a-form-item>
@@ -204,13 +204,13 @@
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
-          <span v-if="v$.departureDest.$error">
+          <span v-if="v$.departureDest.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.departureDest.$error" />
-            Please Input Destination
+            Please Input Drop-off Point
           </span>
           <a-input
             v-model:value="departureDest"
-            placeholder="Input Destination"
+            placeholder="Input Drop-off Point"
           />
         </div>
       </a-form-item>
@@ -222,9 +222,9 @@
           label="*Return Date & Time"
           style="font-weight: bold; text-align: left; padding-left: 10%"
         >
-          <span v-if="v$.returnFromDate.$error">
+          <span v-if="v$.returnFromDate.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-             Please Input Valid Date & Time
+            Please Input Valid Date & Time
           </span>
           <div style="margin-left: 0%">
             <q-input filled v-model="returnFromDate" style="max-width: 400px">
@@ -286,15 +286,15 @@
           style="font-weight: bold; text-align: left; padding-left: 10%"
         >
           <div class="form-input">
-            <span v-if="v$.returnFromAssembly.$error">
+            <span v-if="v$.returnFromAssembly.$error" class="error-message">
               <exclamation-circle-outlined
                 v-if="v$.returnFromAssembly.$error"
               />
-              Please Input Assembly Venue
+              Please Input Pick-up Point
             </span>
             <a-input
               v-model:value="returnFromAssembly"
-              placeholder="Input Assembly Venue"
+              placeholder="Input Pick-up Point"
             />
           </div>
         </a-form-item>
@@ -304,13 +304,13 @@
           style="font-weight: bold; text-align: left; padding-left: 10%"
         >
           <div class="form-input">
-            <span v-if="v$.returnFromDest.$error">
+            <span v-if="v$.returnFromDest.$error" class="error-message">
               <exclamation-circle-outlined v-if="v$.returnFromDest.$error" />
-              Please Input Destination
+              Please Input Drop-off Point
             </span>
             <a-input
               v-model:value="returnFromDest"
-              placeholder="Input Destination"
+              placeholder="Input Drop-off Point"
             />
           </div>
         </a-form-item>
@@ -360,14 +360,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import {
-  required,
-  requiredIf,
-  numeric,
-  minLength,
-  maxLength,
-} from "@vuelidate/validators";
-//import { ref } from "vue";
+import { required, requiredIf, numeric, helpers } from "@vuelidate/validators";
 import { db } from "../firebase/index.js";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
@@ -414,6 +407,7 @@ export default {
   },
 
   validations() {
+    const phoneNumberRegEx = helpers.regex(/([689]{1}\d{7}$)/g);
     return {
       user: {},
       id: {},
@@ -421,8 +415,7 @@ export default {
       staffNumber: {
         required,
         numeric,
-        minLength: minLength(8),
-        maxLength: maxLength(8),
+        phoneNumberRegEx,
       },
       staffCCA: { required },
       bookingNumOf45: {
@@ -622,5 +615,8 @@ export default {
   text-align: center;
   margin-left: 150px;
   margin-top: 30px;
+}
+.error-message {
+  color: red;
 }
 </style>
