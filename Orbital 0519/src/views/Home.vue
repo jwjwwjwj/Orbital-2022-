@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       night: false,
-      api_key: "56335ecb5a4bacf3b82faa7c96847d66",
+      api_key: process.env.VUE_APP_ENV_VARIABLE,
       url_base: "https://api.openweathermap.org/data/2.5/",
       query: "Singapore",
       weather: {},
