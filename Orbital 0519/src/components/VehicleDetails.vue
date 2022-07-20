@@ -582,3 +582,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+  input#f_bd3ed5e5-0f84-4d4d-b824-7e5686ba238e {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+</style>
