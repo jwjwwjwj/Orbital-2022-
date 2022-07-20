@@ -17,7 +17,7 @@
           @click="addVehicle"
         />
         <q-space />
-        <div style="margin-bottom: 20px">
+        <div style="margin-bottom: 0px">
           <q-input
             borderless
             dense
