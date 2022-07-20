@@ -39,9 +39,9 @@
         label="*Insurance Date"
         style="font-weight: bold; text-align: left; padding-left: 13%"
       >
-        <span v-if="v$.insuranceDate.$error">
+        <span v-if="v$.insuranceDate.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.insuranceDate.$error" />
-          Please Input Date
+          Please Input Valid Date
         </span>
         <div style="margin-left: 0%">
           <q-input filled v-model="insuranceDate" style="max-width: 400px">
@@ -71,11 +71,11 @@
         label="*Next Insurance Date"
         style="font-weight: bold; text-align: left; padding-left: 13%"
       >
-        <span v-if="v$.nextInsuranceRenewalDate.$error">
+        <span v-if="v$.nextInsuranceRenewalDate.$error" class="error-message">
           <exclamation-circle-outlined
             v-if="v$.nextInsuranceRenewalDate.$error"
           />
-          Please Input Date
+          Please Input Valid Date
         </span>
         <div style="margin-left: 0%">
           <q-input
@@ -111,7 +111,7 @@
           label="*Insurance Amount:"
           style="font-weight: bold; text-align: left; padding-left: 13%"
         >
-          <span v-if="v$.insuranceAmount.$error">
+          <span v-if="v$.insuranceAmount.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.insuranceAmount.$error" />
             Please Input Valid Insurance Amount
           </span>
@@ -130,9 +130,9 @@
         label="*Last Servicing Date"
         style="font-weight: bold; text-align: left; padding-left: 13%"
       >
-        <span v-if="v$.lastSentForServicing.$error">
+        <span v-if="v$.lastSentForServicing.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.lastSentForServicing.$error" />
-          Please Input Date
+          Please Input Valid Date
         </span>
         <div style="margin-left: 0%">
           <q-input
@@ -166,9 +166,9 @@
         label="*Next Servicing Date"
         style="font-weight: bold; text-align: left; padding-left: 13%"
       >
-        <span v-if="v$.nextServicingDate.$error">
+        <span v-if="v$.nextServicingDate.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.nextServicingDate.$error" />
-          Please Input Date
+          Please Input Valid Date
         </span>
         <div style="margin-left: 0%">
           <q-input filled v-model="nextServicingDate" style="max-width: 400px">
@@ -203,7 +203,7 @@
           label="*Road Tax Amount:"
           style="font-weight: bold; text-align: left; padding-left: 13%"
         >
-          <span v-if="v$.roadTaxAmount.$error">
+          <span v-if="v$.roadTaxAmount.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.roadTaxAmount.$error" />
             Please Input Valid Road Tax Amount
           </span>
@@ -219,9 +219,9 @@
         label="*Last Road Tax Date"
         style="font-weight: bold; text-align: left; padding-left: 13%"
       >
-        <span v-if="v$.lastPaidRoadTaxDate.$error">
+        <span v-if="v$.lastPaidRoadTaxDate.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.lastPaidRoadTaxDate.$error" />
-          Please Input Date
+          Please Input Valid Date
         </span>
         <div style="margin-left: 0%">
           <q-input
@@ -255,9 +255,9 @@
         label="*Next Road Tax Payment Date"
         style="font-weight: bold; text-align: left; padding-left: 13%"
       >
-        <span v-if="v$.roadTaxDueDate.$error">
+        <span v-if="v$.roadTaxDueDate.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.roadTaxDueDate.$error" />
-          Please Input Date
+          Please Input Valid Date
         </span>
         <div style="margin-left: 0%">
           <q-input filled v-model="roadTaxDueDate" style="max-width: 400px">
@@ -337,6 +337,7 @@ import {
   minLength,
   maxLength,
   minValue,
+  helpers,
 } from "@vuelidate/validators";
 //import { ref } from "vue";
 import { db } from "../firebase/index.js";
@@ -379,9 +380,14 @@ export default {
     };
   },
   validations() {
+    const uniqueLicencePlate = (value) =>
+      value === null ? value : !this.vehicles.includes(value.toUpperCase());
+    const licencePlateRegEx = helpers.regex(/([A-Z]{2,3}\d{1,4}[A-Z]{1}$)/i);
     return {
       licencePlate: {
         required,
+        uniqueLicencePlate,
+        licencePlateRegEx,
         maxLength: maxLength(8),
         minLength: minLength(3),
       },
@@ -555,5 +561,8 @@ export default {
 .departure-label {
   text-align: center;
   margin-top: 30px;
+}
+.error-message {
+  color: red;
 }
 </style>
