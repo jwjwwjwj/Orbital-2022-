@@ -3,8 +3,7 @@ import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
-
-  apiKey: "AIzaSyDW-Bk_Pg13jTMvaVij9lYtQ-5VyXRxdHY",
+  apiKey: process.env.VUE_APP_ENV_VARIABLE1,
   authDomain: "transporfficient.firebaseapp.com",
   projectId: "transporfficient",
   storageBucket: "transporfficient.appspot.com",
