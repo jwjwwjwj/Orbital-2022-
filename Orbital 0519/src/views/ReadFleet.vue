@@ -1,7 +1,8 @@
   <template>
   <main class="read-fleet">
     <h1><strong>Fleet Overview</strong></h1>
-    <div class="flex-container">
+    <!--Browser View-->
+    <div v-show="!mobile" class="flex-container">
       <div class="flex-child fleet-size">
         <!--span>This is for road-tax</span-->
         <Fleetsize />
@@ -13,7 +14,28 @@
         <VehicleMaintenance />
       </div>
     </div>
-    <div class="vehicle-details-container">
+    <div v-show="!mobile" class="vehicle-details-container">
+      <span class="vehicle-details-title">
+        <p><strong>Current Fleet</strong></p>
+      </span>
+      <span>
+        <VehicleDetails />
+      </span>
+    </div>
+    <!--Mobile View-->
+    <div v-show="mobile" class="container">
+      <div class="fleet-size">
+        <!--span>This is for road-tax</span-->
+        <Fleetsize />
+      </div>
+      <div class="road-tax">
+        <RoadTax />
+      </div>
+      <div class="vehicle-maintenance">
+        <VehicleMaintenance />
+      </div>
+    </div>
+    <div v-show="mobile" class="vehicle-details-container">
       <span class="vehicle-details-title">
         <p><strong>Current Fleet</strong></p>
       </span>
@@ -31,11 +53,32 @@ import VehicleDetails from "../components/VehicleDetails.vue";
 import VehicleMaintenance from "../components/VehicleMaintenance.vue";
 
 export default {
+  data() {
+    return {
+      mobile: null,
+      windowWidth: null,
+    };
+  },
+  created() {
+    window.addEventListener("resize", this.checkScreenSize);
+    this.checkScreenSize();
+  },
   components: {
     Fleetsize,
     RoadTax,
     VehicleDetails,
     VehicleMaintenance,
+  },
+  methods: {
+    checkScreenSize() {
+      this.windowWidth = window.innerWidth;
+      if (this.windowWidth <= 1000) {
+        this.mobile = true;
+        return;
+      }
+      this.mobile = false;
+      return;
+    },
   },
 };
 </script>
@@ -66,5 +109,12 @@ export default {
   padding: 50px 0px 0px 0px;
   font-size: 20px;
   text-decoration: underline;
+}
+
+.fleet-size,
+.road-tax,
+.vehicle-maintenance {
+  border: 2px solid grey;
+  margin: 10px;
 }
 </style>
