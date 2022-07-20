@@ -10,7 +10,7 @@
         style="font-weight: bold"
       >
         <div class="form-input">
-          <span v-if="v$.staffName.$error">
+          <span v-if="v$.staffName.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.staffName.$error" />
             Please Input Staff Name
           </span>
@@ -27,7 +27,7 @@
         style="font-weight: bold"
       >
         <div class="form-input">
-          <span v-if="v$.staffNumber.$error">
+          <span v-if="v$.staffNumber.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.staffNumber.$error" />
             Please Input Valid Phone Number
           </span>
@@ -43,7 +43,7 @@
         style="font-weight: bold"
       >
         <div class="form-input">
-          <span v-if="v$.staffCCA.$error">
+          <span v-if="v$.staffCCA.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.staffCCA.$error" />
             Please Input CCA
           </span>
@@ -62,7 +62,7 @@
         style="font-weight: bold"
       >
         <div class="form-input">
-          <span v-if="v$.bookingActivity.$error">
+          <span v-if="v$.bookingActivity.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.bookingActivity.$error" />
             Please Input Activity Description
           </span>
@@ -90,12 +90,12 @@
         label="45 Seater"
         style="font-weight: bold"
       >
-        <span v-if="v$.bookingNumOf45.$error">
+        <span v-if="v$.bookingNumOf45.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
-          Total Buses has to be non zero and less than twenty
+          Total buses has to be non zero and less than twenty
         </span>
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf45" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf45" :min="0" :max="20" />
         </div>
       </a-form-item>
       <a-form-item
@@ -105,7 +105,7 @@
         style="font-weight: bold"
       >
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf40" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf40" :min="0" :max="20" />
         </div>
       </a-form-item>
       <a-form-item
@@ -115,7 +115,7 @@
         style="font-weight: bold"
       >
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf20" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf20" :min="0" :max="20" />
         </div>
       </a-form-item>
       <a-form-item
@@ -125,7 +125,7 @@
         style="font-weight: bold"
       >
         <div class="form-input">
-          <a-input-number v-model:value="bookingNumOf19" :min="0" :max="99" />
+          <a-input-number v-model:value="bookingNumOf19" :min="0" :max="20" />
         </div>
       </a-form-item>
       <br />
@@ -139,9 +139,9 @@
         </div>
         <div class="flex-child road-tax">
           <div id="datePicker" class="q-pa-md" style="max-width: 433px">
-            <span v-if="v$.departureDate.$error">
+            <span v-if="v$.departureDate.$error" class="error-message">
               <exclamation-circle-outlined v-if="v$.departureDate.$error" />
-              <strong> Please Input Valid Date & Time </strong>
+              <strong>&nbsp;Please Input Valid Date & Time</strong>
             </span>
             <q-input filled v-model="departureDate">
               <template v-slot:prepend>
@@ -199,33 +199,33 @@
       </div>
       <a-form-item
         name="['departure', 'assembly']"
-        label="*Assembly Venue"
+        label="*Pick-up Point"
         style="font-weight: bold"
       >
         <div class="form-input">
-          <span v-if="v$.departureAssembly.$error">
+          <span v-if="v$.departureAssembly.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.departureAssembly.$error" />
-            Please Input Assembly Venue
+            Please Input Pick-up Point
           </span>
           <a-input
             v-model:value="departureAssembly"
-            placeholder="Input Assembly Venue"
+            placeholder="Input Pick-up Point"
           />
         </div>
       </a-form-item>
       <a-form-item
         name="['departure', 'dest']"
-        label="*Input Destination"
+        label="*Drop-off Point"
         style="font-weight: bold"
       >
         <div class="form-input">
-          <span v-if="v$.departureDest.$error">
+          <span v-if="v$.departureDest.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.departureDest.$error" />
-            Please Input Destination
+            Please Input Drop-off Point
           </span>
           <a-input
             v-model:value="departureDest"
-            placeholder="Input Destination"
+            placeholder="Input Drop-off Point"
           />
         </div>
       </a-form-item>
@@ -241,9 +241,9 @@
           </div>
           <div class="flex-child road-tax">
             <div id="datePicker" class="q-pa-md" style="max-width: 433px">
-              <span v-if="v$.returnFromDate.$error">
+              <span v-if="v$.returnFromDate.$error" class="error-message">
                 <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-                <strong> Please Input Valid Date & Time </strong>
+                <strong>&nbsp;Please Input Valid Date & Time</strong>
               </span>
               <q-input filled v-model="returnFromDate">
                 <template v-slot:prepend>
@@ -301,35 +301,35 @@
         </div>
         <a-form-item
           name="['returnFrom', 'assembly']"
-          label="*Assembly Venue"
+          label="*Pick-up Point"
           style="font-weight: bold"
         >
           <div class="form-input">
-            <span v-if="v$.returnFromAssembly.$error">
+            <span v-if="v$.returnFromAssembly.$error" class="error-message">
               <exclamation-circle-outlined
                 v-if="v$.returnFromAssembly.$error"
               />
-              Please Input Assembly Venue
+              Please Input Pick-up Point
             </span>
             <a-input
               v-model:value="returnFromAssembly"
-              placeholder="Input Assembly Venue"
+              placeholder="Input Pick-up Point"
             />
           </div>
         </a-form-item>
         <a-form-item
           name="['returnFrom', 'dest']"
-          label="*Input Destination"
+          label="*Drop-off Point"
           style="font-weight: bold"
         >
           <div class="form-input">
-            <span v-if="v$.returnFromDest.$error">
+            <span v-if="v$.returnFromDest.$error" class="error-message">
               <exclamation-circle-outlined v-if="v$.returnFromDest.$error" />
-              Please Input Destination
+              Please Input Drop-off Point
             </span>
             <a-input
               v-model:value="returnFromDest"
-              placeholder="Input Destination"
+              placeholder="Input Drop-off Point"
             />
           </div>
         </a-form-item>
@@ -375,13 +375,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import {
-  required,
-  requiredIf,
-  numeric,
-  minLength,
-  maxLength /*minValue*/,
-} from "@vuelidate/validators";
+import { required, requiredIf, numeric, helpers } from "@vuelidate/validators";
 import moment from "moment";
 import dayjs from "dayjs";
 import { ref, reactive } from "vue";
@@ -430,6 +424,7 @@ export default {
     },
   },
   validations() {
+    const phoneNumberRegEx = helpers.regex(/([689]{1}\d{7}$)/g);
     return {
       user: {},
       id: {},
@@ -437,8 +432,7 @@ export default {
       staffNumber: {
         required,
         numeric,
-        minLength: minLength(8),
-        maxLength: maxLength(8),
+        phoneNumberRegEx,
       },
       staffCCA: { required },
       bookingNumOf45: {
@@ -627,5 +621,9 @@ h3 {
 .departure-label {
   text-align: center;
   margin-top: 30px;
+}
+
+.error-message {
+  color: red;
 }
 </style>

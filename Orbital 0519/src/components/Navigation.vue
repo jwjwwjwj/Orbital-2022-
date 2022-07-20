@@ -28,11 +28,6 @@
             >Fleet Overview</router-link
           >
         </li>
-        <li v-if="$store.state.isManager">
-          <router-link class="link" :to="{ name: 'Scheduling' }"
-            >Scheduling</router-link
-          >
-        </li>
       </ul>
       <ul v-show="!mobile" class="navigation">
         <li>
@@ -81,11 +76,6 @@
           <li v-if="$store.state.isManager">
             <router-link class="link" :to="{ name: 'ReadFleet' }"
               >Fleet Overview</router-link
-            >
-          </li>
-          <li v-if="$store.state.isManager">
-            <router-link class="link" :to="{ name: 'Scheduling' }"
-              >Scheduling</router-link
             >
           </li>
           &nbsp;&nbsp;&nbsp;
