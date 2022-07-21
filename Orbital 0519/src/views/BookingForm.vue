@@ -131,7 +131,7 @@
       <br />
       <hr />
       <h3>Departure Details</h3>
-      <div class="flex-container">
+      <!--div class="flex-container">
         <div class="flex-child fleet-size">
           <div class="departure-label">
             <strong>*Departure Date & Time:</strong>
@@ -196,7 +196,60 @@
             </q-input>
           </div>
         </div>
-      </div>
+      </div-->
+      <a-form-item
+        :name="['departure', 'date']"
+        label="*Departure Date & Time"
+        style="font-weight: bold"
+      >
+        <div id="datePicker" class="q-pa-md" style="max-width: 433px">
+          <span v-if="v$.departureDate.$error" class="error-message">
+            <exclamation-circle-outlined v-if="v$.departureDate.$error" />
+            <strong>&nbsp;Please Input Valid Date & Time</strong>
+          </span>
+          <q-input filled v-model="departureDate">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="departureDate"
+                    mask="YYYY-MM-DD HH:mm"
+                    :options="optionsFn"
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    v-model="departureDate"
+                    mask="YYYY-MM-DD HH:mm"
+                    format24h
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+      </a-form-item>
       <a-form-item
         name="['departure', 'assembly']"
         label="*Pick-up Point"
@@ -233,72 +286,69 @@
         <br />
         <hr />
         <h3>Return Details</h3>
-        <div class="flex-container">
-          <div class="flex-child fleet-size">
-            <div class="departure-label">
-              <strong>*Return Date & Time:</strong>
-            </div>
-          </div>
-          <div class="flex-child road-tax">
-            <div id="datePicker" class="q-pa-md" style="max-width: 433px">
-              <span v-if="v$.returnFromDate.$error" class="error-message">
-                <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-                <strong>&nbsp;Please Input Valid Date & Time</strong>
-              </span>
-              <q-input filled v-model="returnFromDate">
-                <template v-slot:prepend>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
+        <a-form-item
+          :name="['return', 'date']"
+          label="*Return Date & Time"
+          style="font-weight: bold"
+        >
+          <div id="datePicker" class="q-pa-md" style="max-width: 433px">
+            <span v-if="v$.returnFromDate.$error" class="error-message">
+              <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
+              <strong>&nbsp;Please Input Valid Date & Time</strong>
+            </span>
+            <q-input filled v-model="returnFromDate">
+              <template v-slot:prepend>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date
+                      v-model="returnFromDate"
+                      mask="YYYY-MM-DD HH:mm"
+                      :options="optionsFn"
                     >
-                      <q-date
-                        v-model="returnFromDate"
-                        mask="YYYY-MM-DD HH:mm"
-                        :options="optionsFn"
-                      >
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
 
-                <template v-slot:append>
-                  <q-icon name="access_time" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
+              <template v-slot:append>
+                <q-icon name="access_time" class="cursor-pointer">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-time
+                      v-model="returnFromDate"
+                      mask="YYYY-MM-DD HH:mm"
+                      format24h
                     >
-                      <q-time
-                        v-model="returnFromDate"
-                        mask="YYYY-MM-DD HH:mm"
-                        format24h
-                      >
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-time>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-time>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
           </div>
-        </div>
+        </a-form-item>
         <a-form-item
           name="['returnFrom', 'assembly']"
           label="*Pick-up Point"
@@ -402,7 +452,7 @@ export default {
       bookingNumOf19: 0,
       bookingActivity: null,
       bookingOptions: 1,
-      departureDate: ref(), //dayjs().add(3, "day"),//ref(),
+      departureDate: ref(),
       departureTime: ref(),
       departureAssembly: null,
       departureDest: null,
