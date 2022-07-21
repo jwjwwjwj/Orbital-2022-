@@ -184,7 +184,7 @@
       </a-form-item>
       <a-form-item
         name="['departure', 'assembly']"
-        label="*Assembly Venue"
+        label="*Pick-up Point"
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
@@ -200,7 +200,7 @@
       </a-form-item>
       <a-form-item
         name="['departure', 'dest']"
-        label="*Input Destination"
+        label="*Drop-off Point"
         style="font-weight: bold; text-align: left; padding-left: 10%"
       >
         <div class="form-input">
@@ -282,7 +282,7 @@
         </a-form-item>
         <a-form-item
           name="['returnFrom', 'assembly']"
-          label="*Assembly Venue"
+          label="*Pick-up Point"
           style="font-weight: bold; text-align: left; padding-left: 10%"
         >
           <div class="form-input">
@@ -300,7 +300,7 @@
         </a-form-item>
         <a-form-item
           name="['returnFrom', 'dest']"
-          label="*Input Destination"
+          label="*Drop-off Point"
           style="font-weight: bold; text-align: left; padding-left: 10%"
         >
           <div class="form-input">
@@ -360,7 +360,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required, requiredIf, numeric, helpers } from "@vuelidate/validators";
+import { required, requiredIf, numeric, helpers, maxLength } from "@vuelidate/validators";
 import { db } from "../firebase/index.js";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
@@ -411,13 +411,13 @@ export default {
     return {
       user: {},
       id: {},
-      staffName: { required },
+      staffName: { required, maxLength: maxLength(15) },
       staffNumber: {
         required,
         numeric,
         phoneNumberRegEx,
       },
-      staffCCA: { required },
+      staffCCA: { required, maxLength: maxLength(20) },
       bookingNumOf45: {
         required,
         minValue: (value) =>
@@ -435,7 +435,7 @@ export default {
       bookingNumOf40: { required },
       bookingNumOf20: { required },
       bookingNumOf19: { required },
-      bookingActivity: { required },
+      bookingActivity: { required, maxLength: maxLength(20) },
       bookingOptions: { required },
       departureDate: {
         required,

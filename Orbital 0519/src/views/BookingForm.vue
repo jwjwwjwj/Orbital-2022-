@@ -425,7 +425,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required, requiredIf, numeric, helpers } from "@vuelidate/validators";
+import { required, requiredIf, numeric, helpers, maxLength } from "@vuelidate/validators";
 import moment from "moment";
 import dayjs from "dayjs";
 import { ref, reactive } from "vue";
@@ -478,13 +478,13 @@ export default {
     return {
       user: {},
       id: {},
-      staffName: { required },
+      staffName: { required, maxLength: maxLength(20) },
       staffNumber: {
         required,
         numeric,
         phoneNumberRegEx,
       },
-      staffCCA: { required },
+      staffCCA: { required, maxLength: maxLength(20) },
       bookingNumOf45: {
         required,
         minValue: (value) =>
@@ -502,7 +502,7 @@ export default {
       bookingNumOf40: { required },
       bookingNumOf20: { required },
       bookingNumOf19: { required },
-      bookingActivity: { required },
+      bookingActivity: { required, maxLength: maxLength(20) },
       bookingOptions: { required },
       departureDate: {
         required,
