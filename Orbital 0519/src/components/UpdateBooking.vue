@@ -91,7 +91,7 @@
       >
         <span v-if="v$.bookingNumOf45.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
-          Total Buses has to be non zero and less than twenty
+          Total Buses Has To Be Non Zero And Less Than Twenty
         </span>
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf45" :min="0" :max="20" />

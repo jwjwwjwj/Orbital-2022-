@@ -92,7 +92,7 @@
       >
         <span v-if="v$.bookingNumOf45.$error" class="error-message">
           <exclamation-circle-outlined v-if="v$.bookingNumOf45.$error" />
-          Total buses has to be non zero and less than twenty
+          Total Buses Has To Be Non Zero And Less Than Twenty
         </span>
         <div class="form-input">
           <a-input-number v-model:value="bookingNumOf45" :min="0" :max="20" />
@@ -139,7 +139,7 @@
         <div id="datePicker" class="q-pa-md" style="max-width: 433px">
           <span v-if="v$.departureDate.$error" class="error-message">
             <exclamation-circle-outlined v-if="v$.departureDate.$error" />
-            <strong>&nbsp;Please Input Valid Date & Time</strong>
+            &nbsp;Please Input Valid Date & Time
           </span>
           <q-input filled v-model="departureDate">
             <template v-slot:prepend>
@@ -228,7 +228,7 @@
           <div id="datePicker" class="q-pa-md" style="max-width: 433px">
             <span v-if="v$.returnFromDate.$error" class="error-message">
               <exclamation-circle-outlined v-if="v$.returnFromDate.$error" />
-              <strong>&nbsp;Please Input Valid Date & Time</strong>
+              &nbsp;Please Input Valid Date & Time
             </span>
             <q-input filled v-model="returnFromDate">
               <template v-slot:prepend>
@@ -451,8 +451,8 @@ export default {
         },
       },
       departureTime: {},
-      departureAssembly: { required },
-      departureDest: { required },
+      departureAssembly: { required, maxLength: maxLength(30) },
+      departureDest: { required, maxLength: maxLength(30) },
       returnFromDate: {
         required: requiredIf(function () {
           return this.bookingOptions === 2;
@@ -466,11 +466,17 @@ export default {
         required: requiredIf(function () {
           return this.bookingOptions === 2;
         }),
+        maxLength: function (value) {
+          return this.bookingOptions === 1 || value.length < 30;
+        },
       },
       returnFromDest: {
         required: requiredIf(function () {
           return this.bookingOptions === 2;
         }),
+        maxLength: function (value) {
+          return this.bookingOptions === 1 || value.length < 30;
+        },
       },
     };
   },
