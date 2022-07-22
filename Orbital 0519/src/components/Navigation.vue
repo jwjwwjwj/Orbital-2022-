@@ -36,10 +36,7 @@
           ><i class="far fa-user"></i>
         </li>
         <li>
-          <router-link
-            class="link"
-            @click="$store.dispatch('logout')"
-            :to="{ name: 'Login' }"
+          <router-link class="link" @click="logOut" :to="{ name: 'Login' }"
             >Logout &nbsp;<i class="far fa-sign-out-alt"></i
           ></router-link>
         </li>
@@ -85,10 +82,7 @@
             ><i class="far fa-user"></i>
           </li>
           <li>
-            <router-link
-              class="link"
-              @click="$store.dispatch('logout')"
-              :to="{ name: 'Login' }"
+            <router-link class="link" @click="logOut" :to="{ name: 'Login' }"
               >Logout &nbsp;<i class="far fa-sign-out-alt"></i
             ></router-link>
           </li>
@@ -108,7 +102,6 @@ export default {
   data() {
     return {
       displayName: auth.currentUser !== null ? auth.currentUser.email : "",
-      isOpen: false,
       mobile: null,
       mobileNav: null,
       windowWidth: null,
@@ -128,11 +121,9 @@ export default {
   },
   components: {},
   methods: {
-    mouseover: function () {
-      this.isOpen = true;
-    },
-    mouseleave: function () {
-      this.isOpen = false;
+    logOut() {
+      this.$store.dispatch("logout");
+      this.mobileNav = false;
     },
     toggleMobileNav() {
       this.mobileNav = !this.mobileNav;
@@ -146,6 +137,11 @@ export default {
       this.mobile = false;
       this.mobileNav = false;
       return;
+    },
+  },
+  watch: {
+    $route(to, from) {
+      this.mobileNav = false;
     },
   },
 };
