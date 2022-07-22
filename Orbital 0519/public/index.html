@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transporfficient</title>
     <!--3.4.1-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
+    <!--insert here-->
     <link
       rel="stylesheet"
       href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css"
@@ -62,6 +57,87 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script-->
+    <style>
+      .dot-floating {
+        position: relative;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #9880ff;
+        color: #9880ff;
+        animation: dotFloating 3s infinite cubic-bezier(0.15, 0.6, 0.9, 0.1);
+      }
+
+      .dot-floating::before,
+      .dot-floating::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        top: 0;
+      }
+
+      .dot-floating::before {
+        left: -12px;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #9880ff;
+        color: #9880ff;
+        animation: dotFloatingBefore 3s infinite ease-in-out;
+      }
+
+      .dot-floating::after {
+        left: -24px;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #9880ff;
+        color: #9880ff;
+        animation: dotFloatingAfter 3s infinite cubic-bezier(0.4, 0, 1, 1);
+      }
+
+      @keyframes dotFloating {
+        0% {
+          left: calc(-50% - 5px);
+        }
+        75% {
+          left: calc(50% + 105px);
+        }
+        100% {
+          left: calc(50% + 105px);
+        }
+      }
+
+      @keyframes dotFloatingBefore {
+        0% {
+          left: -50px;
+        }
+        50% {
+          left: -12px;
+        }
+        75% {
+          left: -50px;
+        }
+        100% {
+          left: -50px;
+        }
+      }
+
+      @keyframes dotFloatingAfter {
+        0% {
+          left: -100px;
+        }
+        50% {
+          left: -24px;
+        }
+        75% {
+          left: -100px;
+        }
+        100% {
+          left: -100px;
+        }
+      }
+    </style>
   </head>
   <body>
     <script
@@ -77,26 +153,11 @@
       >
     </noscript>
     <div id="app">
-      <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Transporfficient</a>
-          </div>
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Page 2</a></li>
-            <li><a href="#">Page 3</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="#"
-                ><span class="glyphicon glyphicon-log-in"> Login</span></a
-              >
-            </li>
-          </ul>
+      <div class="snippet" data-title=".dot-floating">
+        <div class="stage">
+          <div class="dot-floating"></div>
         </div>
-      </nav>
+      </div>
     </div>
     <!-- built files will be auto injected -->
   </body>
