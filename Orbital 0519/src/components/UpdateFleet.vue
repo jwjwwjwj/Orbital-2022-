@@ -320,6 +320,7 @@
             label="Confirm"
             color="green"
             @click="updateVehicle(selectedId)"
+            :disabled="isLoading"
           />
         </q-card-actions>
       </q-card>
@@ -337,9 +338,7 @@ import {
   minLength,
   maxLength,
   minValue,
-  helpers,
 } from "@vuelidate/validators";
-//import { ref } from "vue";
 import { db } from "../firebase/index.js";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
@@ -353,6 +352,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       toggleEditVehicleConfirm: false,
       licencePlate: this.selectedLicencePlate,
       id: this.selectedLicencePlate,
@@ -380,14 +380,9 @@ export default {
     };
   },
   validations() {
-    const uniqueLicencePlate = (value) =>
-      value === null ? value : !this.vehicles.includes(value.toUpperCase());
-    const licencePlateRegEx = helpers.regex(/([A-Z]{2,3}\d{1,4}[A-Z]{1}$)/i);
     return {
       licencePlate: {
         required,
-        uniqueLicencePlate,
-        licencePlateRegEx,
         maxLength: maxLength(8),
         minLength: minLength(3),
       },
@@ -466,6 +461,7 @@ export default {
     async updateVehicle(uniqueId) {
       this.v$.$validate();
       if (!this.v$.$error) {
+        this.isLoading = true;
         const docRef = doc(db, "vehicles", uniqueId);
         const docData = {
           id: this.licencePlate,
@@ -481,6 +477,7 @@ export default {
           roadTaxDueDate: new Date(this.roadTaxDueDate),
         };
         setDoc(docRef, docData);
+        this.isLoading = false;
         this.$router.push("/");
         alert(
           "Vehicle " + this.licencePlate + " has been successfully updated!"
