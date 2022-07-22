@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import About from "../views/About.vue";
 import Login from "../views/Login.vue";
 import Booking from "../views/BookingForm.vue";
 import ReadFleet from "../views/ReadFleet.vue";
@@ -8,6 +7,7 @@ import UpdateFleet from "../components/UpdateFleet.vue";
 import AddFleet from "../views/AddFleet.vue";
 import CustomerBooking from "../views/CustomerBooking.vue";
 import CustomerBookingHistory from "../views/CustomerBookingHistory.vue";
+import PageNotFound from "../components/PageNotFound.vue";
 import { auth } from "../firebase";
 
 const routes = [
@@ -15,14 +15,6 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: About,
     meta: {
       requiresAuth: true
     }
@@ -79,6 +71,11 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "PageNotFound",
+    component: PageNotFound
   }
 ];
 

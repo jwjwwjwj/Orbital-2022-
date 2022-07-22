@@ -415,7 +415,7 @@
             color="black"
             @click="toggleConfirmModal"
           />
-          <q-btn flat label="Confirm" color="green" @click="createBooking" />
+          <q-btn flat label="Confirm" color="green" @click="createBooking" :disabled="isLoading" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -461,6 +461,7 @@ export default {
       returnFromAssembly: null,
       returnFromDest: null,
       toggleAddBookingConfirm: false,
+      isLoading: false,
     };
   },
   computed: {
@@ -540,6 +541,7 @@ export default {
     async createBooking() {
       this.v$.$validate();
       if (!this.v$.$error) {
+        this.isLoading = true;
         const bookingsRef = collection(db, "bookings");
         this.departureDate = new Date(this.departureDate);
         this.departureTime = new Date(this.departureDate)
@@ -556,6 +558,7 @@ export default {
         }
         await addDoc(bookingsRef, this.$data);
         this.$router.push({ path: "/" });
+        this.isLoading = false;
         alert("Booking form submitted!");
       } else {
         alert("Form failed validation");

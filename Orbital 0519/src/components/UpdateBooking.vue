@@ -351,6 +351,7 @@
           label="Confirm"
           color="green"
           @click="updateBooking(selectedId)"
+          :disabled="isLoading"
         />
       </q-card-actions>
     </q-card>
@@ -374,6 +375,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       toggleEditVehicleConfirm: false,
       uniqueId: this.selectedId,
       uniqueUser: this.selectedUser,
@@ -505,6 +507,7 @@ export default {
     async updateBooking(uniqueId) {
       this.v$.$validate();
       if (!this.v$.$error) {
+        this.isLoading = true;
         const docRef = doc(db, "bookings", uniqueId);
         const docData = {
           id: this.uniqueUser,
@@ -536,6 +539,7 @@ export default {
             this.bookingOptions === 1 ? null : this.returnFromDest,
         };
         setDoc(docRef, docData);
+        this.isLoading = false;
         this.$router.push("/");
         alert("Booking has been successfully updated!");
       } else {
