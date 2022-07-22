@@ -410,10 +410,13 @@ export default {
   },
   validations() {
     const phoneNumberRegEx = helpers.regex(/([689]{1}\d{7}$)/g);
+    const staffNameRegEx = helpers.regex(/^[a-zA-Z ]*$/)
     return {
       user: {},
       id: {},
-      staffName: { required, maxLength: maxLength(20) },
+      staffName: { required, 
+      maxLength: maxLength(20),
+      staffNameRegEx },
       staffNumber: {
         required,
         numeric,
