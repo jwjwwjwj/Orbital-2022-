@@ -315,7 +315,13 @@
             color="black"
             @click="toggleConfirmModal"
           />
-          <q-btn flat label="Confirm" color="green" @click="addVehicle" />
+          <q-btn
+            flat
+            label="Confirm"
+            color="green"
+            @click="addVehicle"
+            :disabled="isLoading"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -359,6 +365,7 @@ export default {
       roadTaxDueDate: null,
       toggleAddVehicleConfirm: false,
       vehicles: [],
+      isLoading: false,
     };
   },
   validations() {
@@ -423,6 +430,7 @@ export default {
     async addVehicle() {
       this.v$.$validate();
       if (!this.v$.$error) {
+        this.isLoading = true;
         const vehicleRef = collection(db, "vehicles");
         const docData = {
           id: this.licencePlate,
@@ -443,6 +451,7 @@ export default {
             this.licencePlate.toUpperCase() +
             " has been successfully added!"
         );
+        this.isLoading = false;
         this.$router.push("/");
       } else {
         alert("Form failed validation");
