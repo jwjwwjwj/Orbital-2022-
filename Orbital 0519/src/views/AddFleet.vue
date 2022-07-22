@@ -333,6 +333,7 @@
 import useVuelidate from "@vuelidate/core";
 import {
   required,
+  minValue,
   maxValue,
   numeric,
   minLength,
@@ -384,7 +385,7 @@ export default {
       insuranceDate: {
         required,
         minValue(value) {
-          return new Date(value) < new Date();
+          return new Date(value) <= new Date();
         },
       },
       capacity: { numeric, required },
@@ -394,7 +395,7 @@ export default {
           return value > this.insuranceDate && new Date(value) >= new Date();
         },
       },
-      insuranceAmount: { numeric, required, maxValue: maxValue(2000) },
+      insuranceAmount: { numeric, required, maxValue: maxValue(2000), minValue: minValue(1) },
       lastSentForServicing: {
         required,
         minValue(value) {
@@ -409,7 +410,7 @@ export default {
           );
         },
       },
-      roadTaxAmount: { numeric, required, maxValue: maxValue(2000) },
+      roadTaxAmount: { numeric, required, maxValue: maxValue(2000), minValue: minValue(1) },
       lastPaidRoadTaxDate: {
         required,
         minValue(value) {
@@ -511,7 +512,11 @@ export default {
           date.subtractFromDate(Date.now(), { months: 24 }),
           "YYYY/MM/DD"
         );
-        return d >= oldDate && d <= date.formatDate(Date.now(), "YYYY/MM/DD");
+        let notToday = date.formatDate(
+          date.subtractFromDate(Date.now(), { days: 1 }),
+          "YYYY/MM/DD"
+        );
+        return d >= oldDate && d <= notToday;
       },
     };
   },

@@ -531,7 +531,11 @@ export default {
           date.subtractFromDate(Date.now(), { months: 24 }),
           "YYYY/MM/DD"
         );
-        return d >= oldDate && d <= date.formatDate(Date.now(), "YYYY/MM/DD");
+        let notToday = date.formatDate(
+          date.subtractFromDate(Date.now(), { days: 1 }),
+          "YYYY/MM/DD"
+        );
+        return d >= oldDate && d <= notToday;
       },
     };
   },
