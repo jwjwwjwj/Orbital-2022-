@@ -205,6 +205,7 @@
                       label="Confirm"
                       color="red"
                       @click="deleteBooking(deleteSelectedId)"
+                      :disabled="isLoading"
                     />
                   </q-card-actions>
                 </q-card>
@@ -461,6 +462,7 @@ export default {
       toggleEditBookingConfirm: null,
       toggleWarning: null,
       deleteSelectedId: null,
+      isLoading: false,
     };
   },
 
@@ -483,8 +485,10 @@ export default {
     },
 
     async deleteBooking(uniqueId) {
+      this.isLoading = true;
       await deleteDoc(doc(db, "bookings", uniqueId));
       alert("Booking has been successfully cancelled.");
+      this.isLoading = false;
       this.$router.push("/");
     },
 
