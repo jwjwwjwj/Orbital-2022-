@@ -113,12 +113,6 @@
                       color="black"
                       @click="toggleEditVehicleModal"
                     />
-                    <!--q-btn
-                      flat
-                      label="Confirm"
-                      color="red"
-                      @click="removeVehicle(selectedId)"
-                    /-->
                   </q-card-actions>
                 </q-card>
               </q-dialog>
@@ -165,6 +159,7 @@
                       label="Confirm"
                       color="red"
                       @click="removeVehicle(selectedId)"
+                      :disabled="isLoading"
                     />
                   </q-card-actions>
                 </q-card>
@@ -415,6 +410,7 @@ export default {
       selectedRoadTaxAmount: null,
       selectedLastPaidRoadTaxDate: null,
       selectedRoadTaxDueDate: null,
+      isLoading: false,
     };
   },
 
@@ -441,9 +437,11 @@ export default {
     },
 
     async removeVehicle(uniqueId) {
+      this.isLoading = true;
       await deleteDoc(doc(db, "vehicles", uniqueId));
       alert("Vehicle has been successfully deleted.");
       this.componentKey += 1;
+      this.isLoading = false;
       this.$router.push("/");
     },
 
@@ -552,11 +550,6 @@ export default {
     makeInsurancePayment: () => {
       alert("SUCCESS");
     },
-    /*
-    async makeInsuranePayment() {
-      alert("SUCCESS");
-    },
-    */
     moment: (date) => {
       return moment(date);
     },
@@ -583,7 +576,7 @@ export default {
 };
 </script>
 <style>
-input.q-field__native.q-placeholder {
+input#f_bd3ed5e5-0f84-4d4d-b824-7e5686ba238e {
   padding-top: 20px;
   padding-bottom: 20px;
 }
