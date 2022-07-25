@@ -404,7 +404,7 @@ export default {
         numeric,
         required,
         maxValue: maxValue(2000),
-        minValue: minValue(0),
+        minValue: minValue(1),
       },
       lastSentForServicing: {
         required,
@@ -424,7 +424,7 @@ export default {
         numeric,
         required,
         maxValue: maxValue(2000),
-        minValue: minValue(0),
+        minValue: minValue(1),
       },
       lastPaidRoadTaxDate: {
         required,
