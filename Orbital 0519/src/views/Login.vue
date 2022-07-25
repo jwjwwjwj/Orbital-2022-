@@ -1,6 +1,7 @@
 <template>
   <main class="login">
-    <h1 style="margin-top: 40px; font-size: 7vw;">TRANSPORFFICIENT</h1>
+   <div style= "padding-top: 40px;"> <h1 style=" font-size: 7vw;">TRANSPORFFICIENT</h1>
+   </div>
     <section class="forms">
       <form class="login-form" @submit.prevent="login">
         <h2><strong>Login</strong></h2>
@@ -67,6 +68,14 @@ export default {
 main,
 section {
   text-align: center;
+}
+
+.login{
+  background-image: url("/src/assets/LoginBackground.jpg");
+  height: 100%;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: bottom;
 }
 
 .forms {
